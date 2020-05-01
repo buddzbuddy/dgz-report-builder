@@ -13,11 +13,11 @@ export class AppComponent {
     this.configureWithNewConfigApi();
   }
   private configureWithNewConfigApi() {
-    /*this.oauthService.configure(AppConfig.authConfig);
+    this.oauthService.configure(AppConfig.authConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndLogin({
+    /*this.oauthService.loadDiscoveryDocumentAndLogin({
       preventClearHashAfterLogin: true
     });*///Login requied
-    //this.oauthService.loadDiscoveryDocumentAndTryLogin();//Login not required, call by click "Login" button
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();//Login not required, call by click "Login" button
   }
 }

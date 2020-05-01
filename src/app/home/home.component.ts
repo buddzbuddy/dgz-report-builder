@@ -20,6 +20,14 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     
   }
+  isLoaded: boolean = false;
+  loadClaims(){
+    if(!this.isLoaded && this.oauthService.hasValidAccessToken()){
+      this.oauthService.loadUserProfile().then(_ => this.isLoaded = true)
+      this.claims = this.oauthService.getIdentityClaims();
+    }
+    
+  }
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
     this.uploadFileToActivity();
@@ -35,11 +43,9 @@ export class HomeComponent implements OnInit {
   public isHidden: boolean = false;
   toggle(){
     this.isHidden = !this.isHidden;
+    this.loadClaims()
   }
-  public get claims() {
-      let claims = this.oauthService.getIdentityClaims();
-      return claims;
-  }
+  claims: any = null
   apiData : any = null;
   callApi1() {
       this.httpClient.get('http://localhost:5001/api/identity').subscribe(data => {
