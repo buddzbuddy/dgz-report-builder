@@ -1,0 +1,12 @@
+<h1>Загрузить файл</h1>
+<input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;">
+<img [src]="imgUrl" style="width: 150px;height:150px">
+
+<br>
+<button mat-raised-button color="accent" *ngIf="!isLoading" type="button" (click)="fileInput.click()">Выбрать картинку</button>
+<ng-container *ngIf="!isLoading && selectedFile">
+  <button mat-raised-button color="primary" type="button" (click)="onUpload()">Загрузить на сервер</button>
+  <button mat-raised-button color="secondary" type="button" (click)="onClear()">Очистить</button>
+</ng-container>
+<hr/>
+<a routerLink="/fileList">Список файлов</a>

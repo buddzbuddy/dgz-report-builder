@@ -1,0 +1,6 @@
+<button *ngIf="selectedResourceItemIds.length"
+    mat-raised-button
+     color="primary" (click)="onComplete()">
+     NEXT <mat-icon>arrow_right_alt</mat-icon>
+ </button>
+<app-resources [templateId]="templateId" [isMultiSelect]="true" (checkResourceItem)="onCheckResourceItem($event)"></app-resources>

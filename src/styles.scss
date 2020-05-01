@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootswatch/dist/cosmo/_variables.scss";
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootswatch/dist/cosmo/_bootswatch.scss";
+$fa-font-path: '../node_modules/font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+  margin: 0;
+  background: #F2F2F2;
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+}
+/* notification */
+snack-bar-container.success {
+    background-color: #5cb85c;
+    color: #fff;
+}
+snack-bar-container.warn {
+    background-color: #f99157;
+    color: #fff;
+}
+snack-bar-container.notification simple-snack-bar {
+    font-size: 18xp !important;
+    font-weight: bold;
+}
+.fill-remaining-space {
+    /* This fills the remaining space, by using flexbox.
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+
+  form.normal-form {
+    margin: 10px;
+  }
+
+  /*.controles-container {
+    width: 100%;
+    padding: 5%;
+  }*/
+  .controles-container > * > * {
+    width: 100%;
+  }
+  .add-bottom-padding {
+    padding-bottom: 10px;
+  }
+  mat-radio-group mat-radio-button {
+    margin-left: 5px;
+  }
+
+  .mat-list-item-content {
+    width: 100%;
+  }
+  /* for dialog pop-up */
+  .btn-dialog-close{
+    width: 45px;
+    min-width: 0px !important;
+    height: 40px;
+    padding: 0px !important;
+  }

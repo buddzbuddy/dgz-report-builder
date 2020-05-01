@@ -1,0 +1,14 @@
+<mat-form-field [formGroup]="group">
+  <input
+    matInput
+    [formControlName]="field.name"
+      [type]="'text'"
+       value="{{field.value}}">
+  <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+  <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
+  </ng-container>
+  </mat-form-field>
+  <img [src]="imgUrl" style="width: 150px;height:150px">
+  <span color="primary" *ngIf="progress">{{progress}}</span>
+  <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;">
+  <button mat-raised-button color="primary" type="button" (click)="fileInput.click()">Выбрать картинку</button>

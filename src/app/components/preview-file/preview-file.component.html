@@ -1,0 +1,13 @@
+
+<div class="row">
+    <div class="col-md-auto"><a mat-mini-fab [href]="viewURL()" [target]="'_blank'" matTooltip="{{'скачать ' + fileObj.name}}"><mat-icon>cloud_download</mat-icon></a></div>
+    <div class="col-md-auto">
+        <img *ngIf="isImage; else notImage" [style.max-width]="max_width || '100px'" [src]="viewURL()">
+        <ng-template #notImage>
+            <app-videoplayer *ngIf="isVideo; else notVideo" [src]="viewURL()" [max-width]="max_width || '100px'"></app-videoplayer>
+            <ng-template #notVideo>
+                {{fileObj.name}}
+            </ng-template>
+        </ng-template>
+    </div>
+</div>

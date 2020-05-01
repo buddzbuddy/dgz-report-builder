@@ -1,0 +1,12 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <h1>Электронная заявка на получение услуг в сфере содействия занятости</h1>
+  </div>
+  <!-- <button type="button" mat-raised-button color="info" (click)="toggle()">user info</button> -->
+  <div *ngIf="isHidden">
+      <div>claims: {{claims | json}}</div>
+      <button mat-raised-button color="warn" type="button" (click)="callApi1()">callAdminApi</button>
+      <button mat-raised-button color="warn" type="button" (click)="callApi2()">callManagerApi</button>
+      <div>apiData: {{apiData | json}}</div>
+  </div>
+</div>

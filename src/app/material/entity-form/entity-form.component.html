@@ -1,0 +1,10 @@
+<mat-toolbar>
+  <span>{{resourceCaption}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<dynamic-form [fields]="resourceProperties" (submit)="submit($event)" (cancelBtnClick)="onClose()">
+</dynamic-form>
+<div class="margin-top">
+  {{ form.value | json }}
+</div>

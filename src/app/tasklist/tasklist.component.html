@@ -1,0 +1,15 @@
+<div id="taskListContainer">
+  <div class="list-group">
+    <a *ngFor="let task of tasks" routerLink="/tasklist/{{task.id}}" class="list-group-item list-group-item-action" [class.active]="taskId == task.id">
+      {{task.name}}
+    </a>
+  </div>
+  <div id="taskContent">
+    <div *ngIf="taskId">
+      <generic-form [taskId]="taskId" [formKey]="formKey"></generic-form>
+    </div>
+    <div *ngIf="!taskId">
+      <p>Please select task.</p>
+    </div>
+  </div>
+</div>

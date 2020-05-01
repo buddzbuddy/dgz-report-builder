@@ -1,0 +1,102 @@
+
+  <div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="search-div">
+      <span class="resourceName" *ngIf="templateId !== 0">{{entityCaption}}</span>
+      <mat-form-field class="search-form-field" floatLabel="never">
+        <input matInput [(ngModel)]="searchKey" placeholder="Поиск" autocomplete="off" (keyup)="applyFilter()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear"*ngIf="searchKey"  (click)="onSearchClear()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="onCreate()" *ngIf="templateId !== 0 && !isMultiSelect && !isSelect && hasAddBtn">
+          <mat-icon>add</mat-icon>Добавить запись
+        </button>
+    </div>
+  <div class="example-table-container">
+
+    <table mat-table [dataSource]="oDataItems" class="example-table" matSort>
+      <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnCaptionsToDisplay2[column]}} </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="templateId == 0">
+              <a *ngIf="column == 'Id'" routerLink="/resources/{{element[column]}}">
+                открыть
+              </a>
+              <ng-container *ngIf="column == 'actions'">
+                <button mat-icon-button (click)="onEdit(element)">
+                  <mat-icon>
+                    launch
+                  </mat-icon>
+                </button>
+                <button mat-icon-button (click)="onDelete(element.Id)">
+                  <mat-icon>
+                    delete_outline
+                  </mat-icon>
+                </button>
+              </ng-container>
+              <span *ngIf="column != 'Id' && column !== 'actions'">
+                {{element[column]}}
+              </span>
+          </ng-container>
+          <ng-container *ngIf="templateId > 0">
+            <ng-container *ngIf="column == 'Id'">
+              <button mat-stroked-button color="primary" *ngIf="isSelect" (click)="onSelectedResourceItem(element[column])">
+                  select
+              </button>
+              <mat-checkbox *ngIf="isMultiSelect" (change)="onCheckedResourceItem(element[column], $event)">
+              </mat-checkbox>
+
+              <ng-container *ngIf="!isSelect && !isMultiSelect">
+                <a mat-icon-button matTooltip="Открыть" routerLink="/resources/{{templateId}}/viewItem/{{element.Id}}">
+                  <mat-icon>
+                    remove_red_eye
+                </mat-icon></a>
+                <button mat-icon-button (click)="onEdit(element)" matTooltip="Редактриовать">
+                  <mat-icon>
+                    edit
+                  </mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="onDelete(element.Id)" matTooltip="Удалить">
+                  <mat-icon>
+                    delete_outline
+                  </mat-icon>
+                </button>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="column != 'Id' && column !== 'actions'">
+              <ng-container *ngIf="isSelectField(column); else notSelect">
+                {{displaySelectText(column, element[column])}}
+              </ng-container>
+              <ng-template #notSelect>
+                  <ng-container *ngIf="isMultiSelectField(column); else notMultiSelect">
+                      {{displayMultiSelectTexts(column, element[column])}}
+                    </ng-container>
+                    <ng-template #notMultiSelect>
+                      <ng-container *ngIf="isFileField(column); else notFile">
+                        <app-preview-file [id]="element[column]" [max-width]="'100px'"></app-preview-file>
+                      </ng-container>
+                      <ng-template #notFile>
+                        <ng-container *ngIf="isDateField(column); else notDate">
+                            {{element[column] | date:'yyyy-MM-dd'}}
+                        </ng-container>
+                        <ng-template #notDate>
+                          {{element[column]}}
+                        </ng-template>
+                      </ng-template>
+                    </ng-template>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="20" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

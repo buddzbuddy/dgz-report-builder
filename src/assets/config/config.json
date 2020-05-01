@@ -1,0 +1,13 @@
+{
+    "appConfig":{
+        "dbPrefix": "unemployee",
+        "host": "",
+        "file_port": "3333"
+    },
+    "authConfig":{
+        "issuer":"http://localhost:81",
+        "redirectUri":"http://localhost:4202/home",
+        "clientId":"spa",
+        "scope":"openid profile api1"
+    }
+}
