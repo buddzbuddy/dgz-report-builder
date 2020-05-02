@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss']
 })
-export class MainNavComponent implements OnInit {
+export class MainNavComponent implements AfterViewInit {
   @ViewChild('drawer', { static: true }) drawer: ElementRef;
   menuItems: MenuItem[] = [
     {
@@ -35,15 +35,18 @@ export class MainNavComponent implements OnInit {
     private ref: ChangeDetectorRef
     ) {
      }
-    ngOnInit(){
+    ngAfterViewInit(){
+      setTimeout(() =>{
+
       this.dataSvc.getMenuItems().subscribe(data =>
         {
           if(this.oauthService.hasValidAccessToken()){
             this.menuItems = data.value;
             this.oauthService.loadUserProfile();
-            this.ref.detectChanges();
+            this.ref.markForCheck();
           }
         });
+      }, 1000);
     }
 
     isLoaded: boolean = false;
