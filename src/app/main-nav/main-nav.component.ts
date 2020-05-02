@@ -32,10 +32,12 @@ export class MainNavComponent implements OnInit {
     private oauthService: OAuthService
     ) { }
     ngOnInit(){
-
       this.dataSvc.getMenuItems().subscribe(data => this.menuItems = data.value);
     }
-
+    isLoaded: boolean = false;
+    get claims(): any {
+      return this.oauthService.getIdentityClaims();
+    }
 
   public login() {
     this.oauthService.initImplicitFlow();

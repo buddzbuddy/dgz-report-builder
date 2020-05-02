@@ -30,6 +30,9 @@
       </button>
       <span *ngIf="isHandset$ | async">{{projectName}}</span>
       <div style="margin: 0 0 0 auto">
+        <span *ngIf="claims != null">
+          {{claims.orgName}}
+        </span>
         <button *ngIf="!oauthService.hasValidAccessToken()" mat-raised-button color="primary" type="button" (click)="login()">Войти</button>
         <button *ngIf="oauthService.hasValidAccessToken()" mat-raised-button color="secondary" type="button" (click)="logoff()">Выйти</button>
       </div>

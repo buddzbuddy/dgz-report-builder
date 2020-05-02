@@ -8,6 +8,6 @@
         "issuer":"http://localhost:81",
         "redirectUri":"http://localhost:4202/",
         "clientId":"spa",
-        "scope":"openid profile api1"
+        "scope":"openid profile roles orgInfo"
     }
 }

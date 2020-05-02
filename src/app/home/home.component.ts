@@ -10,23 +10,18 @@ import { CamundaRestService } from '../camunda-rest.service'
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   private fileToUpload: File = null;
   private SUCCESS: boolean = false;
   constructor(private camundaRestService: CamundaRestService,
     private oauthService: OAuthService,
     private httpClient: HttpClient) {
     }
-  ngOnInit() {
-    
-  }
+
   isLoaded: boolean = false;
   loadClaims(){
-    if(!this.isLoaded && this.oauthService.hasValidAccessToken()){
-      this.oauthService.loadUserProfile().then(_ => this.isLoaded = true)
-      this.claims = this.oauthService.getIdentityClaims();
-    }
-    
+    this.claims = this.oauthService.getIdentityClaims();
+    this.oauthService.loadUserProfile()
   }
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
