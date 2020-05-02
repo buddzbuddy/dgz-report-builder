@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 import { HttpClientModule } from "@angular/common/http";
-import { OAuthModule } from 'angular-oauth2-oidc';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcesslistComponent } from './processlist/processlist.component';
 import { TasklistComponent } from './tasklist/tasklist.component';
@@ -62,6 +61,7 @@ import {VgControlsModule} from 'videogular2/compiled/controls';
 import {VgOverlayPlayModule} from 'videogular2/compiled/overlay-play';
 import {VgBufferingModule} from 'videogular2/compiled/buffering';
 import { UnemployeeComponent } from './steppers/unemployee/unemployee.component';
+import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -137,7 +137,8 @@ export function initializeApp(appConfig: AppConfig) {
     DataService,
     MaterialService,
     NavService,
-    LocalStorageService
+    LocalStorageService,
+    OAuthService
   ],
   bootstrap: [AppComponent],
   entryComponents:[

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, Input } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { MenuItem } from '../nav-item';
 import { DataService } from '../data.service';
 import { AppConfig } from '../app.config';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-nav',
@@ -16,11 +17,12 @@ export class MainNavComponent implements OnInit {
   @ViewChild('drawer', { static: true }) drawer: ElementRef;
   menuItems: MenuItem[] = [
     {
-      "DisplayName":"",
-      "Route":"",
-      "IconName":""
+      "DisplayName":"Оставить заявку",
+      "Route":"steppers/unemployee",
+      "IconName":"queue"
     }
   ];
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
@@ -29,11 +31,21 @@ export class MainNavComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dataSvc: DataService,
-    private oauthService: OAuthService
-    ) { }
+    public oauthService: OAuthService,
+    private ref: ChangeDetectorRef
+    ) {
+     }
     ngOnInit(){
-      this.dataSvc.getMenuItems().subscribe(data => this.menuItems = data.value);
+      this.dataSvc.getMenuItems().subscribe(data =>
+        {
+          if(this.oauthService.hasValidAccessToken()){
+            this.menuItems = data.value;
+            this.oauthService.loadUserProfile();
+            this.ref.detectChanges();
+          }
+        });
     }
+
     isLoaded: boolean = false;
     get claims(): any {
       return this.oauthService.getIdentityClaims();

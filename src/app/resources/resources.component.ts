@@ -7,6 +7,7 @@ import { MaterialService } from '../material.service';
 import { NotificationService } from '../notification.service';
 import { FieldConfig, CollectionItem } from '../field.interface';
 import { Validators } from '@angular/forms';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 /**
  * @title Table retrieving data through HTTP
@@ -45,7 +46,8 @@ export class ResourcesComponent implements OnInit {
     private dialog: MatDialog,
     private materialSvc: MaterialService,
     private notificationSvc: NotificationService,
-    private router: Router
+    private router: Router,
+    private oauthService: OAuthService
     ) {
       this.isLoadingResults = true;
     }
@@ -66,7 +68,7 @@ export class ResourcesComponent implements OnInit {
       this.odataSvc.getFieldsByTemplateId(this.templateId).subscribe((tField) => {
         this.templateFields = tField.value;
         this.prepareSelectItems(tField.value);
-        
+
         if(query != '') {
           this.odataSvc.filterODataResource(this.entityName, query).subscribe(data => {
             this.initTableDataSource(data.value);
@@ -95,7 +97,7 @@ export class ResourcesComponent implements OnInit {
     this.oDataItems.filterPredicate = (data, filter) => {
 
       return this.columnsToDisplay.some(colName => {
-        return (colName != 'actions') && 
+        return (colName != 'actions') &&
               (
                 (data[colName] && data[colName].toString().toLowerCase().indexOf(filter) != -1)
                 ||
@@ -136,7 +138,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   isMultiSelectField(column: string) : boolean {
-    
+
     try {
       let field = this.templateFields.find((x) => x.Name == column);
       return field ? (field.ElementType == 'multiselect') : false;
@@ -147,7 +149,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   isFileField(column: string) : boolean {
-    
+
     try {
       let field = this.templateFields.find((x) => x.Name == column);
       return field ? (field.ElementType == 'image') : false;
@@ -158,7 +160,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   isDateField(column: string) : boolean {
-    
+
     try {
       let field = this.templateFields.find((x) => x.Name == column);
       return field ? (field.ElementType == 'date') : false;
@@ -233,6 +235,7 @@ export class ResourcesComponent implements OnInit {
     this.isLoadingResults = true;
     if(this.templateId > 0) {
       this.initResourceByTemplateId();
+      this.oauthService.loadUserProfile();
     }
     else if (this.route.params != null) {
       this.route.params.subscribe(params => {
@@ -242,7 +245,12 @@ export class ResourcesComponent implements OnInit {
           if(params['bookmarkId'] != null) {
             this.hasAddBtn = false;
             this.odataSvc.getBookmark(parseInt(params['bookmarkId'])).subscribe(b => {
-              this.initResourceByTemplateId(b.RouterLink, b.Title);
+              let routerLink = b.RouterLink;
+              let claims = this.oauthService.getIdentityClaims();
+              if(claims != null && claims['orgId'] != null){
+                routerLink = routerLink.replace('{orgId}', claims['orgId']);
+              }
+              this.initResourceByTemplateId(routerLink, b.Title);
             });
           }
           else {
