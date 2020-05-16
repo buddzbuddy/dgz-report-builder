@@ -1,4 +1,10 @@
-<a mat-list-item [ngStyle]="{'padding-left': (depth * 12) + 'px', 'padding': '0 0'}" (click)="onItemSelected(menuItem)"
+<a *ngIf="!menuItem.MenuItems || !menuItem.MenuItems.length" routerLink="/{{menuItem.Route}}" mat-list-item [ngStyle]="{'padding-left': (depth * 12) + 'px', 'padding': '0 0'}"
+   [ngClass]="{'active': menuItem.Route ? router.isActive(menuItem.Route, false): false, 'expanded': expanded}"
+   class="menu-list-item">
+  <mat-icon class="routeIcon">{{menuItem.IconName}}</mat-icon>
+  {{menuItem.DisplayName}}
+</a>
+<a *ngIf="menuItem.MenuItems && menuItem.MenuItems.length" mat-list-item [ngStyle]="{'padding-left': (depth * 12) + 'px', 'padding': '0 0'}" (click)="onItemSelected(menuItem)"
    [ngClass]="{'active': menuItem.Route ? router.isActive(menuItem.Route, false): false, 'expanded': expanded}"
    class="menu-list-item">
   <mat-icon class="routeIcon">{{menuItem.IconName}}</mat-icon>

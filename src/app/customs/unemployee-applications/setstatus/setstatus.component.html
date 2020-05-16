@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup">
+  <h3>Установить статус</h3>
+  <div class="text-center">
+    <button mat-raised-button color="primary" (click)="accept()">Одобрить</button>
+    <button mat-raised-button color="warn" (click)="reject()">Отказать</button>
+  </div>
+  <br>
+  <mat-form-field>
+    <mat-label>Причина отказа</mat-label>
+    <input matInput placeholder="Напишите" formControlName="reason">
+  </mat-form-field>
+
+</form>

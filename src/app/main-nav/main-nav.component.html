@@ -30,7 +30,7 @@
       </button>
       <span *ngIf="isHandset$ | async">{{projectName}}</span>
       <div style="margin: 0 0 0 auto">
-        <span *ngIf="claims != null">
+        <span *ngIf="oauthService.hasValidAccessToken()">
           {{claims.orgName}}
         </span>
         <button *ngIf="!oauthService.hasValidAccessToken()" mat-raised-button color="primary" type="button" (click)="login()">Войти</button>
@@ -44,7 +44,7 @@
         arrow_right_alt
         </i></a> -->
         <footer style="padding: 50px;">
-          Copiright 2020 | Разработчик <a href="http://socservice.kg/">ГП "Соцсервис"</a> тел. поддержки (ватсап) 0778 84-56-05
+          Copiright 2020 | Разработчик <a href="http://socservice.kg/">ГП "Соцсервис"</a>
         </footer>
     </div>
   </mat-sidenav-content>

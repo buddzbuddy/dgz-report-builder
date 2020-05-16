@@ -1,0 +1,196 @@
+<div *ngIf="isPassportDataLoading && isISRTDataLoading">
+  <p>Проверяю данные в ГРС и ИСРТ</p>
+  <mat-spinner></mat-spinner>
+</div>
+
+<mat-card *ngIf="!isPassportDataLoading && !isISRTDataLoading && passportData.error == null">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <mat-icon>
+        face
+      </mat-icon>
+    </div>
+    <mat-card-title>{{passportData.surname || ''}} {{passportData.name || ''}} {{passportData.patronymic || ''}}</mat-card-title>
+    <mat-card-subtitle>Дата рождения {{(passportData.dateOfBirth || '') | date:'dd.MM.yyyy'}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="mat-table">
+      <tr class="mat-header-row">
+        <td class="mat-header-cell">
+          <h5 style="color: green; padding: 5px;">Паспортные данные</h5>
+        </td>
+        <td class="mat-header-cell">
+
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Выдан
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>{{passportData.passportAuthority}}</b>
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Срок паспорта
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          с <b>{{passportData.issuedDate | date:'dd.MM.yyyy'}} по {{passportData.expiredDate | date:'dd.MM.yyyy'}}</b>
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Адрес прописки
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>{{passportData.addressRegion}}</b>
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Нас. пункт
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>{{passportData.addressLocality}}</b>
+        </td>
+      </tr>
+      <tr class="mat-header-row">
+        <td class="mat-header-cell">
+          <h5 style="color: green; padding: 5px;">Статус безработного</h5>
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>{{parseISRTStatus(isrtData.RegStatus)}}</b>
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+<br>
+<div class="text-danger" *ngIf="passportData.error != null">Ошбика в базе ГРС: {{passportData.error}}</div>
+<div *ngIf="isloadActivePaymentsByPIN">
+  <p>Проверяю данные в КИССП</p>
+  <mat-spinner></mat-spinner>
+</div>
+<mat-card *ngIf="activePaymentsByPIN != null">
+  <mat-card-header>
+    <mat-card-title [style.color]="'green'">Является получателем гос. пособий в МТСР</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="mat-table">
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Сроки
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          с <b>{{activePaymentsByPIN.StartDate | date:'dd.MM.yyyy'}}</b> по <b>{{activePaymentsByPIN.EndDate | date:'dd.MM.yyyy'}}</b>
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Вид выплаты (название)
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>{{activePaymentsByPIN.PaymentTypeName}}</b>
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Размер выплаты (сумма)
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>{{activePaymentsByPIN.PaymentSize | number:'.2'}}</b>
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          Подразделение МТСР
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>{{activePaymentsByPIN.OrganizationName}}</b>
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+<br>
+<div *ngIf="isloadWorkPeriodInfo">
+  <p>Проверяю данные в СФ</p>
+  <mat-spinner></mat-spinner>
+</div>
+<br>
+<mat-card *ngIf="!isloadWorkPeriodInfo">
+  <mat-card-header>
+    <mat-card-title [style.color]="'green'">Страховые взносы в СФ</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="mat-table">
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell">
+          <b>Организация</b>
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          <b>Период</b>
+        </td>
+      </tr>
+      <tr class="mat-row" *ngFor="let item of workPeriodInfo">
+        <td style="padding: 5px;" class="mat-cell">
+          {{item.Payer}}
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{item.DateBegin}}-{{item.DateEnd}}
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<br>
+<div *ngIf="isLoadBusinessActivityDateByInn">
+  <p>Проверяю данные в ГНС</p>
+  <mat-spinner></mat-spinner>
+</div>
+<br>
+<mat-card *ngIf="businessActivityDateByInn != null">
+  <mat-card-header>
+    <mat-card-title [style.color]="'green'">Наличие ИП в ГНС</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="mat-table">
+      <table class="mat-table">
+        <tr class="mat-row">
+          <td style="padding: 5px;" class="mat-cell">
+            Отделение ГНС
+          </td>
+          <td style="padding: 5px;" class="mat-cell">
+            <b>{{businessActivityDateByInn.FullName}}</b>
+          </td>
+        </tr>
+        <tr class="mat-row">
+          <td style="padding: 5px;" class="mat-cell">
+            Дата оплаты налога
+          </td>
+          <td style="padding: 5px;" class="mat-cell">
+            <b>{{businessActivityDateByInn.TaxActiveDate | date:'dd.MM.yyyy'}}</b>
+          </td>
+        </tr>
+        <tr class="mat-row">
+          <td style="padding: 5px;" class="mat-cell">
+            Краткое название налога
+          </td>
+          <td style="padding: 5px;" class="mat-cell">
+            <b>{{businessActivityDateByInn.TaxType.ShortName}}</b>
+          </td>
+        </tr>
+        <tr class="mat-row">
+          <td style="padding: 5px;" class="mat-cell">
+            Полное название налога
+          </td>
+          <td style="padding: 5px;" class="mat-cell">
+            <b>{{businessActivityDateByInn.TaxType.FullName}}</b>
+          </td>
+        </tr>
+      </table>
+    </table>
+  </mat-card-content>
+</mat-card>

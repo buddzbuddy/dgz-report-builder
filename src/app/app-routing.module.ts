@@ -13,10 +13,16 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
 import { FilesComponent } from './files/files.component';
 import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { UnemployeeComponent } from './steppers/unemployee/unemployee.component';
+import { UnemployeeApplicationsComponent } from './customs/unemployee-applications/unemployee-applications.component';
+import { SetstatusComponent } from './customs/unemployee-applications/setstatus/setstatus.component';
+import { ViewComponent } from './customs/unemployee-applications/view/view.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'unemployeeApplications', component: UnemployeeApplicationsComponent },
+  { path: 'unemployeeApplications/view/:appId', component: ViewComponent },
+  { path: 'unemployeeApplications/setstatus/:appId', component: SetstatusComponent },
   { path: 'processlist', component: ProcesslistComponent },
   { path: 'startprocess/:processdefinitionkey', component: StartProcessComponent },
   { path: 'startprocess/:processdefinitionkey/:templateId/:resourceItemId', component: StartProcessComponent },

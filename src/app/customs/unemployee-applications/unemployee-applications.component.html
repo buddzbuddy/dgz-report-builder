@@ -1,0 +1,68 @@
+<div>
+  <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
+    <mat-label>Поиск {{filter.name}}</mat-label>
+    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.modelValue"
+      (change)="filterChange(filter,$event)">
+      <option value="">-- Выбрать {{filter.name}} --</option>
+      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+    </select>
+  </mat-form-field>
+  &nbsp;
+  <button mat-flat-button color="warn" (click)="resetFilters()">Очистить</button>
+</div>
+<table mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="CreatedAt">
+    <th mat-header-cell *matHeaderCellDef> Дата время </th>
+    <td mat-cell *matCellDef="let element"> {{element.CreatedAt}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element"><a mat-raised-button color="primary" routerLink="/unemployeeApplications/view/{{element.Id}}">открыть</a></td>
+  </ng-container>
+
+  <ng-container matColumnDef="PIN">
+    <th mat-header-cell *matHeaderCellDef> ПИН </th>
+    <td mat-cell *matCellDef="let element"> {{element.PIN}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="PassportSeries">
+    <th mat-header-cell *matHeaderCellDef> Серия паспорта </th>
+    <td mat-cell *matCellDef="let element"> {{element.PassportSeries}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="PassportNo">
+    <th mat-header-cell *matHeaderCellDef> Номер паспорта </th>
+    <td mat-cell *matCellDef="let element"> {{element.PassportNo}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Bank">
+    <th mat-header-cell *matHeaderCellDef> Банк </th>
+    <td mat-cell *matCellDef="let element"> {{element.Bank}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Telephone">
+    <th mat-header-cell *matHeaderCellDef> Телефон </th>
+    <td mat-cell *matCellDef="let element"> {{element.Telephone}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Address">
+    <th mat-header-cell *matHeaderCellDef> Адрес </th>
+    <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Status">
+    <th mat-header-cell *matHeaderCellDef> Статус </th>
+    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="StatusDate">
+    <th mat-header-cell *matHeaderCellDef> Дата статуса </th>
+    <td mat-cell *matCellDef="let element"> {{element.StatusDate}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>

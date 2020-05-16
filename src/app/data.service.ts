@@ -57,6 +57,14 @@ export class DataService {
       catchError(this.handleError('getODataResource', null))
     );
   }
+  filterODataResourceExpanded(entityName: string, query: string) {
+    const endpoint = `${this.oDataServiceURL}` + entityName;
+    const requestUrl = `${endpoint}?$expand=*&${query}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`getODataResource "${entityName}" from wcf data`)),
+      catchError(this.handleError('getODataResource', null))
+    );
+  }
 
   getODataResourceItem(entityName: string, itemId: number) {
     const endpoint = `${this.oDataServiceURL}` + entityName + '(' + itemId + ')?$expand=*';
@@ -137,21 +145,75 @@ export class DataService {
     );
   }
 
-  getPassportData(pin: string, passportSeries: string, passportNo: string) {
+  customApi_getPassportData(pin: string, passportSeries: string, passportNo: string) {
     const endpoint = `${this.webdatabase}`;
     const requestUrl = `${endpoint}api/SOD/GetPassport?pin=${pin}&passportSeries=${passportSeries}&passportNo=${passportNo}`;
     return this.http.get(requestUrl, httpOptions).pipe(
-      tap(datas => this.log(`getPassportData from wcf data`)),
-      catchError(this.handleError('getPassportData', null))
+      tap(datas => this.log(`customApi_getPassportData from wcf data`)),
+      catchError(this.handleError('customApi_getPassportData', null))
     );
   }
 
-  getISRTData(pin: string) {
+  customApi_getISRTData(pin: string) {
     const endpoint = `${this.webdatabase}`;
     const requestUrl = `${endpoint}api/SOD/GetUnemployeeStatus?pin=${pin}`;
     return this.http.get(requestUrl, httpOptions).pipe(
-      tap(datas => this.log(`getISRTData from wcf data`)),
-      catchError(this.handleError('getISRTData', null))
+      tap(datas => this.log(`customApi_getISRTData from wcf data`)),
+      catchError(this.handleError('customApi_getISRTData', null))
+    );
+  }
+
+  customApi_GetActivePaymentsByPIN(pin: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/SOD/GetActivePaymentsByPIN?pin=${pin}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_getISRTData from wcf data`)),
+      catchError(this.handleError('customApi_getISRTData', null))
+    );
+  }
+
+  customApi_GetWorkPeriodInfo(pin: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/SOD/GetWorkPeriodInfo?pin=${pin}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetWorkPeriodInfo from wcf data`)),
+      catchError(this.handleError('customApi_GetWorkPeriodInfo', null))
+    );
+  }
+
+  customApi_TPBusinessActivityDateByInn(pin: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/SOD/TPBusinessActivityDateByInn?pin=${pin}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_TPBusinessActivityDateByInn from wcf data`)),
+      catchError(this.handleError('customApi_TPBusinessActivityDateByInn', null))
+    );
+  }
+
+  customApi_GetPassportByPIN(pin: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/SOD/GetPassportByPIN?pin=${pin}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetPassportByPIN from wcf data`)),
+      catchError(this.handleError('customApi_GetPassportByPIN', null))
+    );
+  }
+
+  customApi_acceptApp(appId: number) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/AppManage/Accept?appId=${appId}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_acceptApp from wcf data`)),
+      catchError(this.handleError('customApi_acceptApp', null))
+    );
+  }
+
+  customApi_rejectApp(appId: number, reason: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/AppManage/Reject?appId=${appId}&reason=${reason}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_rejectApp from wcf data`)),
+      catchError(this.handleError('customApi_rejectApp', null))
     );
   }
 

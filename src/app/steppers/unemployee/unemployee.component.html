@@ -1,4 +1,5 @@
 <h3>Электронная заявка на получение услуг в сфере содействия занятости</h3>
+<p>Если вы потеряли работу или временно не работаете в связи с пандемией COVID-19, можете зарегистрироваться в качестве безработного в Министерстве труда и социального развития Кыргызской Республикию для получения услуг по содействию занятости</p>
 <div class="text-info" *ngIf="isDataSubmitted">
   <p>Ваша заявка успешно отправлена!</p>
 </div>
@@ -10,117 +11,72 @@ border-radius: 5px;">
   <mat-step [stepControl]="requestFormGroup">
     <form [formGroup]="requestFormGroup">
       <ng-template matStepLabel>Заполните реквизиты</ng-template>
-      <mat-form-field>
-        <mat-label>ПИН из паспорта</mat-label>
-        <input matInput placeholder="20101199012345" formControlName="PIN" required>
+      <mat-form-field appearance="outline">
+        <mat-label>ПИН из паспорта (персональный идентификационный номер)</mat-label>
+        <input matInput placeholder="20101199012345" formControlName="PIN" (input)="onSearchCISSA($event.target.value)" required>
+<mat-spinner *ngIf="isPINLoading" matSuffix [diameter]="18" style="float: right; margin-left: 8px"></mat-spinner>
       </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
           <mat-label>Серия паспорта</mat-label>
-          <mat-select formControlName="PassportSeries" required>
+          <mat-select formControlName="PassportSeries" required (selectionChange)="onSearchSRS()">
             <mat-option *ngFor="let food of passportSeries" [value]="food.value">
               {{food.viewValue}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <br>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
             <mat-label>Номер паспорта</mat-label>
-            <input matInput placeholder="1234567" formControlName="PassportNo" required>
+            <input matInput placeholder="1234567" formControlName="PassportNo" (input)="onSearchSRS($event.target.value)" required>
           </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline" [ngStyle]="{'width.px': width}">
+              <mat-label>ФИО Автозаполнение</mat-label>
+              <input matInput formControlName="FullName" [readonly]="true" required>
+<mat-spinner *ngIf="isPassportDataLoading" matSuffix [diameter]="18" style="float: right; margin-left: 8px"></mat-spinner>
+            </mat-form-field>
+
+            <span #invisibleText style="visibility: hidden;">{{ fullName }}</span>
+
+            <table class="mat-table" *ngIf="existingApps.length">
+              <tr class="mat-row">
+                <td colspan="2">
+                  <b>Вы уже отправляли заявку по данной форме. Хотите еще раз отправить?</b>
+                </td>
+              </tr>
+              <tr class="mat-row">
+                <td style="padding: 5px;" class="mat-cell">
+                  <b>Дата заявки</b>
+                </td>
+                <td style="padding: 5px;" class="mat-cell">
+                  <b>Статус</b>
+                </td>
+              </tr>
+              <tr class="mat-row" *ngFor="let appItem of existingApps">
+                <td style="padding: 5px;" class="mat-cell">
+                  {{appItem.CreatedAt | date:'dd.MM.yyyy HH:mm'}}
+                </td>
+                <td style="padding: 5px;" class="mat-cell">
+                  {{appItem.StatusResource != null ? appItem.StatusResource.Name : 'На обработке'}}
+                </td>
+              </tr>
+            </table>
       <div class="text-right">
         <button mat-raised-button color="primary" matStepperNext>Далее</button>
       </div>
     </form>
   </mat-step>
-  <!-- <mat-step>
-
-    <ng-template matStepLabel>Проверьте и подтвердите свои данные</ng-template>
-    <mat-spinner *ngIf="isPassportDataLoading && isISRTDataLoading"></mat-spinner>
-    <mat-card *ngIf="!isPassportDataLoading || !isISRTDataLoading" class="example-card">
-
-      <mat-card-header>
-        <div mat-card-avatar>
-          <mat-icon>
-            face
-          </mat-icon>
-        </div>
-        <mat-card-title>{{passportData.surname || ''}} {{passportData.name || ''}} {{passportData.patronymic || ''}}</mat-card-title>
-        <mat-card-subtitle>Дата рождения {{(passportData.dateOfBirth || '') | date:'dd.MM.yyyy'}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <table class="mat-table">
-          <tr class="mat-header-row">
-            <td class="mat-header-cell">
-              Паспортные данные
-            </td>
-            <td class="mat-header-cell">
-
-            </td>
-          </tr>
-          <ng-container>
-            <tr class="mat-row">
-              <td class="mat-cell">
-                Выдан
-              </td>
-              <td class="mat-cell">
-                <b>{{passportData.passportAuthority}}</b>
-              </td>
-            </tr>
-            <tr class="mat-row">
-              <td class="mat-cell">
-                Срок паспорта
-              </td>
-              <td class="mat-cell">
-                с <b>{{passportData.issuedDate | date:'dd.MM.yyyy'}} по {{passportData.expiredDate | date:'dd.MM.yyyy'}}</b>
-              </td>
-            </tr>
-            <tr class="mat-row">
-              <td class="mat-cell">
-                Адрес прописки
-              </td>
-              <td class="mat-cell">
-                <b>{{passportData.addressRegion}}</b>
-              </td>
-            </tr>
-            <tr class="mat-row">
-              <td class="mat-cell">
-                Нас. пункт
-              </td>
-              <td class="mat-cell">
-                <b>{{passportData.addressLocality}}</b>
-              </td>
-            </tr>
-          </ng-container>
-        </table>
-        <table class="mat-table">
-          <tr class="mat-header-row">
-            <td class="mat-header-cell">
-              Статус безработного
-            </td>
-            <td class="mat-header-cell">
-              <b>{{isrtData.RegStatus}}</b>
-            </td>
-          </tr>
-
-        </table>
-      </mat-card-content>
-    </mat-card>
-      <div class="text-center">
-        <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
-        <button mat-raised-button color="primary" matStepperNext>Далее</button>
-      </div>
-  </mat-step> -->
   <mat-step [stepControl]="contactsFormGroup">
     <form [formGroup]="contactsFormGroup">
       <ng-template matStepLabel>Контактные и адресные данные</ng-template>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Ваш телефон</mat-label>
         <input matInput formControlName="Telephone" placeholder="0555 11-22-33" required>
       </mat-form-field>
       <br>
       <h5>Реквизиты банковского счета (если имеются)</h5>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Банк</mat-label>
         <mat-select formControlName="BankResourceId">
           <mat-option *ngFor="let i of banks" [value]="i.Id">
@@ -129,18 +85,18 @@ border-radius: 5px;">
         </mat-select>
       </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>номер счета (KGS)</mat-label>
         <input matInput formControlName="BankAccountNo">
       </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>БИК банка</mat-label>
         <input matInput formControlName="BankBIK">
       </mat-form-field>
       <br>
       <h5>Адрес фактического проживания</h5>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Район/город</mat-label>
         <mat-select formControlName="DistrictResourceId" placeholder="Жалал-Абад/Ноокен" required>
           <mat-optgroup *ngFor="let region of regions" [label]="region.Name">
@@ -151,7 +107,7 @@ border-radius: 5px;">
         </mat-select>
       </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Адрес фактического проживания</mat-label>
         <input matInput formControlName="Address" placeholder="ул. Тираспольская 66" required>
       </mat-form-field>
@@ -166,30 +122,36 @@ border-radius: 5px;">
     <form [formGroup]="socialCategoryFormGroup">
       <ng-template matStepLabel>Социальная категория</ng-template>
       <mat-checkbox formControlName="IsUnemployee">Безработный</mat-checkbox>
-      <mat-form-field *ngIf="IsUnemployee.value">
+      <mat-form-field appearance="outline" *ngIf="IsUnemployee">
         <mat-label>Причины безработицы</mat-label>
-        <mat-select formControlName="UnemployeeReasonResourceId">
+        <mat-select formControlName="UnemployeeReasonResourceId" required>
           <mat-option>-</mat-option>
           <mat-option *ngFor="let i of unemployeeReasonResources" [value]="i.Id">
             {{i.Name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="IsUnemployeeReasonOther">
+        <input matInput formControlName="UnemployeeReasonOther" placeholder="Другое..." required>
+      </mat-form-field>
       <br>
       <mat-checkbox formControlName="IsDisability">ЛОВЗ</mat-checkbox>
       <br>
       <mat-checkbox formControlName="IsReturnedMigrant">Возвратившийся мигрант</mat-checkbox>
-      <mat-form-field *ngIf="IsReturnedMigrant.value">
+      <mat-form-field appearance="outline" *ngIf="IsReturnedMigrant">
         <mat-label>Из какой страны</mat-label>
-        <mat-select formControlName="MigratedFromResourceId">
+        <mat-select formControlName="MigratedFromResourceId" required>
           <mat-option>-</mat-option>
           <mat-option *ngFor="let i of migratedFromResources" [value]="i.Id">
             {{i.Name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="IsMigratedFromOther">
+        <input matInput formControlName="MigratedFromOther" placeholder="Другое..." required>
+      </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Уровень образования</mat-label>
         <mat-select formControlName="EducationResourceId">
           <mat-option *ngFor="let i of educationResources" [value]="i.Id">
@@ -207,7 +169,7 @@ border-radius: 5px;">
   <mat-step [stepControl]="labourActivityFormGroup">
     <form [formGroup]="labourActivityFormGroup">
       <ng-template matStepLabel>Трудовая деятельность</ng-template>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Вид деятельности</mat-label>
         <mat-select formControlName="LabourActivityResourceId">
           <mat-option>-</mat-option>
@@ -216,40 +178,200 @@ border-radius: 5px;">
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="IsLabourActivityOther">
+        <input matInput formControlName="LabourActivityOther" placeholder="Другое..." required>
+      </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>ИНН организации</mat-label>
+        <input matInput formControlName="OrganizationName">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
         <mat-label>Наименование организации</mat-label>
         <input matInput formControlName="OrganizationName">
       </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Должность</mat-label>
         <input matInput formControlName="JobPositionName">
       </mat-form-field>
       <br>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Среднемесячный доход семьи (необходимо указать информацию (сумму) об общем доходе всех членов семьи в возрасте 18 лет и выше)</mat-label>
-        <input matInput formControlName="AvgIncome" required>
+        <input matInput formControlName="AvgIncome" [type]="'number'" required>
       </mat-form-field>
       <br>
-      <mat-form-field>
-        <mat-label>Количество человек в семье</mat-label>
-        <input matInput formControlName="FamilyMemberCount" required>
+      <mat-form-field appearance="outline">
+        <mat-label>Кол-во человек в семье</mat-label>
+        <mat-select formControlName="FamilyCountResourceId" required>
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let i of familyCountResources" [value]="i.Id">
+            {{i.Name}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       <br>
       <div class="text-right">
         <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
-        <button mat-raised-button color="primary" matStepperNext>Далее</button>
+        <button mat-raised-button color="primary" matStepperNext (click)="showFinalForm()">Далее</button>
       </div>
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Оформление</ng-template>
+    <ng-template matStepLabel><span>Оформление</span></ng-template>
     <mat-spinner *ngIf="isDataSubmitting"></mat-spinner>
     <p>Ваши данные будут отправлены в базу МТСР для дальнейшей обработки. Вы уверены что хотите отправить заявку?</p>
-    <div class="text-right">
-      <button mat-raised-button color="primary" (click)="submit()">ОТПРАВИТЬ</button>
+    <mat-checkbox [(ngModel)]="IsAgreed">Согасен с уловиями на обработку персональных данных</mat-checkbox> <button style="margin-left: 5px;" mat-stroked-button color="secondary" (click)="viewAgreement()">Ознакомиться с Условиями</button>
+    <br><br>
+    <div class="text-center">
+      <button mat-raised-button color="primary" [disabled]="!IsAgreed" (click)="submit()">ОТПРАВИТЬ</button>
       <button mat-raised-button color="secondary" (click)="stepper.reset()">Отмена</button>
     </div>
+    <br>
+    <form [formGroup]="summaryFormGroup" style="border: 1px solid gray; padding: 10px; border-radius: 5px;">
+      <mat-form-field appearance="outline">
+        <mat-label>ПИН</mat-label>
+        <input matInput placeholder="20101199012345" formControlName="PIN" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+          <mat-label>Серия паспорта</mat-label>
+          <mat-select formControlName="PassportSeries" required>
+            <mat-option *ngFor="let food of passportSeries" [value]="food.value">
+              {{food.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+            <mat-label>Номер паспорта</mat-label>
+            <input matInput placeholder="1234567" formControlName="PassportNo" required>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>Ваш телефон</mat-label>
+            <input matInput formControlName="Telephone" placeholder="0555 11-22-33" required>
+          </mat-form-field>
+          <br>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Банк</mat-label>
+            <mat-select formControlName="BankResourceId">
+              <mat-option *ngFor="let i of banks" [value]="i.Id">
+                {{i.Name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>номер счета (KGS)</mat-label>
+            <input matInput formControlName="BankAccountNo">
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>БИК банка</mat-label>
+            <input matInput formControlName="BankBIK">
+          </mat-form-field>
+          <br>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Район/город</mat-label>
+            <mat-select formControlName="DistrictResourceId" placeholder="Жалал-Абад/Ноокен" required>
+              <mat-optgroup *ngFor="let region of regions" [label]="region.Name">
+                <mat-option *ngFor="let district of region.DistrictResources" [value]="district.Id">
+                  {{district.Name}}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>Адрес фактического проживания</mat-label>
+            <input matInput formControlName="Address" placeholder="ул. Тираспольская 66" required>
+          </mat-form-field>
+          <br>
+          <mat-checkbox formControlName="IsUnemployee">Безработный</mat-checkbox>
+      <mat-form-field appearance="outline">
+        <mat-label>Причины безработицы</mat-label>
+        <mat-select formControlName="UnemployeeReasonResourceId" required>
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let i of unemployeeReasonResources" [value]="i.Id">
+            {{i.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="UnemployeeReasonOther" placeholder="Другое..." required>
+      </mat-form-field>
+      <br>
+      <mat-checkbox formControlName="IsDisability">ЛОВЗ</mat-checkbox>
+      <br>
+      <mat-checkbox formControlName="IsReturnedMigrant">Возвратившийся мигрант</mat-checkbox>
+      <mat-form-field appearance="outline">
+        <mat-label>Из какой страны</mat-label>
+        <mat-select formControlName="MigratedFromResourceId" required>
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let i of migratedFromResources" [value]="i.Id">
+            {{i.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="MigratedFromOther" placeholder="Другое..." required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Уровень образования</mat-label>
+        <mat-select formControlName="EducationResourceId">
+          <mat-option *ngFor="let i of educationResources" [value]="i.Id">
+            {{i.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Вид деятельности</mat-label>
+        <mat-select formControlName="LabourActivityResourceId">
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let i of labourActivityResources" [value]="i.Id">
+            {{i.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="LabourActivityOther" placeholder="Другое..." required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>ИНН организации</mat-label>
+        <input matInput formControlName="OrganizationName">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Наименование организации</mat-label>
+        <input matInput formControlName="OrganizationName">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Должность</mat-label>
+        <input matInput formControlName="JobPositionName">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Среднемесячный доход семьи (необходимо указать информацию (сумму) об общем доходе всех членов семьи в возрасте 18 лет и выше)</mat-label>
+        <input matInput formControlName="AvgIncome" [type]="'number'" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Кол-во человек в семье</mat-label>
+        <mat-select formControlName="FamilyCountResourceId" required>
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let i of familyCountResources" [value]="i.Id">
+            {{i.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
   </mat-step>
 </mat-vertical-stepper>

@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Отказать</h1>
+<div mat-dialog-content>
+  <p>Вы уверены что хотите отказать?</p>
+  <mat-form-field>
+    <mat-label>Причина отказа</mat-label>
+    <input matInput [(ngModel)]="data.reason">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" [disabled]="data.reason == ''">ДА</button>
+  <button mat-button (click)="onNoClick()">Отмена</button>
+</div>

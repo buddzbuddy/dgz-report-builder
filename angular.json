@@ -30,7 +30,8 @@
               },
               "src/favicon.ico",
               "src/assets",
-              "src/web.config"
+              "src/web.config",
+              "src/Staticfile"
             ],
             "styles": [
               "./node_modules/leaflet/dist/leaflet.css",

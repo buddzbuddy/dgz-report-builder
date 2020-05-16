@@ -60,8 +60,12 @@ import { VgCoreModule } from 'videogular2/compiled/core';
 import {VgControlsModule} from 'videogular2/compiled/controls';
 import {VgOverlayPlayModule} from 'videogular2/compiled/overlay-play';
 import {VgBufferingModule} from 'videogular2/compiled/buffering';
-import { UnemployeeComponent } from './steppers/unemployee/unemployee.component';
+import { UnemployeeComponent, ViewAgreementDialog } from './steppers/unemployee/unemployee.component';
 import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
+import { UnemployeeApplicationsComponent } from './customs/unemployee-applications/unemployee-applications.component';
+import { SetstatusComponent } from './customs/unemployee-applications/setstatus/setstatus.component';
+import { ViewComponent, RejectDialog } from './customs/unemployee-applications/view/view.component';
+import { SodDataComponent } from './customs/unemployee-applications/sod-data/sod-data.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -104,7 +108,13 @@ export function initializeApp(appConfig: AppConfig) {
     ImageComponent,
     PreviewFileComponent,
     VideoplayerComponent,
-    UnemployeeComponent
+    UnemployeeComponent,
+    UnemployeeApplicationsComponent,
+    SetstatusComponent,
+    ViewComponent,
+    SodDataComponent,
+    RejectDialog,
+    ViewAgreementDialog
   ],
   imports: [
     BrowserModule,
@@ -154,7 +164,9 @@ export function initializeApp(appConfig: AppConfig) {
     SelectGridComponent,
     MultiSelectFormComponent,
     ImageComponent,
-    PreviewFileComponent
+    PreviewFileComponent,
+    RejectDialog,
+    ViewAgreementDialog
   ]
 })
 export class AppModule {
