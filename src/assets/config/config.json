@@ -7,7 +7,7 @@
     "authConfig":{
         "issuer":"http://localhost:81",
         "redirectUri":"http://localhost:4203/",
-        "clientId":"spa3",
+        "clientId":"spa-mvd-dev",
         "scope":"openid profile roles orgInfo"
     }
 }
