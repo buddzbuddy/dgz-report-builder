@@ -16,18 +16,14 @@ import { Router } from '@angular/router';
 export class MainNavComponent implements AfterViewInit {
   @ViewChild('drawer', { static: true }) drawer: ElementRef;
   menuItems: MenuItem[] = [
-    {
-      "DisplayName":"Оставить заявку",
-      "Route":"steppers/unemployee",
-      "IconName":"queue"
-    }
+
   ];
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
     );
-  projectName = 'ЖАРДАМ / COVID-19'//AppConfig.settings.dbPrefix.toUpperCase();
+  projectName = AppConfig.settings.dbPrefix.toUpperCase();
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dataSvc: DataService,
@@ -56,11 +52,9 @@ export class MainNavComponent implements AfterViewInit {
 
   public login() {
     this.oauthService.initImplicitFlow();
-    //this.oidcSecurityService.authorize();
   }
 
   public logoff() {
       this.oauthService.logOut();
-      //this.oidcSecurityService.logoff();
   }
 }

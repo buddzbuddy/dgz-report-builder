@@ -5,31 +5,7 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
-  "/webdatabase-deabee/*": {
-    "target": "http://localhost/",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/webdatabase-diams/*": {
-    "target": "http://localhost/",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/webdatabase-toktosartov/*": {
-    "target": "http://localhost/",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/webdatabase-wfp/*": {
-    "target": "http://localhost/",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/webdatabase-unemployee/*": {
+  "/webdatabase-mvd/*": {
     "target": "http://localhost/",
     "secure": false,
     "changeOrigin": true,

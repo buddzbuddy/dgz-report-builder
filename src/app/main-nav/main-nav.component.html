@@ -4,8 +4,8 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
     <mat-toolbar color="primary">
-      <a routerLink="">
-         <!--<mat-icon>home</mat-icon>-->
+      <a routerLink="/home">
+         <mat-icon>home</mat-icon>
          {{projectName}}
       </a>
 
@@ -13,10 +13,6 @@
     <mat-nav-list>
       <app-menu-list-item *ngFor="let menuItem of menuItems" [menuItem]="menuItem"></app-menu-list-item>
     </mat-nav-list>
-    <img src="assets/images/covid-19.png" style="width: inherit;
-    border-radius: 50%;
-    padding: 0 50px;
-    margin-top: 100%;">
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
@@ -43,9 +39,9 @@
       <!-- <a href="http://localhost/crm-admin-{{projectName}}/" target="_blank">Перейти к структуре <i class="material-icons">
         arrow_right_alt
         </i></a> -->
-        <footer style="padding: 50px;">
-          Copiright 2020 | Разработчик <a href="http://socservice.kg/">ГП "Соцсервис"</a>
-        </footer>
+        <!-- <footer style="padding: 50px;">
+          Copiright 2020
+        </footer> -->
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
