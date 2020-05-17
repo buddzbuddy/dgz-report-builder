@@ -1,13 +1,13 @@
 {
     "appConfig":{
-        "dbPrefix": "unemployee",
+        "dbPrefix": "mvd",
         "host": "",
         "file_port": "3333"
     },
     "authConfig":{
         "issuer":"http://localhost:81",
-        "redirectUri":"http://localhost:4202/",
-        "clientId":"spa",
+        "redirectUri":"http://localhost:4203/",
+        "clientId":"spa3",
         "scope":"openid profile roles orgInfo"
     }
 }
