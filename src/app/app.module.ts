@@ -62,10 +62,15 @@ import {VgOverlayPlayModule} from 'videogular2/compiled/overlay-play';
 import {VgBufferingModule} from 'videogular2/compiled/buffering';
 import { UnemployeeComponent, ViewAgreementDialog } from './steppers/unemployee/unemployee.component';
 import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
-import { UnemployeeApplicationsComponent } from './customs/unemployee-applications/unemployee-applications.component';
-import { SetstatusComponent } from './customs/unemployee-applications/setstatus/setstatus.component';
-import { ViewComponent, RejectDialog } from './customs/unemployee-applications/view/view.component';
-import { SodDataComponent } from './customs/unemployee-applications/sod-data/sod-data.component';
+import { SetstatusComponent } from './customs/living-persons/setstatus/setstatus.component';
+import { ViewComponent } from './customs/living-persons/view/view.component';
+import { SodDataComponent } from './customs/living-persons/sod-data/sod-data.component';
+import { CreatePersonComponent } from './steppers/create-person/create-person.component';
+import { LivingPersonsComponent } from './customs/living-persons/living-persons.component';
+import { AddFamilyMemberComponent } from './customs/add-family-member/add-family-member.component';
+import { AddCategoryComponent } from './customs/add-category/add-category.component';
+import { ViewWeaponComponent } from './customs/weapon/view-weapon/view-weapon.component';
+import { CreateWeaponComponent } from './customs/weapon/create-weapon/create-weapon.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -109,12 +114,16 @@ export function initializeApp(appConfig: AppConfig) {
     PreviewFileComponent,
     VideoplayerComponent,
     UnemployeeComponent,
-    UnemployeeApplicationsComponent,
     SetstatusComponent,
     ViewComponent,
     SodDataComponent,
-    RejectDialog,
-    ViewAgreementDialog
+    ViewAgreementDialog,
+    CreatePersonComponent,
+    LivingPersonsComponent,
+    AddFamilyMemberComponent,
+    AddCategoryComponent,
+    ViewWeaponComponent,
+    CreateWeaponComponent
   ],
   imports: [
     BrowserModule,
@@ -165,7 +174,6 @@ export function initializeApp(appConfig: AppConfig) {
     MultiSelectFormComponent,
     ImageComponent,
     PreviewFileComponent,
-    RejectDialog,
     ViewAgreementDialog
   ]
 })

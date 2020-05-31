@@ -5,7 +5,7 @@
       [opened]="!(isHandset$ | async)">
     <mat-toolbar color="primary">
       <a routerLink="/home">
-         <mat-icon>home</mat-icon>
+        <img src="assets/images/logo.png" width="30px">
          {{projectName}}
       </a>
 
@@ -30,7 +30,8 @@
           {{claims.orgName}}
         </span>
         <button *ngIf="!oauthService.hasValidAccessToken()" mat-raised-button color="primary" type="button" (click)="login()">Войти</button>
-        <button *ngIf="oauthService.hasValidAccessToken()" mat-raised-button color="secondary" type="button" (click)="logoff()">Выйти</button>
+        <button *ngIf="oauthService.hasValidAccessToken()" mat-icon-button color="warn" type="button" (click)="logoff()"><mat-icon>exit_to_app</mat-icon></button>
+
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->

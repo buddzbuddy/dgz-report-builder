@@ -1,11 +1,15 @@
-<mat-card *ngIf="detailMode">
+<mat-card *ngIf="detailMode" class="mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title>{{resourceLabel}} <button color="primary" mat-raised-button (click)="onEditClicked()" >Изменить</button></mat-card-title>
+    <mat-toolbar>
+      <span>{{resourceLabel}}</span>
+      <span class="fill-remaining-space"></span>
+      <button color="primary" mat-raised-button (click)="onEditClicked()" >Изменить</button>
+    </mat-toolbar>
   </mat-card-header>
   <mat-card-content>
     <table class="mat-table">
       <tr class="mat-row" *ngFor="let field of fields">
-        <td style="padding: 5px;" class="mat-cell">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
           {{field.Label}}
         </td>
         <td style="padding: 5px;" class="mat-cell">
@@ -32,7 +36,7 @@
          *ngFor="let subResource of subResources"
           [templateId]="subResource.templateId"
            [localData]="subResource.localData"
-            [hasAddBtn]="true"
+            [hasAddBtn]="false"
              [fieldName]="subResource.foreignKey"
               [fieldValue]="resourceItemId"
                [loadRequired]="subResource.loadRequired">

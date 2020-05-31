@@ -1,0 +1,16 @@
+.mat-column-Name, .mat-column-RouteName, .mat-column-action {
+  border-right: 1px solid rgba(0,0,0,.12);
+  width: 100px;
+  max-width: 100px;
+  padding: 5px;
+  }
+
+  tr:hover {
+    background: whitesmoke;
+  }
+  table {
+    width: 100%;
+  }
+  mat-toolbar {
+    background-color: inherit;
+  }

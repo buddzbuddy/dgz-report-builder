@@ -1,0 +1,83 @@
+<mat-toolbar>
+  <span>Просмотр анкеты</span>
+  <span class="fill-remaining-space"></span>
+  <a mat-raised-button color="secondary" routerLink="/living-persons">Назад</a>
+</mat-toolbar>
+<div class="row">
+  <div class="col-md-6">
+    <app-view-item [resetFormSubject]="resetFormSubject.asObservable()" [templateId]="6" [resourceItemId]="appId"></app-view-item>
+  </div>
+  <div class="col-md-6">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+        <mat-toolbar>
+          <span>Категория жителя</span>
+          <span class="fill-remaining-space"></span>
+          <a mat-raised-button color="primary" routerLink="/add-category/{{appId}}">Добавить</a>
+        </mat-toolbar>
+      </mat-card-header>
+      <mat-card-content>
+
+        <table mat-table [dataSource]="myCategories">
+
+          <ng-container matColumnDef="Name">
+            <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <td mat-cell *matCellDef="let element"><button mat-icon-button color="warn" (click)="delete(element.Id)"><mat-icon>delete_outline</mat-icon></button></td>
+          </ng-container>
+
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <!--Weapon Info here-->
+    <br>
+      <app-view-weapon *ngIf="hasWeaponCategory" [personId]="appId"></app-view-weapon>
+    <br>
+    <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+        <mat-toolbar>
+          <span>Члены семьи</span>
+          <span class="fill-remaining-space"></span>
+          <a mat-raised-button color="primary" routerLink="/add-family-member/{{appId}}">Добавить</a>
+        </mat-toolbar>
+      </mat-card-header>
+      <mat-card-content>
+
+        <table mat-table [dataSource]="myFamily">
+
+          <ng-container matColumnDef="PIN">
+            <th mat-header-cell *matHeaderCellDef> ПИН </th>
+            <td mat-cell *matCellDef="let element"> {{element.PIN}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="FullName">
+            <th mat-header-cell *matHeaderCellDef> ФИО </th>
+            <td mat-cell *matCellDef="let element"> {{element.FullName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="RelationTypeResource">
+            <th mat-header-cell *matHeaderCellDef> Связь </th>
+            <td mat-cell *matCellDef="let element"> {{element.RelationTypeResource.Name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="deleteFMem(element.Id)"><mat-icon>delete_outline</mat-icon></button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns2;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+

@@ -1,0 +1,60 @@
+<mat-card class="mat-elevation-z8">
+  <mat-card-header>
+    <mat-toolbar>
+      <span>Ввод информации об оружии</span>
+      <span class="fill-remaining-space"></span>
+      <a mat-raised-button color="secondary" routerLink="/living-persons/view/{{personId}}">Назад</a>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="formGroup">
+      <mat-form-field appearance="outline">
+        <mat-label>Вид оружия</mat-label>
+        <mat-select formControlName="WeaponResourceId" placeholder="Пистолет" required>
+          <mat-optgroup *ngFor="let weaponType of weapons" [label]="weaponType.Name">
+            <mat-option *ngFor="let weapon of weaponType.WeaponResources" [value]="weapon.Id">
+              {{weapon.Name}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Номер разрешения</mat-label>
+        <input matInput formControlName="PermitNumber" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Марка</mat-label>
+        <input matInput formControlName="Mark" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Калибр</mat-label>
+        <input matInput formControlName="Caliber" type="number" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Количество стволов</mat-label>
+        <input matInput formControlName="NumberTrunks" type="number" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Количество зарядов</mat-label>
+        <input matInput formControlName="ChargeNumber" type="number" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Орган выдавший</mat-label>
+        <input matInput formControlName="IssuedBy" required>
+      </mat-form-field>
+      <br>
+      <app-date [field]="field" [group]="formGroup"></app-date>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="text-right">
+      <button type="button" mat-raised-button color="primary" (click)="submit()">Сохранить</button>
+    </div>
+  </mat-card-actions>
+</mat-card>

@@ -271,7 +271,7 @@ export class ResourcesComponent implements OnInit {
         this.columnsToDisplay.push(field);
         let captionObj = this.templateFields.find((x) => x.Name == field);
         if(captionObj != null) this.columnCaptionsToDisplay2[field] = captionObj.Label;
-        else this.columnCaptionsToDisplay2[field] = field;
+        //else this.columnCaptionsToDisplay2[field] = field;
       });
     }
   }

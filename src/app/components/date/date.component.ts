@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { FieldConfig } from "../../field.interface";
 import {MAT_DATE_FORMATS} from '@angular/material/core';
@@ -35,8 +35,10 @@ export const MY_FORMATS = {
   ]
 })
 export class DateComponent implements OnInit {
-  field: FieldConfig;
-  group: FormGroup;
+  @Input()
+  field: FieldConfig = null;
+  @Input()
+  group: FormGroup = null;
   constructor() {}
   ngOnInit() {}
 }

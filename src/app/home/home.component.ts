@@ -1,5 +1,5 @@
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Component, OnInit, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from "rxjs";
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent {
   private fileToUpload: File = null;
   private SUCCESS: boolean = false;
   constructor(private camundaRestService: CamundaRestService,
@@ -19,12 +19,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private httpClient: HttpClient,
     private router: Router,) {
     }
-  ngOnInit(){
-
-  }
-  ngAfterViewInit(){
-
-  }
   isLoaded: boolean = false;
   loadClaims(){
     this.claims = this.oauthService.getIdentityClaims();

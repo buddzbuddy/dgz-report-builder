@@ -1,0 +1,78 @@
+<mat-card class="mat-elevation-z8">
+  <mat-card-header>
+    <mat-toolbar>
+      <span>Информация об оружии</span>
+      <span class="fill-remaining-space"></span>
+      <button *ngIf="weaponInfo" mat-raised-button color="warn" (click)="delete()">Удалить</button>
+      <a *ngIf="weaponInfo == null" mat-raised-button color="primary" routerLink="/add-weapon/{{personId}}">Добавить</a>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="mat-table">
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Вид оружия
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.WeaponResource.Name}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Номер разрешения
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.PermitNumber}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Марка
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.Mark}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Калибр
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.Caliber}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Количество стволов
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.NumberTrunks}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Количество зарядов
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.ChargeNumber}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Орган выдавший
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.IssuedBy}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Дата выпуска
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{weaponInfo?.ReleaseDate | date:'dd.MM.yyyy'}}
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

@@ -39,6 +39,7 @@ export class MainNavComponent implements AfterViewInit {
           if(this.oauthService.hasValidAccessToken()){
             this.menuItems = data.value;
             this.oauthService.loadUserProfile();
+            this.oauthService.setupAutomaticSilentRefresh()
             this.ref.markForCheck();
           }
         });

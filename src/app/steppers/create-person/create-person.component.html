@@ -1,0 +1,199 @@
+<mat-horizontal-stepper linear #stepper style="
+max-width: 800px;
+margin: 0px auto;
+border: 1px solid grey;
+border-radius: 5px;">
+  <mat-step [stepControl]="requestFormGroup" [optional]="true">
+    <form [formGroup]="requestFormGroup">
+      <ng-template matStepLabel>Паспортные данные</ng-template>
+      <mat-form-field appearance="outline">
+        <mat-label>ПИН (ИНН)</mat-label>
+        <input matInput placeholder="20101199012345" formControlName="PIN" required>
+      </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+              <mat-label>ФИО</mat-label>
+              <input matInput formControlName="FullName" required>
+            </mat-form-field>
+      <div class="text-right">
+        <button mat-raised-button color="primary" matStepperNext>Далее</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="contactsFormGroup" [optional]="true">
+    <form [formGroup]="contactsFormGroup">
+      <ng-template matStepLabel>Адреса и контактные данные</ng-template>
+      <div class="outlinedCard mat-elevation-z8">
+        <h5>Место проживания</h5>
+        <mat-form-field appearance="outline">
+          <mat-label>Район</mat-label>
+          <mat-select formControlName="DistrictResourceId" placeholder="Октябрьский р-н" required>
+            <mat-option *ngFor="let district of districts" [value]="district.Id">
+              {{district.Name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Улица</mat-label>
+          <input matInput formControlName="Street" placeholder="Абая" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Дом</mat-label>
+          <input matInput formControlName="House" placeholder="24" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Квартира</mat-label>
+          <input matInput formControlName="Apartment" placeholder="2" required>
+        </mat-form-field>
+      </div>
+      <div class="outlinedCard mat-elevation-z8">
+        <h5>Место рождения</h5>
+        <mat-form-field appearance="outline">
+          <mat-label>Страна</mat-label>
+          <mat-select formControlName="BirthCountryResourceId" placeholder="Кыргызстан" required>
+            <mat-option *ngFor="let country of countries" [value]="country.Id">
+              {{country.Name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Город/Нас. пункт</mat-label>
+          <input matInput formControlName="BirthAddress" placeholder="0555 11-22-33" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Мобильный телефон</mat-label>
+          <input matInput formControlName="Telephone" placeholder="0555 11-22-33" required>
+        </mat-form-field>
+      </div>
+      <div class="outlinedCard mat-elevation-z8">
+        <h5>Место работы или учебы</h5>
+        <mat-form-field appearance="outline">
+          <mat-label>Название организации где работает</mat-label>
+          <input matInput formControlName="JobOrganizationName" placeholder="ОАО Шоро">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Адрес</mat-label>
+          <input matInput formControlName="JobAddress" placeholder="ул. Токомбаева 20">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Рабочий телефон</mat-label>
+          <input matInput formControlName="JobTelephone" placeholder="66-45-45, добав. 55">
+        </mat-form-field>
+      </div>
+      <div class="text-right">
+        <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
+        <button mat-raised-button color="primary" matStepperNext>Далее</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="animalFormGroup" [optional]="true">
+    <form [formGroup]="animalFormGroup">
+      <ng-template matStepLabel>Сельскохозяйственные, домашние животные</ng-template>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Наименование</mat-label>
+        <input matInput formControlName="AnimalName" placeholder="Собачка">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Порода</mat-label>
+        <input matInput formControlName="AnimalBreed" placeholder="Овчарка">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Окрас</mat-label>
+        <input matInput formControlName="AnimalColor" placeholder="коричневый">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Кличка</mat-label>
+        <input matInput formControlName="AnimalNick" placeholder="Рекс">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Особые приметы</mat-label>
+        <input matInput formControlName="AnimalSpecialSigns" placeholder="Одно ухо отрезано">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Примечания</mat-label>
+        <input matInput formControlName="Comments">
+      </mat-form-field>
+      <br>
+      <div class="text-right">
+        <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
+        <button mat-raised-button color="primary" matStepperNext>Далее</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="carFormGroup">
+    <form [formGroup]="carFormGroup">
+      <ng-template matStepLabel>Сведение о транспорте</ng-template>
+      <mat-form-field appearance="outline">
+        <mat-label>VID</mat-label>
+        <input matInput formControlName="CarVID" placeholder="FFGGFFD89FD">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Марка</mat-label>
+        <input matInput formControlName="CarName" placeholder="Лада">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Модель</mat-label>
+        <input matInput formControlName="CarModel" placeholder="Приора">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Цвет</mat-label>
+        <input matInput formControlName="CarColor" placeholder="Красный">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Год выпуска</mat-label>
+        <input matInput type="number" formControlName="CarReleaseYear" placeholder="2000">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Страна происхождения</mat-label>
+        <input matInput formControlName="CarProdCountry" placeholder="Россия">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Вид кузова</mat-label>
+        <input matInput formControlName="CarBodyType" placeholder="Седан">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Тип кузова</mat-label>
+        <input matInput formControlName="CarBodyType2" placeholder="Легковое">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Объем двигателя</mat-label>
+        <input matInput type="number" formControlName="CarCapacity" placeholder="1.8">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Иное</mat-label>
+        <input matInput formControlName="CarComment">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>ФИО владельца</mat-label>
+        <input matInput formControlName="CarOwnerFullName">
+      </mat-form-field>
+      <div class="text-right">
+        <button mat-raised-button color="primary" (click)="submit()">СОХРАНИТЬ</button>
+        <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

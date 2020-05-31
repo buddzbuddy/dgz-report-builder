@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+}
+
+ .mat-column-CreatedAt, .mat-column-PIN, .mat-column-FullName, .mat-column-action, .mat-column-Telephone {
+border-right: 1px solid rgba(0,0,0,.12);
+width: 100px;
+max-width: 100px;
+padding: 5px;
+}
+
+tr:hover {
+  background: whitesmoke;
+}

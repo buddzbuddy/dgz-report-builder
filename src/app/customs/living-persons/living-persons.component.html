@@ -19,7 +19,7 @@
 
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element"><a mat-raised-button color="primary" routerLink="/unemployeeApplications/view/{{element.Id}}">открыть</a></td>
+    <td mat-cell *matCellDef="let element"><a mat-raised-button color="primary" routerLink="/living-persons/view/{{element.Id}}">открыть</a></td>
   </ng-container>
 
   <ng-container matColumnDef="PIN">
@@ -27,39 +27,14 @@
     <td mat-cell *matCellDef="let element"> {{element.PIN}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="PassportSeries">
-    <th mat-header-cell *matHeaderCellDef> Серия паспорта </th>
-    <td mat-cell *matCellDef="let element"> {{element.PassportSeries}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="PassportNo">
-    <th mat-header-cell *matHeaderCellDef> Номер паспорта </th>
-    <td mat-cell *matCellDef="let element"> {{element.PassportNo}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="Bank">
-    <th mat-header-cell *matHeaderCellDef> Банк </th>
-    <td mat-cell *matCellDef="let element"> {{element.Bank}} </td>
+  <ng-container matColumnDef="FullName">
+    <th mat-header-cell *matHeaderCellDef> ФИО </th>
+    <td mat-cell *matCellDef="let element"> {{element.FullName}} </td>
   </ng-container>
 
   <ng-container matColumnDef="Telephone">
     <th mat-header-cell *matHeaderCellDef> Телефон </th>
     <td mat-cell *matCellDef="let element"> {{element.Telephone}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="Address">
-    <th mat-header-cell *matHeaderCellDef> Адрес </th>
-    <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="Status">
-    <th mat-header-cell *matHeaderCellDef> Статус </th>
-    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="StatusDate">
-    <th mat-header-cell *matHeaderCellDef> Дата статуса </th>
-    <td mat-cell *matCellDef="let element"> {{element.StatusDate}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>

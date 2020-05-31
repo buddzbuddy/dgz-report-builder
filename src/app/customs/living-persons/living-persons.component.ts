@@ -6,14 +6,14 @@ import * as moment from 'moment'
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-unemployee-applications',
-  templateUrl: './unemployee-applications.component.html',
-  styleUrls: ['./unemployee-applications.component.scss']
+  selector: 'app-living-persons',
+  templateUrl: './living-persons.component.html',
+  styleUrls: ['./living-persons.component.scss']
 })
-export class UnemployeeApplicationsComponent implements OnInit {
+export class LivingPersonsComponent implements OnInit {
   filterValues = {};
   dataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['action', 'CreatedAt', 'PIN', 'PassportSeries', 'PassportNo', 'Bank', 'Telephone', 'Address', 'Status', 'StatusDate'];
+  displayedColumns: string[] = ['action', 'CreatedAt', 'PIN', 'FullName', 'Telephone'];
 
   filterSelectObj = [];
   constructor(
@@ -27,16 +27,6 @@ export class UnemployeeApplicationsComponent implements OnInit {
       {
         name: 'ПИН',
         columnProp: 'PIN',
-        options: []
-      },
-      {
-        name: 'Банк',
-        columnProp: 'Bank',
-        options: []
-      },
-      {
-        name: 'Статус',
-        columnProp: 'Status',
         options: []
       }
     ]
@@ -65,25 +55,20 @@ export class UnemployeeApplicationsComponent implements OnInit {
   getRemoteData() {
 
     let parsedList: any[] = [];
-    let queryString = '$filter=DistrictResourceId eq {orgId}&$orderby=Id desc';
+    let queryString = '$filter=UserId eq {UserId}&$orderby=Id desc';
     let claims = this.oauthService.getIdentityClaims();
-              if(claims != null && claims['orgId'] != null){
-                queryString = queryString.replace('{orgId}', claims['orgId']);
+              if(claims != null && claims['sub'] != null){
+                queryString = queryString.replace('{UserId}', claims['sub']);
               }
-    this.dataSvc.filterODataResourceExpanded('ApplicantResources', queryString).subscribe(response => {
+    this.dataSvc.filterODataResourceExpanded('PersonResources', queryString).subscribe(response => {
 
       response.value.map((_) => {
         parsedList.push({
           Id: _.Id,
           PIN: _.PIN,
-          PassportSeries: _.PassportSeries,
-          PassportNo: _.PassportNo,
-          Address: _.Address,
+          FullName: _.FullName,
           CreatedAt: moment(_.CreatedAt).format('DD.MM.YYYY HH:mm'),
-          Telephone: _.Telephone,
-          Bank: _.BankResourceId != null ? _.BankResource.Name : '-',
-          Status: _.StatusResourceId != null ? _.StatusResource.Name : '-',
-          StatusDate: _.StatusDate != null ? moment(_.StatusDate).format('DD.MM.YYYY HH:mm') : '-'
+          Telephone: _.Telephone
         });
       })
       this.dataSource.data = parsedList;
@@ -95,10 +80,6 @@ export class UnemployeeApplicationsComponent implements OnInit {
 
 
   }
-  setStatus(appId: number){
-    this.router.navigate(['unemployeeApplications/setstatus/' + appId]);
-  }
-
   // Called on Filter change
   filterChange(filter, event) {
     //let filterValues = {}
