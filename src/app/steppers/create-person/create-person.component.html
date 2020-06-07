@@ -1,5 +1,5 @@
+<h1>Ввод проживающего</h1>
 <mat-horizontal-stepper linear #stepper style="
-max-width: 800px;
 margin: 0px auto;
 border: 1px solid grey;
 border-radius: 5px;">
@@ -43,11 +43,17 @@ border-radius: 5px;">
           <mat-label>Дом</mat-label>
           <input matInput formControlName="House" placeholder="24" required>
         </mat-form-field>
-        <br>
         <mat-form-field appearance="outline">
           <mat-label>Квартира</mat-label>
           <input matInput formControlName="Apartment" placeholder="2" required>
         </mat-form-field>
+        <br>
+        <mat-checkbox formControlName="IsTemporarilyLive">Временно проживающий</mat-checkbox>
+        <ng-container *ngIf="IsTemporarilyLive">
+          <br>
+          <app-date [field]="temporarilyLiveFromField" [group]="contactsFormGroup"></app-date>
+          <app-date [field]="temporarilyLiveToField" [group]="contactsFormGroup"></app-date>
+        </ng-container>
       </div>
       <div class="outlinedCard mat-elevation-z8">
         <h5>Место рождения</h5>

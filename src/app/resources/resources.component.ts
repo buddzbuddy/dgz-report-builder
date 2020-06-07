@@ -264,13 +264,15 @@ export class ResourcesComponent implements OnInit {
     }
   }
   createFields(){
-    this.columnsToDisplay = [];
+    this.columnsToDisplay = ['Id'];
     if(this.oDataItems.data.length > 0){
       let firstRow = this.oDataItems.data[0];
       Object.keys(firstRow).forEach((field) => {
-        this.columnsToDisplay.push(field);
         let captionObj = this.templateFields.find((x) => x.Name == field);
-        if(captionObj != null) this.columnCaptionsToDisplay2[field] = captionObj.Label;
+        if(captionObj != null) {
+          this.columnsToDisplay.push(field);
+          this.columnCaptionsToDisplay2[field] = captionObj.Label;
+        }
         //else this.columnCaptionsToDisplay2[field] = field;
       });
     }

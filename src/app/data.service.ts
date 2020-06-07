@@ -112,7 +112,7 @@ export class DataService {
   }
   getFieldsByTemplateId(templateId){
     const endpoint = `${this.metaServiceURL}`;
-    const requestUrl = `${endpoint}DynamicFields?$filter=TemplateId+eq+` + templateId + '+and+SqlTypeEnumCode+ne+null';
+    const requestUrl = `${endpoint}DynamicFields?$filter=TemplateId+eq+` + templateId + '';
     return this.http.get(requestUrl, httpOptions).pipe(
       tap(datas => this.log(`getFieldsByTemplateId from wcf data`)),
       catchError(this.handleError('getFieldsByTemplateId', null))

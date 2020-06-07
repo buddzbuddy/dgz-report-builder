@@ -35,7 +35,7 @@ export class DynamicFormComponent implements OnInit {
 
   @Output()
   change: EventEmitter<any> = new EventEmitter<any>();
-  
+
   @Output('cancelBtnClick')
   cancelBtnClick: EventEmitter<any> = new EventEmitter<any>();
 

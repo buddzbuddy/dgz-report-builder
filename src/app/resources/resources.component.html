@@ -81,7 +81,7 @@
                       </ng-container>
                       <ng-template #notFile>
                         <ng-container *ngIf="isDateField(column); else notDate">
-                            {{element[column] | date:'yyyy-MM-dd'}}
+                            {{element[column] | date:'dd.MM.yyyy'}}
                         </ng-container>
                         <ng-template #notDate>
                           {{element[column]}}

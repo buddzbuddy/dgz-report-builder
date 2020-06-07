@@ -1,4 +1,5 @@
-<mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+<mat-form-field class="demo-full-width margin-top" [formGroup]="group" appearance="outline">
+    <mat-label>{{field.label}}</mat-label>
     <mat-select [placeholder]="field.label" [formControlName]="field.name" #singleSelect>
         <mat-option>
             <ngx-mat-select-search [formControl]="filterCtrl" [placeholderLabel]="'Поиск...'" [noEntriesFoundLabel]="'Не найдено'"></ngx-mat-select-search>

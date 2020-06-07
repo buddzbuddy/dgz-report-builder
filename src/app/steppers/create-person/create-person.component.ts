@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/notification.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { FieldConfig } from 'src/app/field.interface';
 interface selectItem {
   value: string;
   viewValue: string;
@@ -32,7 +33,23 @@ export class CreatePersonComponent implements OnInit {
   carFormGroup: FormGroup;
   constructor(private _formBuilder: FormBuilder, private dataSvc: DataService, private notificationSvc: NotificationService,
     public oauthService: OAuthService, private router: Router) {}
+    get IsTemporarilyLive(): boolean {
+      let IsTemporarilyLive = this.contactsFormGroup.get('IsTemporarilyLive').value;
 
+      if(IsTemporarilyLive){
+        const control = this._formBuilder.control(null);
+        this.contactsFormGroup.addControl('TemporarilyLiveFrom', control);
+        this.contactsFormGroup.addControl('TemporarilyLiveTo', control);
+      }
+      else {
+        this.contactsFormGroup.removeControl('TemporarilyLiveFrom');
+        this.contactsFormGroup.removeControl('TemporarilyLiveTo');
+      }
+
+      return IsTemporarilyLive;
+    }
+    temporarilyLiveFromField: FieldConfig = { type: 'date', name: 'TemporarilyLiveFrom', label: 'Срок проживания С' };
+    temporarilyLiveToField: FieldConfig = { type: 'date', name: 'TemporarilyLiveTo', label: 'Срок проживания По' };
   ngOnInit() {
 
     this.requestFormGroup = this._formBuilder.group({
@@ -41,12 +58,14 @@ export class CreatePersonComponent implements OnInit {
       //PassportNo: '',//['', [Validators.required, Validators.maxLength(7), Validators.minLength(7)]],
       FullName: ''//['', Validators.required],
     });
+
     this.contactsFormGroup = this._formBuilder.group({
       Telephone: '',
       DistrictResourceId:'',
       Street: '',
       House: '',
       Apartment: '',
+      IsTemporarilyLive: '',
       BirthCountryResourceId:'',
       BirthAddress: '',
       JobOrganizationName: '',

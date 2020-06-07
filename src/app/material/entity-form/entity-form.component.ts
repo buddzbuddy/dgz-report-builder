@@ -6,6 +6,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import { MaterialService } from 'src/app/material.service';
 import { NotificationService } from 'src/app/notification.service';
 import { DataService } from 'src/app/data.service';
+import { OAuthService } from 'angular-oauth2-oidc';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-entity-form',
@@ -23,7 +25,7 @@ export class EntityformComponent implements OnInit {
   @Inject(MAT_DIALOG_DATA) data,
   private service: MaterialService,
   private odataSvc: DataService,
-  private notificationSvc: NotificationService
+  private notificationSvc: NotificationService, private oauthService: OAuthService
 ){
   if(data == null || data.resourceName == null || data.resourceId == null)
   throw new Error("Required data.resourceName or data.resourceId doesn't exist in the MatDialogConfig!");
@@ -48,6 +50,11 @@ export class EntityformComponent implements OnInit {
       }
       else {
         try {
+
+          resObj.CreatedAt = moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ');
+          if(this.oauthService.hasValidAccessToken()) {
+            resObj.UserId = this.oauthService.getIdentityClaims()['sub'];
+          }
           this.odataSvc.postODataResource(this.resourceName, resObj).subscribe((data) => {
             this.notificationSvc.success('Created successfully');
             this.onClose({reload: true});
