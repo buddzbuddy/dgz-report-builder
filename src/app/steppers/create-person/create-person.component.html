@@ -3,14 +3,46 @@
 margin: 0px auto;
 border: 1px solid grey;
 border-radius: 5px;">
-  <mat-step [stepControl]="requestFormGroup" [optional]="true">
+<!-- keep icons as numbers during edit-->
+	<!--
+  <ng-template matStepperIcon="edit" let-index="index">
+		{{index +1}}
+	</ng-template>
+  -->
+
+	<!-- change default 'edit' icon -->
+  <!-- <ng-template matStepperIcon="edit">
+		<mat-icon>bubble_chart</mat-icon>
+	</ng-template> -->
+
+	<!-- change default 'done' icon -->
+	<!-- <ng-template matStepperIcon="done">
+		<mat-icon>done_all</mat-icon>
+  </ng-template> -->
+
+
+	<!-- changed step icons -->
+	<ng-template matStepperIcon="state1">
+		<mat-icon>account_box</mat-icon>
+	</ng-template>
+	<ng-template matStepperIcon="state2">
+		<mat-icon>person_pin_circle</mat-icon>
+	</ng-template>
+	<ng-template matStepperIcon="state3">
+		<mat-icon>pets</mat-icon>
+	</ng-template>
+	<ng-template matStepperIcon="state4">
+		<mat-icon>directions_car</mat-icon>
+	</ng-template>
+
+  <mat-step [stepControl]="requestFormGroup" state="state1">
+    <ng-template matStepLabel>Паспорт</ng-template>
+    <h2>Паспортные данные</h2>
     <form [formGroup]="requestFormGroup">
-      <ng-template matStepLabel>Паспортные данные</ng-template>
       <mat-form-field appearance="outline">
         <mat-label>ПИН (ИНН)</mat-label>
         <input matInput placeholder="20101199012345" formControlName="PIN" required>
       </mat-form-field>
-          <br>
           <mat-form-field appearance="outline">
               <mat-label>ФИО</mat-label>
               <input matInput formControlName="FullName" required>
@@ -20,9 +52,10 @@ border-radius: 5px;">
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="contactsFormGroup" [optional]="true">
+  <mat-step [stepControl]="contactsFormGroup" state="state2">
+    <ng-template matStepLabel>Адрес</ng-template>
+    <h2>Адреса и контактные данные</h2>
     <form [formGroup]="contactsFormGroup">
-      <ng-template matStepLabel>Адреса и контактные данные</ng-template>
       <div class="outlinedCard mat-elevation-z8">
         <h5>Место проживания</h5>
         <mat-form-field appearance="outline">
@@ -33,7 +66,6 @@ border-radius: 5px;">
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <br>
         <mat-form-field appearance="outline">
           <mat-label>Улица</mat-label>
           <input matInput formControlName="Street" placeholder="Абая" required>
@@ -65,15 +97,34 @@ border-radius: 5px;">
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <br>
         <mat-form-field appearance="outline">
           <mat-label>Город/Нас. пункт</mat-label>
-          <input matInput formControlName="BirthAddress" placeholder="0555 11-22-33" required>
+          <input matInput formControlName="BirthTown" placeholder="Нарын" required>
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline">
-          <mat-label>Мобильный телефон</mat-label>
-          <input matInput formControlName="Telephone" placeholder="0555 11-22-33" required>
+          <mat-label>Улица</mat-label>
+          <input matInput formControlName="BirthStreet" placeholder="Ленина" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Дом</mat-label>
+          <input matInput formControlName="BirthHouse" placeholder="11" required>
+        </mat-form-field>
+      </div>
+      <div class="outlinedCard mat-elevation-z8">
+        <h5>Телефоны</h5>
+        <mat-form-field appearance="outline">
+          <mat-label>Моб. телефон 1</mat-label>
+          <input matInput formControlName="Telephone1" placeholder="0555 11-22-33" prefix="0" mask="(000) 00-00-00" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Моб. телефон 2</mat-label>
+          <input matInput formControlName="Telephone2" placeholder="0777 11-22-33" prefix="0" mask="(000) 00-00-00" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Рабочий телефон</mat-label>
+          <input matInput formControlName="JobTelephone" placeholder="66-45-45" prefix="0" mask="(000) 00-00-00">
         </mat-form-field>
       </div>
       <div class="outlinedCard mat-elevation-z8">
@@ -82,37 +133,29 @@ border-radius: 5px;">
           <mat-label>Название организации где работает</mat-label>
           <input matInput formControlName="JobOrganizationName" placeholder="ОАО Шоро">
         </mat-form-field>
-        <br>
         <mat-form-field appearance="outline">
           <mat-label>Адрес</mat-label>
           <input matInput formControlName="JobAddress" placeholder="ул. Токомбаева 20">
         </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Рабочий телефон</mat-label>
-          <input matInput formControlName="JobTelephone" placeholder="66-45-45, добав. 55">
-        </mat-form-field>
       </div>
       <div class="text-right">
         <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
-        <button mat-raised-button color="primary" matStepperNext>Далее</button>
+        <button mat-raised-button color="primary" matStepperNext (click)="saveAndNext()">Сохранить</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="animalFormGroup" [optional]="true">
+  <mat-step [stepControl]="animalFormGroup" state="state3">
+    <ng-template matStepLabel>Животные</ng-template>
+    <h2>Сельскохозяйственные, домашние животные</h2>
     <form [formGroup]="animalFormGroup">
-      <ng-template matStepLabel>Сельскохозяйственные, домашние животные</ng-template>
-
       <mat-form-field appearance="outline">
         <mat-label>Наименование</mat-label>
         <input matInput formControlName="AnimalName" placeholder="Собачка">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Порода</mat-label>
         <input matInput formControlName="AnimalBreed" placeholder="Овчарка">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Окрас</mat-label>
         <input matInput formControlName="AnimalColor" placeholder="коричневый">
@@ -122,12 +165,10 @@ border-radius: 5px;">
         <mat-label>Кличка</mat-label>
         <input matInput formControlName="AnimalNick" placeholder="Рекс">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Особые приметы</mat-label>
         <input matInput formControlName="AnimalSpecialSigns" placeholder="Одно ухо отрезано">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Примечания</mat-label>
         <input matInput formControlName="Comments">
@@ -135,28 +176,26 @@ border-radius: 5px;">
       <br>
       <div class="text-right">
         <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
-        <button mat-raised-button color="primary" matStepperNext>Далее</button>
+        <button mat-raised-button color="primary" matStepperNext (click)="saveAndNext()">Сохранить</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="carFormGroup">
+  <mat-step [stepControl]="carFormGroup" state="state4">
+    <ng-template matStepLabel>Авто</ng-template>
+    <h2>Сведение о транспорте</h2>
     <form [formGroup]="carFormGroup">
-      <ng-template matStepLabel>Сведение о транспорте</ng-template>
       <mat-form-field appearance="outline">
-        <mat-label>VID</mat-label>
+        <mat-label>VIN</mat-label>
         <input matInput formControlName="CarVID" placeholder="FFGGFFD89FD">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Марка</mat-label>
         <input matInput formControlName="CarName" placeholder="Лада">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Модель</mat-label>
         <input matInput formControlName="CarModel" placeholder="Приора">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Цвет</mat-label>
         <input matInput formControlName="CarColor" placeholder="Красный">
@@ -166,17 +205,14 @@ border-radius: 5px;">
         <mat-label>Год выпуска</mat-label>
         <input matInput type="number" formControlName="CarReleaseYear" placeholder="2000">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Страна происхождения</mat-label>
         <input matInput formControlName="CarProdCountry" placeholder="Россия">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Вид кузова</mat-label>
         <input matInput formControlName="CarBodyType" placeholder="Седан">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Тип кузова</mat-label>
         <input matInput formControlName="CarBodyType2" placeholder="Легковое">
@@ -186,18 +222,20 @@ border-radius: 5px;">
         <mat-label>Объем двигателя</mat-label>
         <input matInput type="number" formControlName="CarCapacity" placeholder="1.8">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>Иное</mat-label>
         <input matInput formControlName="CarComment">
       </mat-form-field>
-      <br>
       <mat-form-field appearance="outline">
         <mat-label>ФИО владельца</mat-label>
         <input matInput formControlName="CarOwnerFullName">
       </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Примечание</mat-label>
+        <input matInput formControlName="CarComment2">
+      </mat-form-field>
       <div class="text-right">
-        <button mat-raised-button color="primary" (click)="submit()">СОХРАНИТЬ</button>
+        <button mat-raised-button color="primary" (click)="submit()">СОХРАНИТЬ и ЗАКРЫТЬ</button>
         <button mat-raised-button color="secondary" matStepperPrevious>Назад</button>
       </div>
     </form>

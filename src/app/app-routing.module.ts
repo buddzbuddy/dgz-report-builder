@@ -19,6 +19,7 @@ import { LivingPersonsComponent } from './customs/living-persons/living-persons.
 import { AddFamilyMemberComponent } from './customs/add-family-member/add-family-member.component';
 import { AddCategoryComponent } from './customs/add-category/add-category.component';
 import { CreateWeaponComponent } from './customs/weapon/create-weapon/create-weapon.component';
+import { ViewUserCardComponent } from './customs/user-card/view-user-card/view-user-card.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -41,10 +42,11 @@ const routes: Routes = [
   { path: 'upload-image', component: UploadImageComponent },
   { path: 'fileList', component: FilesComponent },
   { path: 'videoplayer', component: VideoplayerComponent },
-  { path: 'steppers/create-person', component: CreatePersonComponent },
+  { path: 'living-persons/create', component: CreatePersonComponent },
   { path: 'add-family-member/:personId', component: AddFamilyMemberComponent },
   { path: 'add-category/:personId', component: AddCategoryComponent },
   { path: 'add-weapon/:personId', component: CreateWeaponComponent },
+  { path: 'view-user-card', component: ViewUserCardComponent },
 
 ];
 

@@ -59,3 +59,9 @@ snack-bar-container.notification simple-snack-bar {
     height: 40px;
     padding: 0px !important;
   }
+  ::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+}
+mat-form-field + mat-form-field {
+  margin-left: 10px;
+}

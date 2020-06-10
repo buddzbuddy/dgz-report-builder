@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { FieldConfig } from 'src/app/field.interface';
+import { MAT_STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 interface selectItem {
   value: string;
   viewValue: string;
@@ -19,7 +20,10 @@ interface selectItemGroup {
 @Component({
   selector: 'app-create-person',
   templateUrl: './create-person.component.html',
-  styleUrls: ['./create-person.component.scss']
+  styleUrls: ['./create-person.component.scss'],
+  providers: [{
+    provide: MAT_STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
+  }]
 })
 export class CreatePersonComponent implements OnInit {
   @ViewChild('invisibleText', { static: false }) invisibleText: ElementRef;
@@ -27,6 +31,9 @@ export class CreatePersonComponent implements OnInit {
     {value: 'ID', viewValue: 'ID'},
     {value: 'AN', viewValue: 'AN'},
   ];
+
+  phoneMask = ['0(', /\d/, /\d/, /\d/, ')', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+
   requestFormGroup: FormGroup;
   contactsFormGroup: FormGroup;
   animalFormGroup: FormGroup;
@@ -60,14 +67,17 @@ export class CreatePersonComponent implements OnInit {
     });
 
     this.contactsFormGroup = this._formBuilder.group({
-      Telephone: '',
+      Telephone1: '',
+      Telephone2: '',
       DistrictResourceId:'',
       Street: '',
       House: '',
       Apartment: '',
       IsTemporarilyLive: '',
       BirthCountryResourceId:'',
-      BirthAddress: '',
+      BirthTown: '',
+      BirthStreet: '',
+      BirthHouse: '',
       JobOrganizationName: '',
       JobAddress: '',
       JobTelephone: '',
@@ -93,6 +103,7 @@ export class CreatePersonComponent implements OnInit {
       CarBodyType2: '',
       CarCapacity: '',
       CarComment: '',
+      CarComment2: '',
       CarOwnerFullName: '',
 
     });
@@ -121,12 +132,45 @@ export class CreatePersonComponent implements OnInit {
   isDataSubmitting: boolean = false;
   isDataSubmitted: boolean = false;
   submit(){
+    if(confirm('Вы уверены что хотите сохранить и продолжить ввод?')){
+      this.isDataSubmitting = true;
+      var obj = {
+        ...this.requestFormGroup.value,
+        ...this.contactsFormGroup.value,
+        ...this.animalFormGroup.value,
+        ...this.carFormGroup.value,
+        UserId: this.oauthService.getIdentityClaims()['sub'],
+        CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
+        Id: this.personObj.Id
+      }
+      Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] == '') && delete obj[key]);
+      this.dataSvc.putODataResource("PersonResources", obj).subscribe((_) => {
+        this.notificationSvc.success("Запись успешно сохранена в папке \"Проживающий на цчастке\"!")
+
+        this.router.navigate(['/home']);
+      });
+
+      console.log('save complete', obj)
+    }
+  }
+  personObj: any = null;
+  saveAndNext() {
+    if(!this.contactsFormGroup.invalid) {
+      if(confirm('Вы уверены что хотите сохранить и продолжить ввод?')){
+        if(this.personObj == null) {
+          this.create();
+        }
+        else {
+          this.update();
+        }
+      }
+    }
+  }
+  create() {
     this.isDataSubmitting = true;
     var obj = {
       ...this.requestFormGroup.value,
       ...this.contactsFormGroup.value,
-      ...this.animalFormGroup.value,
-      ...this.carFormGroup.value,
       UserId: this.oauthService.getIdentityClaims()['sub'],
       CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
     }
@@ -134,18 +178,26 @@ export class CreatePersonComponent implements OnInit {
     this.dataSvc.postODataResource("PersonResources", obj).subscribe((_) => {
       if(_.Id > 0){
         this.isDataSubmitting = false;
-      this.isDataSubmitted = true;
-
-      this.notificationSvc.success("Ваша заявка успешно оформлена!")
-
-      this.router.navigate(['/home']);
+        this.isDataSubmitted = true;
+        this.personObj = _;
       }
       else {
         this.notificationSvc.warn('Что-то пошло не так ((')
       }
     });
-
-    console.log('submit', obj)
+  }
+  update() {
+    var obj = {
+      ...this.requestFormGroup.value,
+      ...this.contactsFormGroup.value,
+      ...this.animalFormGroup.value,
+      ...this.carFormGroup.value,
+      Id: this.personObj.Id
+    }
+    Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] == '') && delete obj[key]);
+    this.dataSvc.putODataResource("PersonResources", obj).subscribe((_) => {
+      this.personObj = obj;
+    });
   }
 
 }

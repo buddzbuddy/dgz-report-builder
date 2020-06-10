@@ -1,0 +1,52 @@
+<div *ngIf="!isLoggedIn"><h1 class="text-danger">Пользователь не авторизован!</h1></div>
+<mat-card class="mat-elevation-z8" *ngIf="!hasProfile && isLoggedIn">
+  <mat-card-header>
+    <mat-toolbar>
+      <span>Профиль УУМ</span>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="formGroup">
+      <mat-form-field appearance="outline">
+        <mat-label>ФИО участкового</mat-label>
+        <input matInput formControlName="FullName" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>ГОМ, ПОМ №</mat-label>
+        <input matInput formControlName="GOM" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>УВД, ОВД</mat-label>
+        <input matInput formControlName="UVD" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Служебный телефон</mat-label>
+        <input matInput formControlName="ServicePhone" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Мобильный телефон</mat-label>
+        <input matInput formControlName="MobilePhone" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Дни приема</mat-label>
+        <input matInput formControlName="AdmissionDays" required>
+      </mat-form-field>
+      <br>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="text-right">
+      <button type="button" mat-raised-button color="primary" (click)="submit()">Сохранить</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+<div class="row" *ngIf="hasProfile && isLoggedIn">
+  <div class="col-md-6">
+    <app-view-item [resetFormSubject]="resetFormSubject.asObservable()" [templateId]="15" [resourceItemId]="cardId"></app-view-item>
+  </div>
+</div>

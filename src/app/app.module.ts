@@ -71,6 +71,11 @@ import { AddFamilyMemberComponent } from './customs/add-family-member/add-family
 import { AddCategoryComponent } from './customs/add-category/add-category.component';
 import { ViewWeaponComponent } from './customs/weapon/view-weapon/view-weapon.component';
 import { CreateWeaponComponent } from './customs/weapon/create-weapon/create-weapon.component';
+import { ViewUserCardComponent } from './customs/user-card/view-user-card/view-user-card.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+//export const options: Partial<IConfig> | (() => Partial<IConfig>);
+
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -123,7 +128,8 @@ export function initializeApp(appConfig: AppConfig) {
     AddFamilyMemberComponent,
     AddCategoryComponent,
     ViewWeaponComponent,
-    CreateWeaponComponent
+    CreateWeaponComponent,
+    ViewUserCardComponent
   ],
   imports: [
     BrowserModule,
@@ -145,7 +151,8 @@ export function initializeApp(appConfig: AppConfig) {
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
-    VgBufferingModule
+    VgBufferingModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [
     AppConfig,
