@@ -43,10 +43,20 @@ border-radius: 5px;">
         <mat-label>ПИН (ИНН)</mat-label>
         <input matInput placeholder="20101199012345" formControlName="PIN" required>
       </mat-form-field>
-          <mat-form-field appearance="outline">
-              <mat-label>ФИО</mat-label>
-              <input matInput formControlName="FullName" required>
-            </mat-form-field>
+
+      <button mat-mini-fab color="primary" title="Поиск в M-Data" (click)="searchMDataPin()">
+        <mat-icon>search</mat-icon>
+      </button>
+
+      <mat-form-field appearance="outline">
+        <mat-label>ФИО</mat-label>
+        <input matInput formControlName="FullName" required>
+      </mat-form-field>
+
+      <button mat-mini-fab color="primary" title="Поиск в M-Data" (click)="searchMDataFullName()">
+        <mat-icon>search</mat-icon>
+      </button>
+
       <div class="text-right">
         <button mat-raised-button color="primary" matStepperNext>Далее</button>
       </div>

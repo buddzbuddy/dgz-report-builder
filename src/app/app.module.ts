@@ -65,7 +65,7 @@ import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
 import { SetstatusComponent } from './customs/living-persons/setstatus/setstatus.component';
 import { ViewComponent } from './customs/living-persons/view/view.component';
 import { SodDataComponent } from './customs/living-persons/sod-data/sod-data.component';
-import { CreatePersonComponent } from './steppers/create-person/create-person.component';
+import { CreatePersonComponent, MDataSearchDialog } from './steppers/create-person/create-person.component';
 import { LivingPersonsComponent } from './customs/living-persons/living-persons.component';
 import { AddFamilyMemberComponent } from './customs/add-family-member/add-family-member.component';
 import { AddCategoryComponent } from './customs/add-category/add-category.component';
@@ -123,6 +123,7 @@ export function initializeApp(appConfig: AppConfig) {
     ViewComponent,
     SodDataComponent,
     ViewAgreementDialog,
+    MDataSearchDialog,
     CreatePersonComponent,
     LivingPersonsComponent,
     AddFamilyMemberComponent,
@@ -181,7 +182,8 @@ export function initializeApp(appConfig: AppConfig) {
     MultiSelectFormComponent,
     ImageComponent,
     PreviewFileComponent,
-    ViewAgreementDialog
+    ViewAgreementDialog,
+    MDataSearchDialog
   ]
 })
 export class AppModule {

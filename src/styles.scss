@@ -62,6 +62,6 @@ snack-bar-container.notification simple-snack-bar {
   ::ng-deep .mat-horizontal-stepper-header{
     pointer-events: none !important;
 }
-mat-form-field + mat-form-field {
+mat-form-field + mat-form-field, mat-form-field + button, button + mat-form-field {
   margin-left: 10px;
 }

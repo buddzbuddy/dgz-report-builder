@@ -31,14 +31,11 @@ export class CreatePersonComponent implements OnInit {
     {value: 'ID', viewValue: 'ID'},
     {value: 'AN', viewValue: 'AN'},
   ];
-
-  phoneMask = ['0(', /\d/, /\d/, /\d/, ')', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
-
   requestFormGroup: FormGroup;
   contactsFormGroup: FormGroup;
   animalFormGroup: FormGroup;
   carFormGroup: FormGroup;
-  constructor(private _formBuilder: FormBuilder, private dataSvc: DataService, private notificationSvc: NotificationService,
+  constructor(private _formBuilder: FormBuilder, private dataSvc: DataService, private notificationSvc: NotificationService,public dialog: MatDialog,
     public oauthService: OAuthService, private router: Router) {}
     get IsTemporarilyLive(): boolean {
       let IsTemporarilyLive = this.contactsFormGroup.get('IsTemporarilyLive').value;
@@ -199,5 +196,46 @@ export class CreatePersonComponent implements OnInit {
       this.personObj = obj;
     });
   }
+  searchMDataPin(){
+    if(this.requestFormGroup.value.PIN !== '') {
+      const dialogRef = this.dialog.open(MDataSearchDialog, {
+        data: {
+          pin: this.requestFormGroup.value.PIN,
+        }
+      });
+    }
+    else {
+      this.notificationSvc.warn('ПИН не заполнен!')
+    }
+  }
+  searchMDataFullName(){
+    if(this.requestFormGroup.value.FullName !== '') {
+      const dialogRef = this.dialog.open(MDataSearchDialog, {
+        //width: '500px',
+        data: {
+          fullname: this.requestFormGroup.value.FullName,
+        }
+      });
+    }
+    else {
+      this.notificationSvc.warn('ФИО не заполнен!')
+    }
+  }
+}
 
+export interface MDataSearchDialogData {
+  pin: string;
+  fullname: string;
+}
+@Component({
+  selector: 'm-data-search-dialog',
+  templateUrl: 'm-data-search-dialog.html',
+})
+export class MDataSearchDialog{
+  constructor(
+    public dialogRef: MatDialogRef<MDataSearchDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: MDataSearchDialogData) {}
+  onCloseClick(): void {
+    this.dialogRef.close();
+  }
 }
