@@ -6,12 +6,14 @@ import { Observable } from "rxjs";
 
 import { CamundaRestService } from '../camunda-rest.service'
 import { Router } from '@angular/router';
+import { AppConfig } from '../app.config';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
+  url = AppConfig.settings.dashboardUrl;//'http://localhost/mvd_dashboard/#/dashboard';
   private fileToUpload: File = null;
   private SUCCESS: boolean = false;
   constructor(private camundaRestService: CamundaRestService,

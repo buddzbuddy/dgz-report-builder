@@ -2,7 +2,8 @@
     "appConfig":{
         "dbPrefix": "mvd",
         "host": "",
-        "file_port": "3333"
+        "file_port": "3333",
+        "dashboardUrl": "http://localhost/mvd_dashboard/#/dashboard"
     },
     "authConfig":{
         "issuer":"http://localhost:81",

@@ -1,0 +1,802 @@
+<mat-card class="mat-elevation-z8" style="max-width:900px">
+  <mat-card-header>
+    <mat-toolbar>
+      <span>III. План административного участка (вставка) <br>IV. Сведения, характеризующие административный участок</span>
+      <span class="fill-remaining-space"></span>
+       <button *ngIf="!isGenerated && !isLoading" mat-raised-button color="primary" (click)="generateReport()">Сформировать</button>
+       <button *ngIf="isGenerated && !isLoading" mat-raised-button color="primary" (click)="generateReport()">Обновить</button>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <table class="mat-table" *ngIf="!isLoading && isGenerated">
+      <tr class="mat-row" style="font-weight: bold;">
+        <td class="mat-cell" rowspan="2">
+          N п/п
+        </td>
+        <td class="mat-cell" rowspan="2">
+          Сведения, характеризующие административный участок
+        </td>
+        <td class="mat-cell" colspan="3">
+          По состоянию на:
+        </td>
+      </tr>
+      <tr class="mat-row" style="font-weight: bold;">
+        <td class="mat-cell">
+          01.01.2019
+        </td>
+        <td class="mat-cell">
+          01.01.2020
+        </td>
+        <td class="mat-cell">
+          01.01.2021
+        </td>
+      </tr>
+      <tr class="mat-row" style="font-weight: bold; text-align: center;height: 24px;">
+        <td class="mat-cell">
+          1
+        </td>
+        <td class="mat-cell">
+          2
+        </td>
+        <td class="mat-cell">
+          3
+        </td>
+        <td class="mat-cell">
+          4
+        </td>
+        <td class="mat-cell">
+          5
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          1.
+        </td>
+        <td class="mat-cell">
+          Площадь территории (км)
+        </td>
+        <td class="mat-cell">
+          1700
+        </td>
+        <td class="mat-cell">
+          1700
+        </td>
+        <td class="mat-cell">
+          -
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          2.
+        </td>
+        <td class="mat-cell">
+          Жилые строения, всего:
+        </td>
+        <td class="mat-cell">
+          {{period1.r_2_1 + period1.r_2_1_1 + period1.r_2_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_2_1 + period2.r_2_1_1 + period2.r_2_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_2_1 + period3.r_2_1_1 + period3.r_2_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          2.1.
+        </td>
+        <td class="mat-cell">
+          в том числе: многоквартирных домов
+        </td>
+        <td class="mat-cell">
+          {{period1.r_2_1}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_2_1}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_2_1}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          2.1.1.
+        </td>
+        <td class="mat-cell">
+          в них: квартир
+        </td>
+        <td class="mat-cell">
+          {{period1.r_2_1_1}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_2_1_1}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_2_1_1}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          2.2.
+        </td>
+        <td class="mat-cell">
+          индивидуальных домов
+        </td>
+        <td class="mat-cell">
+          {{period1.r_2_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_2_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_2_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.
+        </td>
+        <td class="mat-cell">
+          На территории расположены:
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_1 + period1.r_3_2 + period1.r_3_3 + period1.r_3_4 + period1.r_3_5 + period1.r_3_6 + period1.r_3_7 + period1.r_3_8 + period1.r_3_9 + period1.r_3_10 + period1.r_3_11}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_1 + period2.r_3_2 + period2.r_3_3 + period2.r_3_4 + period2.r_3_5 + period2.r_3_6 + period2.r_3_7 + period2.r_3_8 + period2.r_3_9 + period2.r_3_10 + period2.r_3_11}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_1 + period3.r_3_2 + period3.r_3_3 + period3.r_3_4 + period3.r_3_5 + period3.r_3_6 + period3.r_3_7 + period3.r_3_8 + period3.r_3_9 + period3.r_3_10 + period3.r_3_11}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.1.
+        </td>
+        <td class="mat-cell">
+          предприятия, организации, учреждения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_1}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_1}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_1}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.2.
+        </td>
+        <td class="mat-cell">
+          особо важные объекты и объекты жизнеобеспечения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.3.
+        </td>
+        <td class="mat-cell">
+          из них: финансовые учреждения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_3}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_3}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_3}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.4.
+        </td>
+        <td class="mat-cell">
+          Лечебно-оздоровительные, культурно-просветительные и образовательные учреждения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_4}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_4}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_4}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.5.
+        </td>
+        <td class="mat-cell">
+          Объекты торговли и общественного питания
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_5}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_5}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_5}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.6.
+        </td>
+        <td class="mat-cell">
+          Учреждения жилищно-коммунального хозяйства
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_6}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_6}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_6}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.7.
+        </td>
+        <td class="mat-cell">
+          Объекты разрешительной системы
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_7}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_7}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_7}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.8.
+        </td>
+        <td class="mat-cell">
+          Частные детективные и охранные предприятия, службы безопасности предприятий, организаций
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_8}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_8}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_8}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.9.
+        </td>
+        <td class="mat-cell">
+          Общественные объединения правохранительной направленности
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_9}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_9}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_9}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.10.
+        </td>
+        <td class="mat-cell">
+          обжежитий
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_10}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_10}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_10}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          3.11.
+        </td>
+        <td class="mat-cell">
+          гостиниц
+        </td>
+        <td class="mat-cell">
+          {{period1.r_3_11}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_3_11}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_3_11}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          4.
+        </td>
+        <td class="mat-cell">
+          Проживает населения, всего:
+        </td>
+        <td class="mat-cell">
+          {{period1.r_4_1 + period1.r_4_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_4_1 + period2.r_4_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_4_1 + period3.r_4_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          4.1.
+        </td>
+        <td class="mat-cell">
+          Взрослых
+        </td>
+        <td class="mat-cell">
+          {{period1.r_4_1}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_4_1}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_4_1}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          4.2.
+        </td>
+        <td class="mat-cell">
+          Детей
+        </td>
+        <td class="mat-cell">
+          {{period1.r_4_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_4_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_4_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          5.
+        </td>
+        <td class="mat-cell">
+          Временно проживающих:
+        </td>
+        <td class="mat-cell">
+          {{period1.r_5_1 + period1.r_5_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_5_1 + period2.r_5_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_5_1 + period3.r_5_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          5.1.
+        </td>
+        <td class="mat-cell">
+          Взрослых
+        </td>
+        <td class="mat-cell">
+          {{period1.r_5_1}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_5_1}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_5_1}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          5.2.
+        </td>
+        <td class="mat-cell">
+          Детей
+        </td>
+        <td class="mat-cell">
+          {{period1.r_5_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_5_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_5_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          6.
+        </td>
+        <td class="mat-cell">
+          Проживает:
+        </td>
+        <td class="mat-cell">
+          {{period1.r_6_1 + period1.r_6_2 + period1.r_6_3 + period1.r_6_4 + period1.r_6_5 + period1.r_6_6}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_6_1 + period2.r_6_2 + period2.r_6_3 + period2.r_6_4 + period2.r_6_5 + period2.r_6_6}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_6_1 + period3.r_6_2 + period3.r_6_3 + period3.r_6_4 + period3.r_6_5 + period3.r_6_6}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          6.1.
+        </td>
+        <td class="mat-cell">
+          Проживающих на участке
+        </td>
+        <td class="mat-cell">
+          {{period1.r_6_1}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_6_1}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_6_1}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          6.2.
+        </td>
+        <td class="mat-cell">
+          сотрудников органов внутренних дел и военнослужащих
+        </td>
+        <td class="mat-cell">
+          {{period1.r_6_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_6_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_6_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          6.3.
+        </td>
+        <td class="mat-cell">
+          внештатных помощников милиции
+        </td>
+        <td class="mat-cell">
+          {{period1.r_6_3}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_6_3}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_6_3}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          6.4.
+        </td>
+        <td class="mat-cell">
+          лиц, имеющих в личном пользовании нарезное, гладкоствольное, газовое оружие
+        </td>
+        <td class="mat-cell">
+          {{period1.r_6_4}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_6_4}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_6_4}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          6.5.
+        </td>
+        <td class="mat-cell">
+          лиц, ранее судимых
+        </td>
+        <td class="mat-cell">
+          {{period1.r_6_5}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_6_5}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_6_5}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          6.6.
+        </td>
+        <td class="mat-cell">
+          лиц, представляющих помещения для занятия проституцией, наркоманией, токсикоманией
+        </td>
+        <td class="mat-cell">
+          {{period1.r_6_6}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_6_6}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_6_6}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.
+        </td>
+        <td class="mat-cell">
+          Проживает лиц, состоящих на прафилактических учетах
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_1 + period1.r_7_2 + period1.r_7_3 + period1.r_7_4 + period1.r_7_5 + period1.r_7_6 + period1.r_7_7 + period1.r_7_8}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_1 + period2.r_7_2 + period2.r_7_3 + period2.r_7_4 + period2.r_7_5 + period2.r_7_6 + period2.r_7_7 + period2.r_7_8}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_1 + period3.r_7_2 + period3.r_7_3 + period3.r_7_4 + period3.r_7_5 + period3.r_7_6 + period3.r_7_7 + period3.r_7_8}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.1.
+        </td>
+        <td class="mat-cell">
+          Лиц, особожденных их мест лишения свободы, в отношении которых установлены ограничения в соответсствии с законом, также с непогашенной судимостью
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_1}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_1}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_1}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.2.
+        </td>
+        <td class="mat-cell">
+          Лиц, осужденных к уголовному наказанию, не связанному с лишением свободы
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_2}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_2}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_2}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.3.
+        </td>
+        <td class="mat-cell">
+          Лиц, освобожденных от уголовной ответственности по нереабилитирующим основаниям
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_3}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_3}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_3}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.4.
+        </td>
+        <td class="mat-cell">
+          Лиц, допускающих правонарушения в сфере семейно-бытовых отношений
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_4}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_4}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_4}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.5.
+        </td>
+        <td class="mat-cell">
+          Лиц, хронических алкоголиков, состоящих на учете в учреждениях здравохранения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_5}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_5}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_5}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.6.
+        </td>
+        <td class="mat-cell">
+          Лиц, больных  наркоманией, а также допускающий потребление наркотических средств и психотропных веществ без назначения врача, состоящий на учете в учреждениях здравоохранения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_6}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_6}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_6}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.7.
+        </td>
+        <td class="mat-cell">
+          Лиц, психически больных представляющий непосредственную опасность для себя  и окружающих, состоящий на учете в учреждениях здравоохранения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_7}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_7}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_7}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          7.8.
+        </td>
+        <td class="mat-cell">
+          Лиц, несовершеннолетних состоящие на учете в инспекции по делам несовершеннолетних
+        </td>
+        <td class="mat-cell">
+          {{period1.r_7_8}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_7_8}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_7_8}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          8.
+        </td>
+        <td class="mat-cell">
+          Проживает лиц, уклоняющихся от военной службы, из числа проживающих на административном участке
+        </td>
+        <td class="mat-cell">
+          {{period1.r_8}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_8}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_8}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          9.
+        </td>
+        <td class="mat-cell">
+          Проживает лиц, находящихся в розыске, из числа проживающих на административном участке
+        </td>
+        <td class="mat-cell">
+          {{period1.r_9}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_9}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_9}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          10.
+        </td>
+        <td class="mat-cell">
+          Входящий в  объединения экстремистского толка, в т.ч. неформальные молодежные объединения
+        </td>
+        <td class="mat-cell">
+          {{period1.r_10}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_10}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_10}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          11.
+        </td>
+        <td class="mat-cell">
+          Задержанный за нарушения общественного порядка при проведении  массовых мероприятий
+        </td>
+        <td class="mat-cell">
+          {{period1.r_11}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_11}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_11}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">
+          12.
+        </td>
+        <td class="mat-cell">
+          Постоянно проживающий иностранный гражданин и лицо без гражданства
+        </td>
+        <td class="mat-cell">
+          {{period1.r_12}}
+        </td>
+        <td class="mat-cell">
+          {{period2.r_12}}
+        </td>
+        <td class="mat-cell">
+          {{period3.r_12}}
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

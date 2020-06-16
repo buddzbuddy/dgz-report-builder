@@ -1,8 +1,8 @@
 <div class="main-content">
-  <div class="container-fluid">
+  <!-- <div class="container-fluid">
 
       <h1>АИС Электронный паспорт района</h1>
-  </div>
+  </div> -->
   <!-- <button type="button" mat-raised-button color="info" (click)="toggle()">user info</button> -->
   <div *ngIf="isHidden">
       <div>claims: {{claims | json}}</div>
@@ -10,5 +10,6 @@
       <button mat-raised-button color="warn" type="button" (click)="callApi2()">callManagerApi</button>
       <div>apiData: {{apiData | json}}</div>
   </div>
+  <iframe style="border: 0;" width="100%" height="1100" [src]="url | safe"></iframe>
 </div>
 

@@ -6,7 +6,7 @@ import { StartProcessComponent } from './start-process/start-process.component';
 import { TasklistComponent } from './tasklist/tasklist.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { MonitorComponent } from './monitor/monitor.component';
-import { ReportComponent } from './report/report.component';
+import { ReportsComponent } from './reports/reports.component';
 import { ViewItemComponent } from './resources/view-item/view-item.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { UploadImageComponent } from './upload-image/upload-image.component';
@@ -20,6 +20,7 @@ import { AddFamilyMemberComponent } from './customs/add-family-member/add-family
 import { AddCategoryComponent } from './customs/add-category/add-category.component';
 import { CreateWeaponComponent } from './customs/weapon/create-weapon/create-weapon.component';
 import { ViewUserCardComponent } from './customs/user-card/view-user-card/view-user-card.component';
+import { DetailReportComponent } from './reports/detail-report/detail-report.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,7 +38,8 @@ const routes: Routes = [
   { path: 'resources/:templateId/viewItem/:resourceItemId', component: ViewItemComponent },
   { path: 'filteredResources/:templateId/:bookmarkId', component: ResourcesComponent },
   { path: 'monitor', component: MonitorComponent },
-  { path: 'report', component: ReportComponent },
+  { path: 'reports', component: ReportsComponent },
+  { path: 'reports/detail-report', component: DetailReportComponent },
   { path: 'bookmarks', component: BookmarkComponent },
   { path: 'upload-image', component: UploadImageComponent },
   { path: 'fileList', component: FilesComponent },

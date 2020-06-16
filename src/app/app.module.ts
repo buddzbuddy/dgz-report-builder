@@ -36,7 +36,7 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
 import { LocalStorageService } from './local-storage.service';
 import { TaskFormComponent } from './material/task-form/task-form.component';
 import { MonitorComponent } from './monitor/monitor.component';
-import { ReportComponent } from './report/report.component';
+import { ReportsComponent } from './reports/reports.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletCoreComponent } from './leaflet/leaflet-core/leaflet-core.component';
 import { LeafletEventsComponent } from './leaflet/leaflet-events/leaflet-events.component';
@@ -73,6 +73,8 @@ import { ViewWeaponComponent } from './customs/weapon/view-weapon/view-weapon.co
 import { CreateWeaponComponent } from './customs/weapon/create-weapon/create-weapon.component';
 import { ViewUserCardComponent } from './customs/user-card/view-user-card/view-user-card.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { SafePipe } from './SafePipe';
+import { DetailReportComponent } from './reports/detail-report/detail-report.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -82,6 +84,7 @@ export function initializeApp(appConfig: AppConfig) {
 }
 @NgModule({
   declarations: [
+    SafePipe,
     AppComponent,
     SidebarComponent,
     ProcesslistComponent,
@@ -101,7 +104,7 @@ export function initializeApp(appConfig: AppConfig) {
     MainNavComponent,
     MenuListItemComponent,
     MonitorComponent,
-    ReportComponent,
+    ReportsComponent,
     LeafletCoreComponent,
     LeafletEventsComponent,
     BaselayersComponent,
@@ -130,7 +133,8 @@ export function initializeApp(appConfig: AppConfig) {
     AddCategoryComponent,
     ViewWeaponComponent,
     CreateWeaponComponent,
-    ViewUserCardComponent
+    ViewUserCardComponent,
+    DetailReportComponent
   ],
   imports: [
     BrowserModule,
