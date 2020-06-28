@@ -21,6 +21,11 @@ import { AddCategoryComponent } from './customs/add-category/add-category.compon
 import { CreateWeaponComponent } from './customs/weapon/create-weapon/create-weapon.component';
 import { ViewUserCardComponent } from './customs/user-card/view-user-card/view-user-card.component';
 import { DetailReportComponent } from './reports/detail-report/detail-report.component';
+import { CreateWrongdoingComponent } from './customs/wrongdoing/create-wrongdoing/create-wrongdoing.component';
+import { CreateCriminalEntryComponent } from './customs/criminal-entry/create-criminal-entry/create-criminal-entry.component';
+import { CreateRegistrationComponent } from './customs/registration/create-registration/create-registration.component';
+import { CreateCommunityRegistrationComponent } from './customs/community-registration/create-community-registration/create-community-registration.component';
+import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -48,6 +53,11 @@ const routes: Routes = [
   { path: 'add-family-member/:personId', component: AddFamilyMemberComponent },
   { path: 'add-category/:personId', component: AddCategoryComponent },
   { path: 'add-weapon/:personId', component: CreateWeaponComponent },
+  { path: 'add-wrongdoing/:personId', component: CreateWrongdoingComponent },
+  { path: 'add-criminal-entry/:personId', component: CreateCriminalEntryComponent },
+  { path: 'add-registration/:personId', component: CreateRegistrationComponent },
+  { path: 'add-community-registration/:personId', component: CreateCommunityRegistrationComponent },
+  { path: 'add-identity-card/:personId', component: CreateIdentityCardComponent },
   { path: 'view-user-card', component: ViewUserCardComponent },
 
 ];

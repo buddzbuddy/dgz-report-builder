@@ -36,6 +36,22 @@
     <!--Weapon Info here-->
     <br>
       <app-view-weapon *ngIf="hasWeaponCategory" [personId]="appId"></app-view-weapon>
+      <!--Wrongdoing Info here-->
+    <br>
+    <app-view-wrongdoing *ngIf="hasWrongdoingCategory" [personId]="appId"></app-view-wrongdoing>
+    <br>
+    <!--Criminal Entry Info here-->
+    <br>
+    <app-view-criminal-entry *ngIf="hasCriminalEntryCategory" [personId]="appId"></app-view-criminal-entry>
+    <!--Registration Info here-->
+    <br>
+    <app-view-registration *ngIf="hasRegistrationCategory" [personId]="appId"></app-view-registration>
+    <!--Community Registration Info here-->
+    <br>
+    <app-view-community-registration *ngIf="hasCommunityRegistrationCategory" [personId]="appId"></app-view-community-registration>
+    <!--Identity Card Info here-->
+    <br>
+    <app-view-identity-card *ngIf="hasIdentityCardCategory" [personId]="appId"></app-view-identity-card>
     <br>
     <mat-card class="mat-elevation-z8">
       <mat-card-header>

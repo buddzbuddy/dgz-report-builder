@@ -1,0 +1,38 @@
+<mat-card class="mat-elevation-z8">
+  <mat-card-header>
+    <mat-toolbar>
+      <span>Удостоверение личности</span>
+      <span class="fill-remaining-space"></span>
+      <button *ngIf="identityCardInfo" mat-raised-button color="warn" (click)="delete()">Удалить</button>
+      <a *ngIf="identityCardInfo == null" mat-raised-button color="primary" routerLink="/add-identity-card/{{personId}}">Добавить</a>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="mat-table">
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Наименование ОВД
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{identityCardInfo?.IssuedBy}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Номер удостоверения
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{identityCardInfo?.DocumentNo}}
+        </td>
+      </tr>
+      <tr class="mat-row">
+        <td style="padding: 5px;" class="mat-cell" style="border-right: 1px solid rgba(0,0,0,.12); text-align: right;">
+          Действителен до
+        </td>
+        <td style="padding: 5px;" class="mat-cell">
+          {{identityCardInfo?.ExpiryDate | date:'dd.MM.yyyy'}}
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

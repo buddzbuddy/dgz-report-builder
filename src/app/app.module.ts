@@ -75,6 +75,16 @@ import { ViewUserCardComponent } from './customs/user-card/view-user-card/view-u
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { SafePipe } from './SafePipe';
 import { DetailReportComponent } from './reports/detail-report/detail-report.component';
+import { CreateWrongdoingComponent } from './customs/wrongdoing/create-wrongdoing/create-wrongdoing.component';
+import { ViewWrongdoingComponent } from './customs/wrongdoing/view-wrongdoing/view-wrongdoing.component';
+import { CreateCriminalEntryComponent } from './customs/criminal-entry/create-criminal-entry/create-criminal-entry.component';
+import { ViewCriminalEntryComponent } from './customs/criminal-entry/view-criminal-entry/view-criminal-entry.component';
+import { ViewRegistrationComponent } from './customs/registration/view-registration/view-registration.component';
+import { CreateRegistrationComponent } from './customs/registration/create-registration/create-registration.component';
+import { CreateCommunityRegistrationComponent } from './customs/community-registration/create-community-registration/create-community-registration.component';
+import { ViewCommunityRegistrationComponent } from './customs/community-registration/view-community-registration/view-community-registration.component';
+import { ViewIdentityCardComponent } from './customs/identity-card/view-identity-card/view-identity-card.component';
+import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -134,7 +144,17 @@ export function initializeApp(appConfig: AppConfig) {
     ViewWeaponComponent,
     CreateWeaponComponent,
     ViewUserCardComponent,
-    DetailReportComponent
+    DetailReportComponent,
+    CreateWrongdoingComponent,
+    ViewWrongdoingComponent,
+    CreateCriminalEntryComponent,
+    ViewCriminalEntryComponent,
+    ViewRegistrationComponent,
+    CreateRegistrationComponent,
+    CreateCommunityRegistrationComponent,
+    ViewCommunityRegistrationComponent,
+    ViewIdentityCardComponent,
+    CreateIdentityCardComponent
   ],
   imports: [
     BrowserModule,

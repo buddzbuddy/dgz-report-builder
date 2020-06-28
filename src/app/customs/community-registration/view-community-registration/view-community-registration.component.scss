@@ -1,0 +1,21 @@
+.field-label {
+  color: rgba(0,0,0,0.5);
+}
+
+mat-toolbar {
+  background-color: inherit;
+}
+
+.mat-table {
+  width: 100%;
+  table-layout: fixed;
+  tr {
+      border-bottom: 1px solid gray;
+      td {
+          padding: 5px;
+      }
+  }
+}
+tr:hover {
+  background: whitesmoke;
+}

@@ -9,6 +9,11 @@ export interface DialogData {
   isRejected: boolean
 }
 const app_view_weapon = 'app-view-weapon';
+const app_view_wrongdoing = 'app-view-wrongdoing';
+const app_view_criminal_entry = 'app-view-criminal-entry';
+const app_view_registration = 'app-view-registration';
+const app_view_community_registration = 'app-view-community-registration';
+const app_view_identity_card = 'app-view-identity-card';
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -36,11 +41,21 @@ export class ViewComponent implements OnInit {
   }
 
   hasWeaponCategory: boolean = false;
+  hasWrongdoingCategory: boolean = false;
+  hasCriminalEntryCategory: boolean = false;
+  hasRegistrationCategory: boolean = false;
+  hasCommunityRegistrationCategory: boolean = false;
+  hasIdentityCardCategory: boolean = false;
 
   displayedColumns: string[] = ['Name','action'];
   myCategories: any[]
   getMyCategories() {
     this.hasWeaponCategory = false;
+    this.hasWrongdoingCategory = false;
+    this.hasCriminalEntryCategory = false;
+    this.hasRegistrationCategory = false;
+    this.hasCommunityRegistrationCategory = false;
+    this.hasIdentityCardCategory = false;
     this.dataSvc.filterODataResource('PersonCategoryRefResources', `$filter=PersonResourceId eq ${this.appId}`).subscribe(_ => {
       if(_.value) {
         let existingCats = '';
@@ -52,6 +67,17 @@ export class ViewComponent implements OnInit {
             this.myCategories = _.value;
             _.value.forEach(refItem => {
               if(refItem.RouteName === app_view_weapon) this.hasWeaponCategory = true;
+
+              if(refItem.RouteName === app_view_wrongdoing) this.hasWrongdoingCategory = true;
+
+              if(refItem.RouteName === app_view_criminal_entry) this.hasCriminalEntryCategory = true;
+
+              if(refItem.RouteName === app_view_registration) this.hasRegistrationCategory = true;
+
+              if(refItem.RouteName === app_view_community_registration) this.hasCommunityRegistrationCategory = true;
+
+              if(refItem.RouteName === app_view_identity_card) this.hasIdentityCardCategory = true;
+
             });
           });
         } else {
