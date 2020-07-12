@@ -1,14 +1,14 @@
 {
     "appConfig":{
-        "dbPrefix": "mvd",
+        "dbPrefix": "corona",
         "host": "",
         "file_port": "3333",
         "dashboardUrl": "http://localhost/mvd_dashboard/#/dashboard"
     },
     "authConfig":{
         "issuer":"http://localhost:81",
-        "redirectUri":"http://localhost:4203/",
-        "clientId":"spa-mvd-dev",
+        "redirectUri":"http://localhost:4300/",
+        "clientId":"spa-corona-dev",
         "scope":"openid profile roles orgInfo"
     }
 }
