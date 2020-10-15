@@ -9,7 +9,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcesslistComponent } from './processlist/processlist.component';
 import { TasklistComponent } from './tasklist/tasklist.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, NewPatientDialog, OutPatientDialog, DeadPatientDialog } from './home/home.component';
 import { StartProcessComponent } from './start-process/start-process.component';
 import { GenericForm } from './generic-form.component';
 import { CamundaRestService } from './camunda-rest.service';
@@ -137,6 +137,9 @@ export function initializeApp(appConfig: AppConfig) {
     SodDataComponent,
     ViewAgreementDialog,
     MDataSearchDialog,
+    NewPatientDialog,
+    OutPatientDialog,
+    DeadPatientDialog,
     CreatePersonComponent,
     LivingPersonsComponent,
     AddFamilyMemberComponent,
@@ -207,7 +210,10 @@ export function initializeApp(appConfig: AppConfig) {
     ImageComponent,
     PreviewFileComponent,
     ViewAgreementDialog,
-    MDataSearchDialog
+    MDataSearchDialog,
+    NewPatientDialog,
+    OutPatientDialog,
+    DeadPatientDialog
   ]
 })
 export class AppModule {

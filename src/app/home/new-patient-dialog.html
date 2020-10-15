@@ -1,0 +1,28 @@
+<h1 mat-dialog-title><mat-icon>add_alert</mat-icon> Прием</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formGroup">
+        <mat-form-field appearance="outline">
+            <mat-label>Состояние</mat-label>
+            <mat-select formControlName="DiagnosType" placeholder="Удовлетворительно">
+              <mat-option [value]="1">
+                Удовлетворительно
+              </mat-option>
+              <mat-option [value]="2">
+                Средней тяжести
+              </mat-option>
+              <mat-option [value]="3">
+                Тяжелое
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>ПИН или Телефон</mat-label>
+            <input matInput formControlName="Telephone" placeholder="0772050607">
+          </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSaveClick()" [disabled]="formGroup.invalid">Сохранить</button>
+  <button mat-button (click)="onCloseClick()">Отмена</button>
+</div>

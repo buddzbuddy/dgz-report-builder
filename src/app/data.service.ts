@@ -172,6 +172,60 @@ export class DataService {
     );
   }
 
+  customApi_Patients_GetCounterInfo(userId: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Patients/GetCounterInfo?userId=${userId}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetCounterInfo from wcf data`)),
+      catchError(this.handleError('customApi_GetCounterInfo', null))
+    );
+  }
+
+  customApi_Patients_GetCounterInfoTotal() {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Patients/GetCounterInfoTotal`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetCounterInfoTotal from wcf data`)),
+      catchError(this.handleError('customApi_GetCounterInfo', null))
+    );
+  }
+
+  customApi_Patients_GetRegionItems() {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Patients/GetRegionItems`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetRegionItems from wcf data`)),
+      catchError(this.handleError('customApi_GetRegionItems', null))
+    );
+  }
+
+  customApi_Patients_GetReportItems() {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Patients/GetReportItems`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetReportItems from wcf data`)),
+      catchError(this.handleError('customApi_GetReportItems', null))
+    );
+  }
+
+  customApi_Patients_Out(patientId: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Patients/Out?patientId=${patientId}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetCounterInfo from wcf data`)),
+      catchError(this.handleError('customApi_GetCounterInfo', null))
+    );
+  }
+
+  customApi_Patients_Dead(patientId: string) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Patients/Dead?patientId=${patientId}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetCounterInfo from wcf data`)),
+      catchError(this.handleError('customApi_GetCounterInfo', null))
+    );
+  }
+
   customApi_GetWorkPeriodInfo(pin: string) {
     const endpoint = `${this.webdatabase}`;
     const requestUrl = `${endpoint}api/SOD/GetWorkPeriodInfo?pin=${pin}`;

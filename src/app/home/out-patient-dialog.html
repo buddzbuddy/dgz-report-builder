@@ -1,0 +1,13 @@
+<h1 mat-dialog-title><mat-icon>add_alert</mat-icon> Выписка пациента</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formGroup">
+          <mat-form-field appearance="outline">
+            <mat-label>ПИН или Телефон</mat-label>
+            <input matInput formControlName="Telephone" placeholder="0772050607">
+          </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSaveClick()" [disabled]="formGroup.invalid">Выписан</button>
+  <button mat-button (click)="onCloseClick()">Отмена</button>
+</div>

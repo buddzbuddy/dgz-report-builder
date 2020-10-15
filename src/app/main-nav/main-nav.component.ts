@@ -21,7 +21,7 @@ export class MainNavComponent implements AfterViewInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches)
+      map(result => true/*result.matches*/)
     );
   projectName = AppConfig.settings.dbPrefix.toUpperCase();
   constructor(
@@ -33,13 +33,13 @@ export class MainNavComponent implements AfterViewInit {
      }
     ngAfterViewInit(){
       setTimeout(() =>{
-
+        this.menuItems.push({ DisplayName: 'Статистика', Route: 'reports/detail-report', IconName: 'list' });
       this.dataSvc.getMenuItems().subscribe(data =>
         {
+          //this.menuItems = data.value;
           if(this.oauthService.hasValidAccessToken()){
             this.menuItems = data.value;
             this.oauthService.loadUserProfile();
-            this.oauthService.setupAutomaticSilentRefresh()
             this.ref.markForCheck();
           }
         });

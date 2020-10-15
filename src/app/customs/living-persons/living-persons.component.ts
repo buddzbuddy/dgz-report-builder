@@ -87,9 +87,11 @@ export class LivingPersonsComponent implements OnInit {
         });
       this.dataSource.filterPredicate = this.createFilter();
     })
+  
+  
   }
 
   createNew() {
-    this.router.navigate(['/living-persons/create'])
+    this.router.navigate(['/persons/create'])
   }
 }

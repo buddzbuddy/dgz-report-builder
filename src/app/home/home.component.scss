@@ -1,0 +1,36 @@
+mat-toolbar {
+  background-color: inherit;
+}
+mat-grid-tile.capacity {
+  background: lightblue;
+}
+.frontBtn {
+  width: 80%;
+  height: 80%;
+  font-size: large;
+  color: white;
+}
+.frontBtn1 {
+  background-color: #deae11;
+}
+.frontBtn2 {
+  background-color: green;
+  margin-top: 10px;
+}
+.frontBtn3 {
+  background-color: red;
+  margin-top: 10px;
+}
+.mat-table {
+  font-family: 'Times New Roman', Times, serif;
+  tr {
+      
+      td {
+          padding: 15px;
+          border: 1px solid rgb(224, 224, 224);
+      }
+  }
+}
+tr:hover {
+  background: whitesmoke;
+}
