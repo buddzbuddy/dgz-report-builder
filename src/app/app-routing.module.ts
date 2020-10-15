@@ -26,6 +26,7 @@ import { CreateCriminalEntryComponent } from './customs/criminal-entry/create-cr
 import { CreateRegistrationComponent } from './customs/registration/create-registration/create-registration.component';
 import { CreateCommunityRegistrationComponent } from './customs/community-registration/create-community-registration/create-community-registration.component';
 import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
+import { KoykaComponent } from './customs/koyka/koyka.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -59,6 +60,7 @@ const routes: Routes = [
   { path: 'add-community-registration/:personId', component: CreateCommunityRegistrationComponent },
   { path: 'add-identity-card/:personId', component: CreateIdentityCardComponent },
   { path: 'view-user-card', component: ViewUserCardComponent },
+  { path: 'koyka', component: KoykaComponent },
 
 ];
 

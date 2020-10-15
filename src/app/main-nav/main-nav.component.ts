@@ -23,7 +23,7 @@ export class MainNavComponent implements AfterViewInit {
     .pipe(
       map(result => true/*result.matches*/)
     );
-  projectName = AppConfig.settings.dbPrefix.toUpperCase();
+  projectName = 'КОРОНА АЛЕРТ'/*AppConfig.settings.dbPrefix.toUpperCase()*/;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dataSvc: DataService,

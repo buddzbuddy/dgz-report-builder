@@ -9,7 +9,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcesslistComponent } from './processlist/processlist.component';
 import { TasklistComponent } from './tasklist/tasklist.component';
-import { HomeComponent, NewPatientDialog, OutPatientDialog, DeadPatientDialog } from './home/home.component';
+import { HomeComponent } from './home/home.component';
 import { StartProcessComponent } from './start-process/start-process.component';
 import { GenericForm } from './generic-form.component';
 import { CamundaRestService } from './camunda-rest.service';
@@ -85,6 +85,7 @@ import { CreateCommunityRegistrationComponent } from './customs/community-regist
 import { ViewCommunityRegistrationComponent } from './customs/community-registration/view-community-registration/view-community-registration.component';
 import { ViewIdentityCardComponent } from './customs/identity-card/view-identity-card/view-identity-card.component';
 import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
+import { KoykaComponent, NewPatientDialog, OutPatientDialog, DeadPatientDialog } from './customs/koyka/koyka.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -157,7 +158,8 @@ export function initializeApp(appConfig: AppConfig) {
     CreateCommunityRegistrationComponent,
     ViewCommunityRegistrationComponent,
     ViewIdentityCardComponent,
-    CreateIdentityCardComponent
+    CreateIdentityCardComponent,
+    KoykaComponent
   ],
   imports: [
     BrowserModule,
