@@ -27,6 +27,7 @@ import { CreateRegistrationComponent } from './customs/registration/create-regis
 import { CreateCommunityRegistrationComponent } from './customs/community-registration/create-community-registration/create-community-registration.component';
 import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
 import { KoykaComponent } from './customs/koyka/koyka.component';
+import { GeoreportComponent } from './reports/georeport/georeport.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -61,6 +62,7 @@ const routes: Routes = [
   { path: 'add-identity-card/:personId', component: CreateIdentityCardComponent },
   { path: 'view-user-card', component: ViewUserCardComponent },
   { path: 'koyka', component: KoykaComponent },
+  { path: 'reports/georeport', component: GeoreportComponent },
 
 ];
 
