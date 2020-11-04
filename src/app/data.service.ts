@@ -167,8 +167,8 @@ export class DataService {
     const endpoint = `${this.webdatabase}`;
     const requestUrl = `${endpoint}api/SOD/GetActivePaymentsByPIN?pin=${pin}`;
     return this.http.get(requestUrl, httpOptions).pipe(
-      tap(datas => this.log(`customApi_getISRTData from wcf data`)),
-      catchError(this.handleError('customApi_getISRTData', null))
+      tap(datas => this.log(`customApi_GetAppUserDetails from wcf data`)),
+      catchError(this.handleError('customApi_GetAppUserDetails', null))
     );
   }
 
@@ -186,6 +186,22 @@ export class DataService {
     const requestUrl = `${endpoint}api/Patients/GetCounterInfoTotal`;
     return this.http.get(requestUrl, httpOptions).pipe(
       tap(datas => this.log(`customApi_GetCounterInfoTotal from wcf data`)),
+      catchError(this.handleError('customApi_GetCounterInfo', null))
+    );
+  }
+  customApi_GetAppUserDetails(appUserId: number) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/AppUser/GetAppUserDetails?appUserId=${appUserId}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetAppUserDetails from wcf data`)),
+      catchError(this.handleError('customApi_GetAppUserDetails', null))
+    );
+  }
+  customApi_AppUserGetAll() {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/AppUser/GetAll`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_GetCounterInfo from wcf data`)),
       catchError(this.handleError('customApi_GetCounterInfo', null))
     );
   }

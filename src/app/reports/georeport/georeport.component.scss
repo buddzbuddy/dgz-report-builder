@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+  }
+  
+   .mat-column-createdAt, .mat-column-pin, .mat-column-nickname, .mat-column-action, .mat-column-telephone {
+  border-right: 1px solid rgba(0,0,0,.12);
+  width: 100px;
+  max-width: 100px;
+  padding: 5px;
+  }
+  
+  tr:hover {
+    background: whitesmoke;
+  }
+  

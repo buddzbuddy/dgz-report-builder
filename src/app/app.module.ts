@@ -87,6 +87,8 @@ import { ViewIdentityCardComponent } from './customs/identity-card/view-identity
 import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
 import { KoykaComponent, NewPatientDialog, OutPatientDialog, DeadPatientDialog } from './customs/koyka/koyka.component';
 import { GeoreportComponent } from './reports/georeport/georeport.component';
+import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
+import { MapItemComponent } from './view-map-history/map-item/map-item.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -161,7 +163,9 @@ export function initializeApp(appConfig: AppConfig) {
     ViewIdentityCardComponent,
     CreateIdentityCardComponent,
     KoykaComponent,
-    GeoreportComponent
+    GeoreportComponent,
+    ViewMapHistoryComponent,
+    MapItemComponent
   ],
   imports: [
     BrowserModule,
