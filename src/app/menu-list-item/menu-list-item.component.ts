@@ -19,7 +19,7 @@ import { NavService } from '../nav.service';
   ]
 })
 export class MenuListItemComponent implements OnInit {
-  expanded: boolean;
+  expanded: boolean = false;
   @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
   @Input() menuItem: MenuItem;
   @Input() depth: number;

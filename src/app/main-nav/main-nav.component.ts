@@ -23,7 +23,7 @@ export class MainNavComponent implements AfterViewInit {
     .pipe(
       map(result => true/*result.matches*/)
     );
-  projectName = 'КОРОНА АЛЕРТ'/*AppConfig.settings.dbPrefix.toUpperCase()*/;
+  projectName = 'OASIS'/*AppConfig.settings.dbPrefix.toUpperCase()*/;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dataSvc: DataService,
@@ -33,7 +33,7 @@ export class MainNavComponent implements AfterViewInit {
      }
     ngAfterViewInit(){
       setTimeout(() =>{
-        this.menuItems.push({ DisplayName: 'Статистика', Route: 'reports/detail-report', IconName: 'list' });
+        //this.menuItems.push({ DisplayName: 'Статистика', Route: 'reports/detail-report', IconName: 'list' });
       this.dataSvc.getMenuItems().subscribe(data =>
         {
           //this.menuItems = data.value;

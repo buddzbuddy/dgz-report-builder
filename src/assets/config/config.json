@@ -1,14 +1,14 @@
 {
     "appConfig":{
-        "dbPrefix": "corona",
+        "dbPrefix": "oasis",
         "host": "",
         "file_port": "3333",
-        "dashboardUrl": "http://localhost/mvd_dashboard/#/dashboard"
+        "dashboardUrl": ""
     },
     "authConfig":{
         "issuer":"http://localhost:81",
-        "redirectUri":"http://localhost:4300/",
-        "clientId":"spa-corona-dev",
+        "redirectUri":"http://localhost:4400/",
+        "clientId":"spa-oasis-dev",
         "scope":"openid profile roles orgInfo"
     }
 }
