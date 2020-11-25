@@ -205,6 +205,102 @@ export class DataService {
       catchError(this.handleError('customApi_GetCounterInfo', null))
     );
   }
+  customApi_WidgetsGetListView(listViewId) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/GetListView?listViewId=${listViewId}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsGetListView from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsGetListView', null))
+    );
+  }
+  customApi_WidgetsCreateListItem(obj) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/CreateListItem`;
+    return this.http.post(requestUrl, obj, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsCreateListItem from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsCreateListItem', null))
+    );
+  }
+  customApi_WidgetsCreateListView(obj) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/CreateListView`;
+    return this.http.post(requestUrl, obj, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsCreateListView from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsCreateListView', null))
+    );
+  }
+  customApi_WidgetsRemoveList(listId) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/RemoveListView?listViewId=${listId}`;
+    return this.http.delete(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsCreateListView from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsCreateListView', null))
+    );
+  }
+  customApi_WidgetsRemovePage(pageId) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/RemovePage?pageId=${pageId}`;
+    return this.http.delete(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsCreateListView from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsCreateListView', null))
+    );
+  }
+  customApi_WidgetsRemoveTile(tileId) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/RemoveTile?tileId=${tileId}`;
+    return this.http.delete(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsCreateListView from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsCreateListView', null))
+    );
+  }
+  customApi_WidgetsRemoveText(textId) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/RemoveText?textId=${textId}`;
+    return this.http.delete(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsCreateListView from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsCreateListView', null))
+    );
+  }
+  customApi_WidgetsEditText(textId, data) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/EditText?textId=${textId}`;
+    return this.http.put(requestUrl, data, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsEditText from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsEditText', null))
+    );
+  }
+  customApi_WidgetsEditTile(tileId, data) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/EditTile?tileId=${tileId}`;
+    return this.http.put(requestUrl, data, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsEditTile from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsEditTile', null))
+    );
+  }
+  customApi_WidgetsCreatePage(obj) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/CreatePage`;
+    return this.http.post(requestUrl, obj, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsCreateListView from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsCreateListView', null))
+    );
+  }
+  customApi_WidgetsAddTextComponent(obj) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/AddTextComponent`;
+    return this.http.post(requestUrl, obj, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsAddTextComponent from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsAddTextComponent', null))
+    );
+  }
+  customApi_WidgetsGetPage(pageId) {
+    const endpoint = `${this.webdatabase}`;
+    const requestUrl = `${endpoint}api/Widgets/GetPage?pageId=${pageId}`;
+    return this.http.get(requestUrl, httpOptions).pipe(
+      tap(datas => this.log(`customApi_WidgetsGetPage from wcf data`)),
+      catchError(this.handleError('customApi_WidgetsGetPage', null))
+    );
+  }
 
   customApi_Patients_GetRegionItems() {
     const endpoint = `${this.webdatabase}`;

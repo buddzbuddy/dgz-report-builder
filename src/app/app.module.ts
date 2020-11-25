@@ -89,6 +89,7 @@ import { KoykaComponent, NewPatientDialog, OutPatientDialog, DeadPatientDialog }
 import { GeoreportComponent } from './reports/georeport/georeport.component';
 import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
 import { MapItemComponent } from './view-map-history/map-item/map-item.component';
+import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListTileDialog, NewListViewDialog, NewPageDialog, NewTextDialog } from './customs/flutter/list-view-widget/list-view-widget.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -165,7 +166,14 @@ export function initializeApp(appConfig: AppConfig) {
     KoykaComponent,
     GeoreportComponent,
     ViewMapHistoryComponent,
-    MapItemComponent
+    MapItemComponent,
+    ListViewWidgetComponent,
+    NewListTileDialog,
+    NewListViewDialog,
+    NewPageDialog,
+    NewTextDialog,
+    EditTextDialog,
+    EditListTileDialog
   ],
   imports: [
     BrowserModule,
@@ -221,7 +229,13 @@ export function initializeApp(appConfig: AppConfig) {
     MDataSearchDialog,
     NewPatientDialog,
     OutPatientDialog,
-    DeadPatientDialog
+    DeadPatientDialog,
+    NewListTileDialog,
+    NewListViewDialog,
+    NewPageDialog,
+    NewTextDialog,
+    EditTextDialog,
+    EditListTileDialog
   ]
 })
 export class AppModule {

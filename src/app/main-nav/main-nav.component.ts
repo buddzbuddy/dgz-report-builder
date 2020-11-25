@@ -33,7 +33,7 @@ export class MainNavComponent implements AfterViewInit {
      }
     ngAfterViewInit(){
       setTimeout(() =>{
-        //this.menuItems.push({ DisplayName: 'Статистика', Route: 'reports/detail-report', IconName: 'list' });
+        this.menuItems.push({ DisplayName: 'Мобильное приложение (контент)', Route: 'flutter/list-view-widget/list-8', IconName: 'list' });
       this.dataSvc.getMenuItems().subscribe(data =>
         {
           //this.menuItems = data.value;

@@ -29,6 +29,7 @@ import { CreateIdentityCardComponent } from './customs/identity-card/create-iden
 import { KoykaComponent } from './customs/koyka/koyka.component';
 import { GeoreportComponent } from './reports/georeport/georeport.component';
 import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
+import { ListViewWidgetComponent } from './customs/flutter/list-view-widget/list-view-widget.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -65,6 +66,7 @@ const routes: Routes = [
   { path: 'koyka', component: KoykaComponent },
   { path: 'reports/georeport', component: GeoreportComponent },
   { path: 'view-map-history/:appUserId', component: ViewMapHistoryComponent },
+  { path: 'flutter/list-view-widget/:routeData', component: ListViewWidgetComponent },
 
 ];
 

@@ -1,0 +1,17 @@
+<h1 mat-dialog-title><mat-icon>add_alert</mat-icon> Элемент</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formGroup">
+          <mat-form-field appearance="outline">
+            <mat-label>Значок элемента</mat-label>
+            <input matInput formControlName="leading_icon">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Название элемента</mat-label>
+            <input matInput formControlName="title_name">
+          </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSaveClick()" [disabled]="formGroup.invalid">Сохранить</button>
+  <button mat-button (click)="onCloseClick()">Отмена</button>
+</div>
