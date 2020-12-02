@@ -5,7 +5,7 @@
       [opened]="!(isHandset$ | async)">
     <mat-toolbar color="primary">
       <a routerLink="/home">
-        <img src="assets/images/logo.jpg" width="30px" style="margin: 10px;">
+        <img src="assets/images/logo.png" width="30px" style="margin: 10px;">
          {{projectName}}
       </a>
 
@@ -24,7 +24,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span *ngIf="isHandset$ | async">{{projectName}}</span>
+      <span *ngIf="isHandset$ | async">ДГЗ Управление конструктором</span>
       <div style="margin: 0 0 0 auto">
         <span *ngIf="oauthService.hasValidAccessToken()">
           {{claims.orgName}}

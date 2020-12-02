@@ -90,6 +90,7 @@ import { GeoreportComponent } from './reports/georeport/georeport.component';
 import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
 import { MapItemComponent } from './view-map-history/map-item/map-item.component';
 import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListTileDialog, NewListViewDialog, NewPageDialog, NewTextDialog } from './customs/flutter/list-view-widget/list-view-widget.component';
+import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -173,7 +174,8 @@ export function initializeApp(appConfig: AppConfig) {
     NewPageDialog,
     NewTextDialog,
     EditTextDialog,
-    EditListTileDialog
+    EditListTileDialog,
+    ViewSourceListComponent
   ],
   imports: [
     BrowserModule,

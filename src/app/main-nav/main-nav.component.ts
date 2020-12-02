@@ -23,7 +23,7 @@ export class MainNavComponent implements AfterViewInit {
     .pipe(
       map(result => true/*result.matches*/)
     );
-  projectName = 'OASIS'/*AppConfig.settings.dbPrefix.toUpperCase()*/;
+  projectName = 'ДГЗ'/*AppConfig.settings.dbPrefix.toUpperCase()*/;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dataSvc: DataService,
@@ -32,8 +32,9 @@ export class MainNavComponent implements AfterViewInit {
     ) {
      }
     ngAfterViewInit(){
-      setTimeout(() =>{
-        this.menuItems.push({ DisplayName: 'Мобильное приложение (контент)', Route: 'flutter/list-view-widget/list-8', IconName: 'list' });
+      this.menuItems.push({ DisplayName: 'Конструктор', Route: 'report-builder/view-source-list', IconName: 'list' });
+      /*setTimeout(() =>{
+        this.menuItems.push({ DisplayName: 'Конструктор', Route: 'report-builder/view-source-list', IconName: 'list' });
       this.dataSvc.getMenuItems().subscribe(data =>
         {
           //this.menuItems = data.value;
@@ -43,7 +44,7 @@ export class MainNavComponent implements AfterViewInit {
             this.ref.markForCheck();
           }
         });
-      }, 1000);
+      }, 1000);*/
     }
 
     isLoaded: boolean = false;

@@ -71,7 +71,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "ng7:build",
-            "port": 4400
+            "port": 3000
           },
           "configurations": {
             "production": {

@@ -30,6 +30,7 @@ import { KoykaComponent } from './customs/koyka/koyka.component';
 import { GeoreportComponent } from './reports/georeport/georeport.component';
 import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
 import { ListViewWidgetComponent } from './customs/flutter/list-view-widget/list-view-widget.component';
+import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -67,6 +68,7 @@ const routes: Routes = [
   { path: 'reports/georeport', component: GeoreportComponent },
   { path: 'view-map-history/:appUserId', component: ViewMapHistoryComponent },
   { path: 'flutter/list-view-widget/:routeData', component: ListViewWidgetComponent },
+  { path: 'report-builder/view-source-list', component: ViewSourceListComponent },
 
 ];
 
