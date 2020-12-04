@@ -1,53 +1,40 @@
 <mat-card class="mat-elevation-z8 example-card">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Данные поставщиков</mat-card-title>
+      <mat-card-title>Мои источники данных</mat-card-title>
       <mat-card-subtitle>мета-база</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <mat-list *ngIf="widgetInfo != null && viewType == 'list'">
-            <mat-list-item *ngFor="let tile of widgetInfo.children" role="listitem">
-                <mat-icon>{{tile.leading.data}}</mat-icon>
-                <span style="padding-left: 10px;">{{tile.title.data}}</span>
+        <mat-list>
+            <mat-list-item role="listitem">
+                <mat-icon>home</mat-icon>
+                <span style="padding-left: 10px;">Поставщик</span>
                 <span class="fill-remaining-space"></span>
-                <button mat-icon-button (click)="editTile(tile)" matTooltip="Изменить строку">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button *ngIf="tile.custom_props.hasDepth && tile.custom_props.nextListId" mat-icon-button (click)="openList(tile.custom_props.nextListId)" matTooltip="Далее к списку">
+                <button mat-icon-button (click)="nextToSource()" matTooltip="Далее к списку">
                     <mat-icon>navigate_next</mat-icon>
                 </button>
-                <button *ngIf="tile.custom_props.hasDepth && tile.custom_props.nextPageId" mat-icon-button (click)="openPage(tile.custom_props.nextPageId)" matTooltip="Далее к странице">
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <mat-icon>person</mat-icon>
+                <span style="padding-left: 10px;">Учредители</span>
+                <span class="fill-remaining-space"></span>
+                <button mat-icon-button (click)="nextToSource()" matTooltip="Далее к списку">
                     <mat-icon>navigate_next</mat-icon>
                 </button>
-                <button *ngIf="!tile.custom_props.hasDepth" mat-icon-button (click)="newList(tile.custom_props.id)" matTooltip="Добавить список">
-                    <mat-icon>playlist_add</mat-icon>
-                </button>
-                <button *ngIf="!tile.custom_props.hasDepth" mat-icon-button (click)="newPage(tile.custom_props.id)" matTooltip="Добавить страницу">
-                    <mat-icon>contact_page</mat-icon>
-                </button>
-                <button *ngIf="!tile.custom_props.hasDepth" mat-icon-button (click)="removeTile(tile.custom_props.id)" matTooltip="Удалить строку">
-                    <mat-icon>delete</mat-icon>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+                <mat-icon>list</mat-icon>
+                <span style="padding-left: 10px;">Налоги</span>
+                <span class="fill-remaining-space"></span>
+                <button mat-icon-button (click)="nextToSource()" matTooltip="Далее к списку">
+                    <mat-icon>navigate_next</mat-icon>
                 </button>
             </mat-list-item>
           </mat-list>
-          <mat-list *ngIf="widgetInfo != null && viewType == 'page'">
-              <mat-list-item *ngFor="let componentItem of widgetInfo.children" role="listitem">
-                <div mat-line>{{componentItem.data}}</div>
-                  <span class="fill-remaining-space"></span>
-                  <button mat-icon-button (click)="editText(componentItem)" matTooltip="Изменить текст">
-                      <mat-icon>edit</mat-icon>
-                  </button>
-                  <button mat-icon-button (click)="removeText(componentItem.custom_props.id)" matTooltip="Удалить текст">
-                      <mat-icon>delete</mat-icon>
-                  </button>
-              </mat-list-item>
-            </mat-list>
-          
     </mat-card-content>
     <mat-card-actions>
-      <button *ngIf="viewType == 'list'" mat-button (click)="newTile()" matTooltip="Добавить строку">ДОБАВИТЬ</button>
-      <button *ngIf="viewType == 'page'" mat-button (click)="newText()" matTooltip="Добавить текст">ДОБАВИТЬ</button>
-      <button *ngIf="viewType == 'list'" mat-button [disabled]="widgetInfo.children != null && widgetInfo.children.length > 0" (click)="removeList(listViewId)" matTooltip="Добавить строку">УДАЛИТЬ</button>
-      <button *ngIf="viewType == 'page'" mat-button [disabled]="widgetInfo.children != null && widgetInfo.children.length > 0" (click)="removePage(pageId)" matTooltip="Добавить страницу">УДАЛИТЬ</button>
+      <button mat-button (click)="newTile()" matTooltip="Добавить строку">ДОБАВИТЬ</button>
     </mat-card-actions>
   </mat-card>
+
+

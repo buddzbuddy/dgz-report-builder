@@ -92,6 +92,9 @@ import { MapItemComponent } from './view-map-history/map-item/map-item.component
 import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListTileDialog, NewListViewDialog, NewPageDialog, NewTextDialog } from './customs/flutter/list-view-widget/list-view-widget.component';
 import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
+
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -175,7 +178,8 @@ export function initializeApp(appConfig: AppConfig) {
     NewTextDialog,
     EditTextDialog,
     EditListTileDialog,
-    ViewSourceListComponent
+    ViewSourceListComponent,
+    ViewConstructorComponent
   ],
   imports: [
     BrowserModule,
@@ -199,6 +203,7 @@ export function initializeApp(appConfig: AppConfig) {
     VgOverlayPlayModule,
     VgBufferingModule,
     NgxMaskModule.forRoot(),
+    DragDropModule
   ],
   providers: [
     AppConfig,
