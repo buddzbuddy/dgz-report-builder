@@ -18,6 +18,14 @@ export class DataService {
   private metaServiceURL = this.webdatabase + 'ometa/'
   constructor(private http: HttpClient) { }
 
+  getSourceList(){
+    const endpoint = '/datasources/';
+    return this.http.get(endpoint, httpOptions).pipe(
+      tap(datas => this.log(`getSourceList`)),
+      catchError(this.handleError('getSourceList', null))
+    );
+  }
+
   postODataResource(entityName: string, data){
     const endpoint = `${this.oDataServiceURL}` + entityName;
     return this.http.post<any>(endpoint, data, httpOptions).pipe(

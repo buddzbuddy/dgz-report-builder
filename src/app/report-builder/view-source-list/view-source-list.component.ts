@@ -36,6 +36,13 @@ export class ViewSourceListComponent implements OnInit {
       }
     }
 
+    getSourceList(){
+      this.dataSvc.getSourceList().subscribe(_ => {
+        console.log(_);
+        this.sourceList = _.content;
+      });
+    }
+
     nextToSource(){
       this.router.navigate(['report-builder/view-constructor'])
     }
@@ -46,8 +53,9 @@ export class ViewSourceListComponent implements OnInit {
     viewType: string = 'list'
     listViewId: number = 0
     pageId: number = 0
+    sourceList: any[] = [];
   ngOnInit() {
-    this.getWidget();
+    this.getSourceList();
   }
   widgetInfo: any = {}
   getWidget(){

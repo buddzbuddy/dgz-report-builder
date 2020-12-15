@@ -5,7 +5,13 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
-  "/webdatabase-oasis/*": {
+  "/datasources/*": {
+    "target": "http://109.201.188.77:8088/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/webdatabase-dgz/*": {
     "target": "http://localhost/",
     "secure": false,
     "changeOrigin": true,

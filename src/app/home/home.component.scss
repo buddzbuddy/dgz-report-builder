@@ -1,0 +1,13 @@
+.example-card {
+    max-width: 500px;
+    margin: 0px auto;
+  }
+  .example-button-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .example-header-image {
+    background-image: url('../../assets/images/logo.png');
+    background-size: cover;
+  }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from 'src/app/data.service';
 
 @Component({
   selector: 'app-view-constructor',
@@ -8,7 +11,10 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 })
 export class ViewConstructorComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute,
+    private dataSvc: DataService,
+    public dialog: MatDialog,
+    private router: Router,) { }
 
   ngOnInit() {
   }
@@ -26,6 +32,12 @@ export class ViewConstructorComponent implements OnInit {
     'Element 2',
     'Element 3'
   ];
+
+  getSourceFields(sourceId){
+    this.dataSvc.getFieldsByTemplateId(sourceId).subscribe(_ => {
+
+    });
+  }
 
   goBack(){
     window.history.back();

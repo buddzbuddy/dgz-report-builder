@@ -1,13 +1,5 @@
-
-import * as moment from 'moment'
-import { OAuthService } from 'angular-oauth2-oidc';
-import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
-import { AppConfig } from '../app.config';
-import { DataService } from '../data.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable, interval } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +8,12 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
   
-  constructor() { }
+  constructor(private router: Router,) { }
 
   ngOnInit() {
+  }
+  goto(url){
+    this.router.navigate([url]);
   }
 
 }
