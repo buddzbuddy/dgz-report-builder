@@ -32,6 +32,7 @@ import { ViewMapHistoryComponent } from './view-map-history/view-map-history.com
 import { ListViewWidgetComponent } from './customs/flutter/list-view-widget/list-view-widget.component';
 import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 import { ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
+import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
 
 const routes: Routes = [
@@ -73,6 +74,7 @@ const routes: Routes = [
   { path: 'report-builder/view-source-list', component: ViewSourceListComponent },
   { path: 'report-builder/view-constructor', component: ViewConstructorComponent },
   { path: 'analitics', component: ViewAnaliticsComponent },
+  { path: 'analitics/view-supplier/:supplierId', component: ViewSupplierComponent },
 
 ];
 
