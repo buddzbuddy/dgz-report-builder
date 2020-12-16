@@ -1,1 +1,39 @@
-<p>view-supplier works!</p>
+<mat-toolbar>Информация о поставщике</mat-toolbar>
+<mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{supplier.name}}</mat-card-title>
+      <mat-card-subtitle>последний раз обновлено от {{supplier._ownership_type?.created_at | date:'dd.MM.yyyy'}}</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <table class="table">
+        <tr>
+            <td>ИНН</td>
+            <td>{{supplier.inn}}</td>
+        </tr>
+        <tr>
+            <td>Юр. адрес</td>
+            <td>{{supplier.legalAddress}}</td>
+        </tr>
+        <tr>
+            <td>Форма собственности</td>
+            <td>{{supplier._ownership_type?.name}}</td>
+        </tr>
+        <tr>
+            <td>Факт. адрес</td>
+            <td>{{supplier.factAddress}}</td>
+        </tr>
+        <tr>
+            <td>Руководитель</td>
+            <td>
+                <view-supplier-members [supplierId]="supplierId"></view-supplier-members>
+            </td>
+        </tr>
+      </table>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>

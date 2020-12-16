@@ -96,6 +96,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
 import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
+import { ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -183,7 +184,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewSourceListComponent,
     ViewConstructorComponent,
     ViewAnaliticsComponent,
-    ViewSupplierComponent
+    ViewSupplierComponent,
+    ViewSupplierMembersComponent
   ],
   imports: [
     BrowserModule,

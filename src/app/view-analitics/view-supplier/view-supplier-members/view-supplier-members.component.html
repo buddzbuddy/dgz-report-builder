@@ -1,0 +1,42 @@
+
+<p>{{getDirectorName()}}</p>
+    <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Кадровый состав
+            </mat-panel-title>
+            <mat-panel-description>
+              Всего {{supplier_members.length}}
+              <span class="fill-remaining-space"></span>
+              <mat-icon>person</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <table class="table">
+              <tr>
+                  <th>ПИН</th>
+                  <th>Фамилия</th>
+                  <th>Имя</th>
+                  <th>Отчество</th>
+                  <th>Должность</th>
+              </tr>
+              <tr *ngFor="let item of supplier_members">
+                  <td>
+                      {{item.pin}}
+                  </td>
+                  <td>
+                      {{item.surname}}
+                  </td>
+                  <td>
+                      {{item.name}}
+                  </td>
+                  <td>
+                      {{item.patronymic}}
+                  </td>
+                  <td>
+                      {{item._member_type?.name}}
+                  </td>
+              </tr>
+          </table>
+        </mat-expansion-panel>
+      </mat-accordion>
