@@ -36,7 +36,7 @@
               <mat-form-field appearance="outline" style="width: 400px;">
                 <mat-label>Наименование поставщика</mat-label>
                 <input matInput placeholder="Поиск..." [matAutocomplete]="auto" [formControl]="searchNameCtrl">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-autocomplete #auto="matAutocomplete">
                   <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
                   <ng-container *ngIf="!isLoading">
                     <mat-option *ngFor="let item of filteredNames" [value]="item">

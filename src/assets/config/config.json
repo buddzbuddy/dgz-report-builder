@@ -1,6 +1,6 @@
 {
     "appConfig":{
-        "dbPrefix": "oasis",
+        "dbPrefix": "dgz",
         "host": "",
         "file_port": "3333",
         "dashboardUrl": ""

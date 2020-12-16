@@ -6,6 +6,7 @@ import {MatSort} from '@angular/material/sort';
 import { Router } from '@angular/router';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, debounceTime, finalize, map, startWith, switchMap, tap} from 'rxjs/operators';
+import { AppConfig } from '../app.config';
 @Component({
   selector: 'app-view-analitics',
   templateUrl: './view-analitics.component.html',
@@ -43,7 +44,7 @@ export class ViewAnaliticsComponent implements AfterViewInit, OnInit {
           this.filteredNames = [];
           this.isLoading = true;
         }),
-        switchMap(value => this._httpClient.get("/api/AnalisingServices/SearchByName?src=" + value)
+        switchMap(value => this._httpClient.get(AppConfig.settings.host + "/api/AnalisingServices/SearchByName?src=" + value)
           .pipe(
             finalize(() => {
               this.isLoading = false
@@ -97,7 +98,7 @@ export class ViewAnaliticsComponent implements AfterViewInit, OnInit {
   getOwnership_types(){
     const href = '/api/ownership_type';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(requestUrl).subscribe(_ => {
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.ownership_types = _;
     });
   }
@@ -119,6 +120,9 @@ export class ViewAnaliticsComponent implements AfterViewInit, OnInit {
     this.formGroup.reset();
     this.fetchSuppliers([]);
   }
+  goBack(){
+    
+  }
 }
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -131,6 +135,6 @@ export class HttpDatabase {
   getSuppliers(sort: string, order: string, page: number, filterObj: any[], size: number): Observable<any> {
     const href = '/api/AnalisingServices/GetSuppliersByPage';
     const requestUrl = `${href}?size=${size}&sort=${sort}&order=${order}&page=${page + 1}`;
-    return this._httpClient.post(requestUrl, { conditions: filterObj }, httpOptions);
+    return this._httpClient.post(AppConfig.settings.host + requestUrl, { conditions: filterObj }, httpOptions);
   }
 }
