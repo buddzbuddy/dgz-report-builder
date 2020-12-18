@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<!--<mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -29,20 +29,14 @@
         <span *ngIf="oauthService.hasValidAccessToken()">
           {{claims.orgName}}
         </span>
-        <!--<button *ngIf="!oauthService.hasValidAccessToken()" mat-raised-button color="primary" type="button" (click)="login()">Войти</button>-->
+        <button *ngIf="!oauthService.hasValidAccessToken()" mat-raised-button color="primary" type="button" (click)="login()">Войти</button>
         <button *ngIf="oauthService.hasValidAccessToken()" mat-icon-button color="warn" type="button" (click)="logoff()"><mat-icon>exit_to_app</mat-icon></button>
 
       </div>
-    </mat-toolbar>
+    </mat-toolbar>-->
     <!-- Add Content Here -->
     <div class="wrapper-content">
       <ng-content></ng-content>
-      <!-- <a href="http://localhost/crm-admin-{{projectName}}/" target="_blank">Перейти к структуре <i class="material-icons">
-        arrow_right_alt
-        </i></a> -->
-        <!-- <footer style="padding: 50px;">
-          Copiright 2020
-        </footer> -->
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </div>    
+  <!--</mat-sidenav-content>
+</mat-sidenav-container>-->

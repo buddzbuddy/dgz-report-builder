@@ -97,6 +97,11 @@ import { ViewConstructorComponent } from './report-builder/view-constructor/view
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
 import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
+import { ViewSuppliersComponent } from './view-analitics/view-suppliers/view-suppliers.component';
+import { ViewProcurementsComponent } from './view-analitics/view-procurements/view-procurements.component';
+import { ViewProcurementDetailsComponent } from './view-analitics/view-procurements/view-procurement-details/view-procurement-details.component';
+import { ViewTendersComponent } from './view-analitics/view-tenders/view-tenders.component';
+import { ViewTenderDetailsComponent } from './view-analitics/view-tenders/view-tender-details/view-tender-details.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -185,7 +190,12 @@ export function initializeApp(appConfig: AppConfig) {
     ViewConstructorComponent,
     ViewAnaliticsComponent,
     ViewSupplierComponent,
-    ViewSupplierMembersComponent
+    ViewSupplierMembersComponent,
+    ViewSuppliersComponent,
+    ViewProcurementsComponent,
+    ViewProcurementDetailsComponent,
+    ViewTendersComponent,
+    ViewTenderDetailsComponent
   ],
   imports: [
     BrowserModule,

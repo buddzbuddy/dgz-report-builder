@@ -5,6 +5,18 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
+  "/api/export/json*": {
+    "target": "https://analytics.zakupki.gov.kg/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/tendering*": {
+    "target": "http://ocds.zakupki.gov.kg/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
   "/api/*": {
     "target": "http://109.201.188.77:53174/",
     "secure": false,

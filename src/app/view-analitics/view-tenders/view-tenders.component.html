@@ -1,0 +1,59 @@
+<mat-toolbar>Информация по победителям тендеров</mat-toolbar>
+<mat-form-field>
+  <mat-label>Полнотекстовый поиск...</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="tender_tenderNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> № закупки </th>
+      <td mat-cell *matCellDef="let row"> {{row.tender_tenderNumber}} </td>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата публикации </th>
+      <td mat-cell *matCellDef="let row"> {{row.date | date:'dd.MM.yyyy'}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="tender_title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Наименование </th>
+      <td mat-cell *matCellDef="let row"> {{row.tender_title}} </td>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="tender_status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Статус конкурса </th>
+      <td mat-cell *matCellDef="let row" [style.color]="row.tender_status == 'active' ? 'green' : row.tender_status == 'complete' ? 'blue' : 'red'"> {{row.tender_status}} </td>
+    </ng-container>
+
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="example-element-detail mat-elevation-z8"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <app-view-tender-details style="width: 100%;" [release]="element"></app-view-tender-details>
+      </div>
+    </td>
+  </ng-container>
+
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+  class="example-element-row"
+  [class.example-expanded-row]="expandedElement === element"
+  (click)="expand(expandedElement === element ? null : element)">
+</tr>
+<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

@@ -1,0 +1,100 @@
+<mat-toolbar>Информация о конкурсе</mat-toolbar>
+<mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{release.tender.title}}</mat-card-title>
+      <mat-card-subtitle>последний раз обновлено от {{release.tenderDatePublished | date:'dd.MM.yyyy'}}</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+        <table class="release-detail table">
+            <tr>
+                <td>
+                    <mat-toolbar>Тендер</mat-toolbar>
+                    <table class="table table-with-col">
+                        <tr>
+                            <td>№ закупки</td>
+                            <td>{{release.tender.tenderNumber}}</td>
+                        </tr>
+                        <tr>
+                            <td>Метод закупки</td>
+                            <td>{{release.tender.procurementMethod}}</td>
+                        </tr>
+                        <tr>
+                            <td>Дата публикации</td>
+                            <td>{{release.tenderDatePublished | date:'dd.MM.yyyy'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Статус конкурса</td>
+                            <td [style.color]="release.tender.status == 'active' ? 'green' : 'red'">{{release.tender.status}}</td>
+                        </tr>
+                      </table>
+                </td>
+                <td>
+                    <mat-toolbar>Поставка</mat-toolbar>
+                    <table class="table table-with-col">
+                        <tr>
+                            <td>Закупщик</td>
+                            <td>{{release.parties[0].identifier.legalName}}</td>
+                        </tr>
+                        <tr>
+                            <td>Роль</td>
+                            <td>{{release.parties[0].roles[0]}}</td>
+                        </tr>
+                        <tr>
+                            <td>Адрес</td>
+                            <td>{{release.parties[0].address.region}} {{release.parties[0].address.streetAddress}}</td>
+                        </tr>
+                      </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <mat-toolbar>Лоты - {{release.tender.lots.length}} шт.</mat-toolbar>
+                    <div style="max-height:400px;overflow:auto;">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    № лота
+                                </th>
+                                <th>
+                                    Наименование лота
+                                </th>
+                                <th>
+                                    Адрес поставки
+                                </th>
+                                <th>
+                                    Срок поставки
+                                </th>
+                                <th>
+                                    Статус поставки
+                                </th>
+                            </tr>
+                            <tr *ngFor="let lot of release.tender.lots">
+                                <td>
+                                    {{lot.lotNumber}}
+                                </td>
+                                <td>
+                                    {{lot.title}}
+                                </td>
+                                <td>
+                                    {{lot.deliveryAddress}}
+                                </td>
+                                <td>
+                                    {{lot.deliveryDateDetails}}
+                                </td>
+                                <td>
+                                    {{lot.status}}
+                                </td>
+                            </tr>
+                          </table>
+                       </div>
+                </td>
+            </tr>
+        </table>
+    </mat-card-content>
+    <!--<mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>-->
+  </mat-card>
