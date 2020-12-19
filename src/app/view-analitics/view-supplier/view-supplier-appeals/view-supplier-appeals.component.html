@@ -1,0 +1,40 @@
+   <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Всего {{appeals.length}} шт.
+        </mat-panel-title>
+        <mat-panel-description>
+          
+          <span class="fill-remaining-space"></span>
+          <mat-icon>thumb_down_alt</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div style="max-height:200px;overflow:auto;">
+        <table class="table">
+            <tr>
+                <th>
+                    Дата жалобы
+                </th>
+                <th>
+                    Закупающая организация
+                </th>
+                <th>
+                    Описание жалобы
+                </th>
+            </tr>
+            <tr *ngFor="let a of appeals">
+                <td>
+                    {{a.created_at | date:'dd.MM.yyyy'}}
+                </td>
+                <td>
+                    {{a._procuring_entity?.name}}
+                </td>
+                <td>
+                    {{a.description}}
+                </td>
+            </tr>
+          </table>
+       </div>
+    </mat-expansion-panel>
+  </mat-accordion>

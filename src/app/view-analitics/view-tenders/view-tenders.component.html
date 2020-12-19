@@ -32,6 +32,12 @@
       <td mat-cell *matCellDef="let row" [style.color]="row.tender_status == 'active' ? 'green' : row.tender_status == 'complete' ? 'blue' : 'red'"> {{row.tender_status}} </td>
     </ng-container>
 
+    <!-- Name Column -->
+    <ng-container matColumnDef="contracts_length">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Контракты </th>
+      <td mat-cell *matCellDef="let row"> {{row.contracts_length}} </td>
+    </ng-container>
+
 
   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
   <ng-container matColumnDef="expandedDetail">

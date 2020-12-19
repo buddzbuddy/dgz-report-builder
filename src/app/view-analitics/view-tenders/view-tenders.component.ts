@@ -22,7 +22,7 @@ export class ViewTendersComponent implements OnInit {
   ngOnInit() {
     this.fetchTenders();
   }
-  displayedColumns: string[] = ['tender_tenderNumber', 'date', 'tender_title', 'tender_status'];
+  displayedColumns: string[] = ['tender_tenderNumber', 'date', 'tender_title', 'tender_status', 'contracts_length'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
@@ -55,6 +55,7 @@ export class ViewTendersComponent implements OnInit {
           tender_tenderNumber: element.tender.tenderNumber,
           tender_title: element.tender.title,
           tender_status: element.tender.status,
+          contracts_length: element.contracts != null ? element.contracts.length : 0,
           ...element
         });
       }
@@ -77,7 +78,7 @@ export class ViewTendersComponent implements OnInit {
   expand(el){
     this.expandedElement = el;
     if(el != null){
-      console.log(el.tender.title);
+      console.log(el);
     }
   }
 }

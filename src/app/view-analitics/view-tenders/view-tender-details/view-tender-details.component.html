@@ -31,25 +31,49 @@
                       </table>
                 </td>
                 <td>
-                    <mat-toolbar>Поставка</mat-toolbar>
-                    <table class="table table-with-col">
-                        <tr>
-                            <td>Закупщик</td>
-                            <td>{{release.parties[0].identifier.legalName}}</td>
-                        </tr>
-                        <tr>
-                            <td>Роль</td>
-                            <td>{{release.parties[0].roles[0]}}</td>
-                        </tr>
-                        <tr>
-                            <td>Адрес</td>
-                            <td>{{release.parties[0].address.region}} {{release.parties[0].address.streetAddress}}</td>
-                        </tr>
-                      </table>
+                    <mat-toolbar>Фактические поставки</mat-toolbar>
+                    <div style="max-height:400px;overflow:auto;">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    ИНН поставщика
+                                </th>
+                                <th>
+                                    Наименование поставщика
+                                </th>
+                                <th>
+                                    Адрес поставки
+                                </th>
+                                <th>
+                                    Срок поставки
+                                </th>
+                                <th>
+                                    Статус поставки
+                                </th>
+                            </tr>
+                            <tr *ngFor="let p of release.parties">
+                                <td>
+                                    {{p.identifier.id}}
+                                </td>
+                                <td>
+                                    {{p.identifier.legalName}}
+                                </td>
+                                <td>
+                                    {{p.address.region}} {{p.address.streetAddress}}
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                            </tr>
+                          </table>
+                       </div>
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td>
                     <mat-toolbar>Лоты - {{release.tender.lots.length}} шт.</mat-toolbar>
                     <div style="max-height:400px;overflow:auto;">
                         <table class="table">
@@ -90,6 +114,38 @@
                           </table>
                        </div>
                 </td>
+                <td>
+                    <mat-toolbar>Контракты - {{release.contracts_length}} шт.</mat-toolbar>
+                    <div *ngIf="release.contracts_length > 0" style="max-height:400px;overflow:auto;">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    № контракта
+                                </th>
+                                <th>
+                                    Дата подписания
+                                </th>
+                                <th>
+                                    Сумма контракта
+                                </th>
+                            </tr>
+                            <tr *ngFor="let contract of release.contracts">
+                                <td>
+                                    {{contract.contractNumber}}
+                                </td>
+                                <td>
+                                    {{contract.dateSigned | date:'dd.MM.yyyy'}}
+                                </td>
+                                <td>
+                                    {{contract.value.amount}} {{contract.value.currency}}
+                                </td>
+                            </tr>
+                          </table>
+                       </div>
+                </td>
+            </tr>
+            <tr>
+                
             </tr>
         </table>
     </mat-card-content>

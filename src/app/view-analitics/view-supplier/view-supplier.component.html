@@ -7,7 +7,7 @@
     </mat-card-header>
     
     <mat-card-content>
-      <table class="table">
+      <table class="table table-with-col">
         <tr>
             <td>ИНН</td>
             <td>{{supplier.inn}}</td>
@@ -30,10 +30,54 @@
                 <view-supplier-members [supplierId]="supplierId"></view-supplier-members>
             </td>
         </tr>
+        <tr>
+          <td>Выручка и прибыл (убыток) поставщика</td>
+          <td>финансы</td>
+        </tr>
+        <tr>
+          <td>Соблюдение сроков исполнения договоров</td>
+          <td>Исполнение договоров госзакупок</td>
+        </tr>
+        <tr>
+          <td>Наличие претензий по качеству</td>
+          <td>Исполнение договоров госзакупок</td>
+        </tr>
+        <tr>
+          <td>
+            Черный список
+          </td>
+          <td>нет</td>
+        </tr>
+        <tr>
+          <td>Жалобы</td>
+          <td><app-view-supplier-appeals [supplierId]="supplierId"></app-view-supplier-appeals></td>
+        </tr>
+        <tr>
+          <td>Задолженности по налогам</td>
+          <td>данные отсутствуют</td>
+        </tr>
+        <tr>
+          <td>
+            Наличие судебных тяжб по экономическим вопросам
+          </td>
+          <td>данные отсутствуют</td>
+        </tr>
+        <tr>
+          <td>
+            Наличие уголовных дел в отношении поставщика
+          </td>
+          <td>данные отсутствуют</td>
+        </tr>
+        <tr>
+          <td>
+            Наличие судебных приговоров в отношении поставщика
+          </td>
+          <td>данные отсутствуют</td>
+        </tr>
       </table>
     </mat-card-content>
-    <mat-card-actions>
+    <!--<mat-card-actions>
       <button mat-button>LIKE</button>
       <button mat-button>SHARE</button>
-    </mat-card-actions>
+    </mat-card-actions>-->
   </mat-card>
