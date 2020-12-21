@@ -17,7 +17,7 @@ import { AppConfig } from 'src/app/app.config';
 export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
   constructor(private _httpClient: HttpClient, private router: Router, private _formBuilder: FormBuilder, ) { }
-  suppliersDisplayedColumns: string[] = ['id', 'name', 'inn', 'legalAddress', '_ownership_type'];
+  suppliersDisplayedColumns: string[] = ['id', 'name', 'inn', 'legalAddress', '_ownership_type', '_industry'];
   httpDatabase: HttpDatabase | null;
   suppliersData: any[] = [];
 
@@ -34,11 +34,15 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
     this.fetchSuppliers([]);
     this.getOwnership_types();
+    this.getIndustries();
+    this.getLicense_types();
   }
   ngOnInit(){
     this.formGroup = this._formBuilder.group({
       ownership_type: '',
-      inn: ''
+      inn: '',
+      industry:'',
+      license__license_type:''
     });
     this.searchNameCtrl.valueChanges
       .pipe(
@@ -103,6 +107,23 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
     const requestUrl = `${href}`;
     this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.ownership_types = _;
+    });
+  }
+
+  industries: any[] = [];
+  getIndustries(){
+    const href = '/api/industries';
+    const requestUrl = `${href}`;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.industries = _;
+    });
+  }
+  license_types: any[] = [];
+  getLicense_types(){
+    const href = '/api/license_types';
+    const requestUrl = `${href}`;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.license_types = _;
     });
   }
   page_size: number = 5;

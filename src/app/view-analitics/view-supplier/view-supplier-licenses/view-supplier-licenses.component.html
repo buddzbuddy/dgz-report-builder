@@ -1,0 +1,48 @@
+<mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Всего {{licenses.length}} шт.
+        </mat-panel-title>
+        <mat-panel-description>
+          
+          <span class="fill-remaining-space"></span>
+          <mat-icon>grading</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div style="max-height:300px;overflow:auto;">
+        <table class="table">
+            <tr>
+                <th>
+                    Выдан кем
+                </th>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Дата выдачи
+                </th>
+                <th>Вид деятельности</th>
+                <th>Срок действия</th>
+                <th>Статус</th>
+                <th>Примечания</th>
+            </tr>
+            <tr *ngFor="let a of licenses">
+                <td>
+                    {{a.issuer}}
+                </td>
+                <td>
+                    {{a.no}}
+                </td>
+                <td>
+                    {{a.issueDate | date:'dd.MM.yyyy'}}
+                </td>
+                <td>{{a._license_type.name}}</td>
+                <td>{{a.expiryDate | date:'dd.MM.yyyy'}}</td>
+                <td>{{a.status}}</td>
+                <td>{{a.additionalInfo}}</td>
+            </tr>
+          </table>
+       </div>
+    </mat-expansion-panel>
+  </mat-accordion>

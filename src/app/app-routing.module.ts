@@ -34,6 +34,7 @@ import { ViewSourceListComponent } from './report-builder/view-source-list/view-
 import { ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
 import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
+import { UploadSupplierListComponent } from './view-analitics/upload-supplier-list/upload-supplier-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -75,6 +76,7 @@ const routes: Routes = [
   { path: 'report-builder/view-constructor', component: ViewConstructorComponent },
   { path: 'analitics', component: ViewAnaliticsComponent },
   { path: 'analitics/view-supplier/:supplierId', component: ViewSupplierComponent },
+  { path: 'analitics/upload-supplier-list', component: UploadSupplierListComponent },
 
 ];
 

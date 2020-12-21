@@ -31,8 +31,20 @@
             </td>
         </tr>
         <tr>
+          <td>Лицензии</td>
+          <td><app-view-supplier-licenses [licenses]="supplier.licenses"></app-view-supplier-licenses></td>
+        </tr>
+        <tr>
           <td>Выручка и прибыл (убыток) поставщика</td>
-          <td>финансы</td>
+          <td>
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            <ng-container *ngIf="!isLoadingResults && hasContractData">
+              {{contractInfo.value?.amount}} KGS (№ договора {{contractInfo.contractNumber}} от {{contractInfo.dateSigned | date:'dd.MM.yyyy'}})
+            </ng-container>
+            <ng-container *ngIf="!hasContractData">
+              данные не найдены в OCDS-базе (http://ocds.zakupki.gov.kg/api/)
+            </ng-container>
+          </td>
         </tr>
         <tr>
           <td>Соблюдение сроков исполнения договоров</td>

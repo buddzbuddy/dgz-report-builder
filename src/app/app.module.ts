@@ -103,6 +103,8 @@ import { ViewProcurementDetailsComponent } from './view-analitics/view-procureme
 import { ViewTendersComponent } from './view-analitics/view-tenders/view-tenders.component';
 import { ViewTenderDetailsComponent } from './view-analitics/view-tenders/view-tender-details/view-tender-details.component';
 import { ViewSupplierAppealsComponent } from './view-analitics/view-supplier/view-supplier-appeals/view-supplier-appeals.component';
+import { UploadSupplierListComponent } from './view-analitics/upload-supplier-list/upload-supplier-list.component';
+import { ViewSupplierLicensesComponent } from './view-analitics/view-supplier/view-supplier-licenses/view-supplier-licenses.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -197,7 +199,9 @@ export function initializeApp(appConfig: AppConfig) {
     ViewProcurementDetailsComponent,
     ViewTendersComponent,
     ViewTenderDetailsComponent,
-    ViewSupplierAppealsComponent
+    ViewSupplierAppealsComponent,
+    UploadSupplierListComponent,
+    ViewSupplierLicensesComponent
   ],
   imports: [
     BrowserModule,

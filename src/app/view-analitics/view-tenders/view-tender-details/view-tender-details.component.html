@@ -26,12 +26,12 @@
                         </tr>
                         <tr>
                             <td>Статус конкурса</td>
-                            <td [style.color]="release.tender.status == 'active' ? 'green' : 'red'">{{release.tender.status}}</td>
+                            <td [style.color]="release.tender.status == 'complete' ? 'green' : 'red'">{{release.tender.status}}</td>
                         </tr>
                       </table>
                 </td>
                 <td>
-                    <mat-toolbar>Фактические поставки</mat-toolbar>
+                    <mat-toolbar>Участники, победители</mat-toolbar>
                     <div style="max-height:400px;overflow:auto;">
                         <table class="table">
                             <tr>
@@ -45,13 +45,13 @@
                                     Адрес поставки
                                 </th>
                                 <th>
-                                    Срок поставки
+                                    Срок
                                 </th>
                                 <th>
                                     Статус поставки
                                 </th>
                             </tr>
-                            <tr *ngFor="let p of release.parties">
+                            <tr *ngFor="let p of release.parties" [style.color]="(p.roles.indexOf('supplier') > -1) ? 'green' : ''">
                                 <td>
                                     {{p.identifier.id}}
                                 </td>
