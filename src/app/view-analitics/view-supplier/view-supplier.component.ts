@@ -11,7 +11,7 @@ import { AppConfig } from 'src/app/app.config';
 export class ViewSupplierComponent implements OnInit {
 
   constructor(private _httpClient: HttpClient, private route: ActivatedRoute) { }
-  supplier: any = {licenses:[]}
+  supplier: any = {licenses:[],ip_items:[]}
   supplierId: number = 0;
   ngOnInit() {
     if (this.route.params != null){
@@ -58,5 +58,8 @@ export class ViewSupplierComponent implements OnInit {
       this.isLoadingResults = false;
       this.hasContractData = c !== null;
     });
+  }
+  goBack(){
+    window.history.back();
   }
 }

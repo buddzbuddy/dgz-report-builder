@@ -1,0 +1,50 @@
+<mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Всего {{items.length}} записей
+        </mat-panel-title>
+        <mat-panel-description>
+          
+          <span class="fill-remaining-space"></span>
+          <mat-icon>payments</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div style="max-height:300px;overflow:auto;">
+        <table class="table">
+            <tr>
+                <th>
+                    Дата запроса
+                </th>
+                <th>
+                    УГНС
+                </th>
+                <th>Код района</th>
+                <th>Код налога</th>
+                <th>Дата налога</th>
+                <th>
+                    Адрес
+                </th>
+            </tr>
+            <tr *ngFor="let a of items">
+                <td>
+                    {{a.created_at | date:'dd.MM.yyyy'}}
+                </td>
+                <td>
+                    {{a.rayonName}}
+                </td>
+                <td>
+                    {{a.rayonCode}}
+                </td>
+                <td>
+                    {{a.taxTypeCode}}
+                </td>
+                <td>
+                    {{a.taxActiveDate | date:'dd.MM.yyyy'}}
+                </td>
+                <td>{{a.legalAddress}}</td>
+            </tr>
+          </table>
+       </div>
+    </mat-expansion-panel>
+  </mat-accordion>

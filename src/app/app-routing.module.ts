@@ -35,6 +35,7 @@ import { ViewConstructorComponent } from './report-builder/view-constructor/view
 import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
 import { UploadSupplierListComponent } from './view-analitics/upload-supplier-list/upload-supplier-list.component';
+import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -77,6 +78,7 @@ const routes: Routes = [
   { path: 'analitics', component: ViewAnaliticsComponent },
   { path: 'analitics/view-supplier/:supplierId', component: ViewSupplierComponent },
   { path: 'analitics/upload-supplier-list', component: UploadSupplierListComponent },
+  { path: 'analitics/view-sod-updater', component: ViewSodUpdaterComponent },
 
 ];
 

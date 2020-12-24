@@ -105,6 +105,8 @@ import { ViewTenderDetailsComponent } from './view-analitics/view-tenders/view-t
 import { ViewSupplierAppealsComponent } from './view-analitics/view-supplier/view-supplier-appeals/view-supplier-appeals.component';
 import { UploadSupplierListComponent } from './view-analitics/upload-supplier-list/upload-supplier-list.component';
 import { ViewSupplierLicensesComponent } from './view-analitics/view-supplier/view-supplier-licenses/view-supplier-licenses.component';
+import { ViewSupplierIpsComponent } from './view-analitics/view-supplier/view-supplier-ips/view-supplier-ips.component';
+import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -201,7 +203,9 @@ export function initializeApp(appConfig: AppConfig) {
     ViewTenderDetailsComponent,
     ViewSupplierAppealsComponent,
     UploadSupplierListComponent,
-    ViewSupplierLicensesComponent
+    ViewSupplierLicensesComponent,
+    ViewSupplierIpsComponent,
+    ViewSodUpdaterComponent
   ],
   imports: [
     BrowserModule,

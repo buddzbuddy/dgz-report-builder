@@ -1,4 +1,8 @@
-<mat-toolbar>Информация о поставщике</mat-toolbar>
+<mat-toolbar>
+  <span>Информация о поставщике</span>
+  <span class="fill-remaining-space"></span>
+  <button mat-button (click)="goBack()" matTooltip="Вернуться к списку">НАЗАД</button>
+</mat-toolbar>
 <mat-card class="example-card">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
@@ -63,6 +67,10 @@
         <tr>
           <td>Жалобы</td>
           <td><app-view-supplier-appeals [supplierId]="supplierId"></app-view-supplier-appeals></td>
+        </tr>
+        <tr>
+          <td>Налоговые отчисления</td>
+          <td><app-view-supplier-ips [items]="supplier.ip_items"></app-view-supplier-ips></td>
         </tr>
         <tr>
           <td>Задолженности по налогам</td>
