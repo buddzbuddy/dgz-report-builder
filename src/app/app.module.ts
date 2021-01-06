@@ -107,6 +107,7 @@ import { UploadSupplierListComponent } from './view-analitics/upload-supplier-li
 import { ViewSupplierLicensesComponent } from './view-analitics/view-supplier/view-supplier-licenses/view-supplier-licenses.component';
 import { ViewSupplierIpsComponent } from './view-analitics/view-supplier/view-supplier-ips/view-supplier-ips.component';
 import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
+import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -205,7 +206,8 @@ export function initializeApp(appConfig: AppConfig) {
     UploadSupplierListComponent,
     ViewSupplierLicensesComponent,
     ViewSupplierIpsComponent,
-    ViewSodUpdaterComponent
+    ViewSodUpdaterComponent,
+    ViewAuditSectionComponent
   ],
   imports: [
     BrowserModule,

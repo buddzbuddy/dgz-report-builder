@@ -24,9 +24,9 @@ export class ViewSupplierComponent implements OnInit {
     }
   }
   get_supplier_details(supplierId){
-    const href = '/api/AnalisingServices/GetSupplierDetails?id=' + supplierId;
+    const href = '/api/AnalisingServices/GetSupplierDetails?id=' + supplierId + '&pin=02406199910174';
     const requestUrl = `${href}`;
-    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+    this._httpClient.get<any>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
       this.supplier = _;
       console.log(_);
       this.getContractData();

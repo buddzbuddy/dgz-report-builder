@@ -2,6 +2,8 @@
     "appConfig":{
         "dbPrefix": "dgz",
         "host": "",
+        "host_logs": "",
+        "host_kong": "",
         "host_analitics":"",
         "host_tendering":"",
         "file_port": "3333",

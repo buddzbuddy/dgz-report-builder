@@ -15,9 +15,9 @@ export class ViewSodUpdaterComponent implements OnInit {
     this.checkLoading();
   }
   checkLoading(){
-    const href = '/api/AnalisingServices/IsLoading';
+    const href = '/api/AnalisingServices/IsLoading?pin=02406199910174';
     const requestUrl = `${href}`;
-    this._httpClient.get<boolean>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+    this._httpClient.get<boolean>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
       this.isLoading = _;
       console.log(_);
     });
@@ -28,9 +28,9 @@ export class ViewSodUpdaterComponent implements OnInit {
     if(this.isLoading) return;
     this.isLoading = true;
 
-    const href = '/api/AnalisingServices/UpdateSODData?sti=false&sf=true';
+    const href = '/api/AnalisingServices/UpdateSODData?sti=true&sf=true&pin=02406199910174';
     const requestUrl = `${href}`;
-    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+    this._httpClient.get<any>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
       this.isLoading = false;
       this.result = _;
     });

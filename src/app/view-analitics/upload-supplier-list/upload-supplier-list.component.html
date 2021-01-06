@@ -2,7 +2,9 @@
 <div class="row" style="margin-bottom:15px;">
     <div class="col-md-3">
       <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" >
-      <button type="button" class="btn btn-success" (click)="file.click()">Выберите файл (из шаблона)</button>
+      <button style="background-color: #004080;
+      border: 2px solid #000080;
+      border-radius: 10px;" type="button" class="btn btn-success" (click)="file.click()">Выберите файл (из шаблона)</button>
     </div>
     <div class="col-md-4">
       <span class="upload" *ngIf="progress > 0">

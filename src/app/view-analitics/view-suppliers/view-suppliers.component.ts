@@ -51,7 +51,7 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
           this.filteredNames = [];
           this.isLoading = true;
         }),
-        switchMap(value => this._httpClient.get(AppConfig.settings.host + "/api/AnalisingServices/SearchByName?src=" + value)
+        switchMap(value => this._httpClient.get(AppConfig.settings.host_kong + "/dgz-kong-api/api/AnalisingServices/SearchByName?src=" + value+'&pin=02406199910174')
           .pipe(
             finalize(() => {
               this.isLoading = false
@@ -103,26 +103,26 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
   ownership_types: any[] = [];
   getOwnership_types(){
-    const href = '/api/ownership_type';
+    const href = '/api/ownership_type?pin=02406199910174';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+    this._httpClient.get<any[]>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
       this.ownership_types = _;
     });
   }
 
   industries: any[] = [];
   getIndustries(){
-    const href = '/api/industries';
+    const href = '/api/industries?pin=02406199910174';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+    this._httpClient.get<any[]>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
       this.industries = _;
     });
   }
   license_types: any[] = [];
   getLicense_types(){
-    const href = '/api/license_types';
+    const href = '/api/license_types?pin=02406199910174';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+    this._httpClient.get<any[]>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
       this.license_types = _;
     });
   }
@@ -159,8 +159,8 @@ export class HttpDatabase {
   constructor(private _httpClient: HttpClient) {}
 
   getSuppliers(sort: string, order: string, page: number, filterObj: any[], size: number): Observable<any> {
-    const href = '/api/AnalisingServices/GetSuppliersByPage';
-    const requestUrl = `${href}?size=${size}&sort=${sort}&order=${order}&page=${page + 1}`;
-    return this._httpClient.post(AppConfig.settings.host + requestUrl, { conditions: filterObj }, httpOptions);
+    const href = '/api/AnalisingServices/GetSuppliersByPage?pin=02406199910174';
+    const requestUrl = `${href}&size=${size}&sort=${sort}&order=${order}&page=${page + 1}`;
+    return this._httpClient.post(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl, { conditions: filterObj }, httpOptions);
   }
 }

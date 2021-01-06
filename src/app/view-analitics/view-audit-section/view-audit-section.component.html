@@ -1,0 +1,54 @@
+<mat-card class="example-sized-card">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>
+            Аудит запросов пользователей
+            <span class="fill-remaining-space"></span>
+            <button mat-button (click)="goBack()" matTooltip="Вернуться к списку">НАЗАД</button>
+        </mat-card-title>
+      </mat-card-header>
+    <mat-card-content>
+        <table class="release-detail table">
+            <tr>
+                <th rowspan="2" style="border: 1px solid grey;">Дата/время</th>
+                <th colspan="3" style="border: 1px solid grey;">
+                    Сервис
+                </th>
+                <th colspan="3" style="border: 1px solid grey;">
+                    Запрос
+                </th>
+                <th colspan="2" style="border: 1px solid grey;">
+                    Ответ
+                </th>
+                <th rowspan="2" style="border: 1px solid grey;">IP адрес клиента</th>
+            </tr>
+            <tr>
+                <th style="border: 1px solid grey;">Название</th>
+                <th style="border: 1px solid grey;">Хост</th>
+                <th style="border: 1px solid grey;">Порт</th>
+                <th style="border: 1px solid grey;">Метод</th>
+                <th style="border: 1px solid grey;">Запрошенный адрес</th>
+                <th style="border: 1px solid grey;">Параметры запроса</th>
+                <th style="border: 1px solid grey;">Статус</th>
+                <th style="border: 1px solid grey;">Время ответа</th>
+            </tr>
+            <tr *ngFor="let item of sortBy('started_at')">
+                <td>{{item.started_at | date:'dd.MM.yyyy hh:mm:ss'}}</td>
+                <td>{{item.service?.name}}</td>
+                <td>{{item.service?.host}}</td>
+                <td>{{item.service?.port}}</td>
+                <td>{{getMethodName(item.request.method)}}</td>
+                <td>{{item.request.uri.split('?')[0]}}</td>
+                <td>{{item.request.querystring | json}}</td>
+                <td>{{getMethodName(item.response.status)}}</td>
+                <td>{{item.latencies.request + item.latencies.kong + item.latencies.proxy}} мс.</td>
+                <td>{{item.client_ip}}</td>
+            </tr>
+        </table>
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </mat-card-content>
+    <!--<mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>-->
+  </mat-card>

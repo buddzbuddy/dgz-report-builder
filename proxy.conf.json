@@ -17,8 +17,20 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
+  "/dgz-kong-api/*":{
+    "target": "http://158.181.176.170:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
   "/api/*": {
-    "target": "http://109.201.188.77:53174/",
+    "target": "http://158.181.176.170:53174/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/logs": {
+    "target": "http://158.181.176.170:53344",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
