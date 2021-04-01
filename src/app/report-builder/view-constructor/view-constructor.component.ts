@@ -37,11 +37,9 @@ export class ViewConstructorComponent implements OnInit {
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.fields = _;
-      console.log(_);
     });
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.offline_fields = _;
-      console.log(_);
     });
   }
   sourceObj:any = {}
@@ -51,7 +49,6 @@ export class ViewConstructorComponent implements OnInit {
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.sourceObj = _;
       this.getSourceFields()
-      console.log(_);
     });
   }
 
@@ -71,9 +68,34 @@ export class ViewConstructorComponent implements OnInit {
     }
     this.emitEventToChild();
   }
-
+  conditions = {}
+  updateConditions(c:any){
+    console.log('conditions updated', c);
+    this.conditions = c;
+  }
+  data = []
   fetchData() {
-    
+    const href = `data-api/query/execute`;
+    const requestUrl = `${href}`;
+    let paramList = []
+    for (let i = 0; i < Object.keys(this.conditions).length; i++) {
+      const el = Object.keys(this.conditions)[i];
+      paramList.push({
+        key: el,
+        operation: ":",
+        value: this.conditions[el]
+      })
+    }
+    let obj = {
+      table: this.sourceObj.name,
+      params: paramList
+    }
+    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      if(_.result) {
+        this.data = _.data;
+        this.emitEventToChild();
+      }
+    });
   }
   eventsSubject: Subject<void> = new Subject<void>();
 

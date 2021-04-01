@@ -2,13 +2,13 @@
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
       <mat-card-title>Мои источники данных</mat-card-title>
-      <mat-card-subtitle>мета-база</mat-card-subtitle>
+      <mat-card-subtitle>Конструктор отчета</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         <mat-list>
             <mat-list-item role="listitem" *ngFor="let s of sourceList">
                 <mat-icon>source</mat-icon>
-                <span style="padding-left: 10px;">{{s.description}} [{{s.name}}]</span>
+                <span style="padding-left: 10px;">{{s.description}}</span>
                 <span class="fill-remaining-space"></span>
                 <button mat-icon-button (click)="nextToSource(s.id)" matTooltip="Далее к списку">
                     <mat-icon>navigate_next</mat-icon>

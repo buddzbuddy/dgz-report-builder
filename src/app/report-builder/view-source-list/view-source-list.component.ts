@@ -44,7 +44,6 @@ export class ViewSourceListComponent implements OnInit {
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.sourceList = _.content;
-      console.log(_);
     });
     }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NewListTileDialog } from 'src/app/customs/flutter/list-view-widget/list-view-widget.component';
 
@@ -11,7 +11,7 @@ export class ViewReportConditionsComponent implements OnInit {
 
   @Input() fields: any[] = []
   constructor(public dialog: MatDialog,) { }
-  field_vals = []
+  field_vals = {}
   ngOnInit() {
   }
 
@@ -26,6 +26,7 @@ export class ViewReportConditionsComponent implements OnInit {
       if(_ != null) {
         console.log('filter set')
         this.field_vals[_.field_name] = _.field_val
+    this.updateListEvent.emit(this.field_vals);
       }
       else {
         console.log('filter not set')
@@ -35,6 +36,8 @@ export class ViewReportConditionsComponent implements OnInit {
   }
 
   removeCondition(field_name) {
-    this.field_vals[field_name] = null;
+    delete this.field_vals[field_name];
+    this.updateListEvent.emit(this.field_vals);
   }
+  @Output() updateListEvent = new EventEmitter<any>();
 }

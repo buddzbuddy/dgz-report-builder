@@ -2,7 +2,7 @@
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
       <mat-card-title>Построение отчета</mat-card-title>
-      <mat-card-subtitle>мета-база</mat-card-subtitle>
+      <mat-card-subtitle>Конструктор отчета</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         
@@ -34,12 +34,12 @@
       </div>
     </div>
   </div>
-  <app-view-report-conditions [fields]="offline_fields"></app-view-report-conditions>
-    </mat-card-content>
+  <app-view-report-conditions [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
+    
+</mat-card-content>
     <mat-card-actions>
-        <button mat-button (click)="goBack()" matTooltip="Добавить строку">НАЗАД</button>
+        <button mat-button (click)="goBack()">НАЗАД</button>
       <button [disabled]="!selected_fields.length" mat-button (click)="fetchData()" matTooltip="Сформировать данные">СФОРМИРОВАТЬ ДАННЫЕ</button>
     </mat-card-actions>
   </mat-card>
-
   <app-view-report-result  [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
