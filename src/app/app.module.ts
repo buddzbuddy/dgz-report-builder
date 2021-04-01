@@ -109,6 +109,7 @@ import { ViewSupplierIpsComponent } from './view-analitics/view-supplier/view-su
 import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
 import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
 import { ViewReportConditionsComponent } from './report-builder/view-constructor/view-report-conditions/view-report-conditions.component';
+import { ViewReportResultComponent } from './report-builder/view-constructor/view-report-result/view-report-result.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -209,7 +210,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewSupplierIpsComponent,
     ViewSodUpdaterComponent,
     ViewAuditSectionComponent,
-    ViewReportConditionsComponent
+    ViewReportConditionsComponent,
+    ViewReportResultComponent
   ],
   imports: [
     BrowserModule,

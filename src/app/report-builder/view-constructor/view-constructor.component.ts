@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 import { HttpClient } from '@angular/common/http';
 import { AppConfig } from 'src/app/app.config';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-view-constructor',
@@ -26,24 +27,10 @@ export class ViewConstructorComponent implements OnInit {
       });
     }
   }
-  todo = [
-    'Наименование Поставщика',
-    'Форма собственности',
-    'ИНН',
-    'Телефон'
-  ];
 
   fields = []
   offline_fields = []
   selected_fields = []
-
-  done = [
-    'Банк',
-    'Код районного налогового органа',
-    'Element 1',
-    'Element 2',
-    'Element 3'
-  ];
 
   getSourceFields(){
     const href = `data-api/datasources/${this.datasourceId}/fields/`;
@@ -82,9 +69,15 @@ export class ViewConstructorComponent implements OnInit {
                         event.currentIndex);
       console.log('another container');
     }
+    this.emitEventToChild();
   }
 
-  moveToConditions() {
-
+  fetchData() {
+    
   }
+  eventsSubject: Subject<void> = new Subject<void>();
+
+emitEventToChild() {
+  this.eventsSubject.next();
+}
 }

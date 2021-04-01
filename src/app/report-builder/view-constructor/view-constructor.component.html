@@ -38,8 +38,8 @@
     </mat-card-content>
     <mat-card-actions>
         <button mat-button (click)="goBack()" matTooltip="Добавить строку">НАЗАД</button>
-      <button mat-button (click)="generate()" matTooltip="Сгенерировать в эксель">СГЕНЕРИРОВАТЬ ОТЧЕТ</button>
+      <button [disabled]="!selected_fields.length" mat-button (click)="fetchData()" matTooltip="Сформировать данные">СФОРМИРОВАТЬ ДАННЫЕ</button>
     </mat-card-actions>
   </mat-card>
 
-
+  <app-view-report-result  [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
