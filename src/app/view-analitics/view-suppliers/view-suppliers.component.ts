@@ -17,7 +17,7 @@ import { AppConfig } from 'src/app/app.config';
 export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
   constructor(private _httpClient: HttpClient, private router: Router, private _formBuilder: FormBuilder, ) { }
-  suppliersDisplayedColumns: string[] = ['id', 'name', 'inn', 'legalAddress', '_ownership_type', '_industry'];
+  suppliersDisplayedColumns: string[] = ['id', 'name', 'inn', 'legalAddress', 'ownershipTypeId', 'industryId'];
   httpDatabase: HttpDatabase | null;
   suppliersData: any[] = [];
 
@@ -51,7 +51,7 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
           this.filteredNames = [];
           this.isLoading = true;
         }),
-        switchMap(value => this._httpClient.get(AppConfig.settings.host_kong + "/dgz-kong-api/api/AnalisingServices/SearchByName?src=" + value+'&pin=02406199910174')
+        switchMap(value => this._httpClient.get(AppConfig.settings.host + "/data-api/suppliers/SearchByName?src=" + value+'&pin=02406199910174')
           .pipe(
             finalize(() => {
               this.isLoading = false
@@ -72,22 +72,22 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   fetchSuppliers(filterObj: any[]){
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
+    console.log('aaa')
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.httpDatabase!.getSuppliers(
+          return this.httpDatabase.getSuppliers(
             this.sort.active, this.sort.direction, this.paginator.pageIndex, filterObj, this.page_size);
         }),
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isRateLimitReached = false;
-          this.resultsLength = data.total_count;
+          this.resultsLength = data.totalElements;
 
-          return data.items;
+          return data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
@@ -95,7 +95,10 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
           this.isRateLimitReached = true;
           return observableOf([]);
         })
-      ).subscribe(data => this.suppliersData = data);
+      ).subscribe(data => {
+        this.suppliersData = data.content;
+        console.log(this.suppliersData)
+      });
   }
   navigateTo(row: any) {
     this.router.navigate(['/analitics/view-supplier/'+row.id]);
@@ -103,27 +106,27 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
   ownership_types: any[] = [];
   getOwnership_types(){
-    const href = '/api/ownership_type?pin=02406199910174';
+    const href = 'data-api/ownership_types';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
-      this.ownership_types = _;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.ownership_types = _['content'];
     });
   }
 
   industries: any[] = [];
   getIndustries(){
-    const href = '/api/industries?pin=02406199910174';
+    const href = 'data-api/industries';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
-      this.industries = _;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.industries = _['content'];
     });
   }
   license_types: any[] = [];
   getLicense_types(){
-    const href = '/api/license_types?pin=02406199910174';
+    const href = 'data-api/license_types';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
-      this.license_types = _;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.license_types = _['content'];
     });
   }
   page_size: number = 5;
@@ -159,8 +162,8 @@ export class HttpDatabase {
   constructor(private _httpClient: HttpClient) {}
 
   getSuppliers(sort: string, order: string, page: number, filterObj: any[], size: number): Observable<any> {
-    const href = '/api/AnalisingServices/GetSuppliersByPage?pin=02406199910174';
-    const requestUrl = `${href}&size=${size}&sort=${sort}&order=${order}&page=${page + 1}`;
-    return this._httpClient.post(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl, { conditions: filterObj }, httpOptions);
+    const href = 'data-api/suppliers';
+    const requestUrl = `${href}?size=${size}&sort=${sort}&order=${order}&page=${page + 1}`;
+    return this._httpClient.get(AppConfig.settings.host + requestUrl, httpOptions);
   }
 }

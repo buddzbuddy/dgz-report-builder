@@ -173,6 +173,7 @@ export class ListViewWidgetComponent implements OnInit, OnDestroy {
 
 export interface NewListTileDialogData {
   listViewId: number;
+  field_name: string;
 }
 @Component({
   selector: 'new-list-tile-dialog',
@@ -183,23 +184,14 @@ export class NewListTileDialog implements OnInit{
   constructor(
     public dialogRef: MatDialogRef<NewListTileDialog>,
     @Inject(MAT_DIALOG_DATA) public data: NewListTileDialogData,
-    private dataSvc: DataService, private _formBuilder: FormBuilder) {}
+    private _formBuilder: FormBuilder) {}
     ngOnInit() {
       this.formGroup = this._formBuilder.group({
-        leading_icon: '',
-        title_name: '',
+        field_val: '',
       });
     }
   onSaveClick(): void {
-    
-    let obj = {
-      listViewId: this.data.listViewId,
-      ...this.formGroup.value,
-      tapEvent: 'event'
-    };
-    this.dataSvc.customApi_WidgetsCreateListItem(obj).subscribe(_ => {
-      this.dialogRef.close();
-    });
+    this.dialogRef.close({ ...this.formGroup.value, field_name: this.data.field_name});
   }
   onCloseClick(): void {
     this.dialogRef.close();

@@ -3,6 +3,8 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
+import { HttpClient } from '@angular/common/http';
+import { AppConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'app-view-constructor',
@@ -12,11 +14,17 @@ import { DataService } from 'src/app/data.service';
 export class ViewConstructorComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
-    private dataSvc: DataService,
-    public dialog: MatDialog,
-    private router: Router,) { }
-
+    private _httpClient: HttpClient, ) { }
+    datasourceId: number
   ngOnInit() {
+    if (this.route.params != null){
+      this.route.params.subscribe(params => {
+        if (params['datasourceId'] != null) {
+          this.datasourceId = params['datasourceId'];
+          this.getSourceDetails();
+        }
+      });
+    }
   }
   todo = [
     'Наименование Поставщика',
@@ -24,6 +32,10 @@ export class ViewConstructorComponent implements OnInit {
     'ИНН',
     'Телефон'
   ];
+
+  fields = []
+  offline_fields = []
+  selected_fields = []
 
   done = [
     'Банк',
@@ -33,16 +45,33 @@ export class ViewConstructorComponent implements OnInit {
     'Element 3'
   ];
 
-  getSourceFields(sourceId){
-    this.dataSvc.getFieldsByTemplateId(sourceId).subscribe(_ => {
-
+  getSourceFields(){
+    const href = `data-api/datasources/${this.datasourceId}/fields/`;
+    const requestUrl = `${href}`;
+    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.fields = _;
+      console.log(_);
+    });
+    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.offline_fields = _;
+      console.log(_);
+    });
+  }
+  sourceObj:any = {}
+  getSourceDetails(){
+    const href = `data-api/datasources/${this.datasourceId}`;
+    const requestUrl = `${href}`;
+    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.sourceObj = _;
+      this.getSourceFields()
+      console.log(_);
     });
   }
 
   goBack(){
     window.history.back();
   }
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       console.log('inside container');
@@ -53,5 +82,9 @@ export class ViewConstructorComponent implements OnInit {
                         event.currentIndex);
       console.log('another container');
     }
+  }
+
+  moveToConditions() {
+
   }
 }

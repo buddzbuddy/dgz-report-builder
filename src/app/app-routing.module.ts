@@ -75,7 +75,7 @@ const routes: Routes = [
   { path: 'view-map-history/:appUserId', component: ViewMapHistoryComponent },
   { path: 'flutter/list-view-widget/:routeData', component: ListViewWidgetComponent },
   { path: 'report-builder/view-source-list', component: ViewSourceListComponent },
-  { path: 'report-builder/view-constructor', component: ViewConstructorComponent },
+  { path: 'report-builder/view-constructor/:datasourceId', component: ViewConstructorComponent },
   { path: 'analitics', component: ViewAnaliticsComponent },
   { path: 'analitics/view-supplier/:supplierId', component: ViewSupplierComponent },
   { path: 'analitics/upload-supplier-list', component: UploadSupplierListComponent },

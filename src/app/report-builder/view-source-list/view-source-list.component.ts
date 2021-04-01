@@ -1,8 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as moment from 'moment';
+import { AppConfig } from 'src/app/app.config';
 import { EditListTileDialog, NewListTileDialog } from 'src/app/customs/flutter/list-view-widget/list-view-widget.component';
 import { DataService } from 'src/app/data.service';
 
@@ -17,7 +19,8 @@ export class ViewSourceListComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private dataSvc: DataService,
     public dialog: MatDialog,
-    private router: Router,) {
+    private router: Router,
+    private _httpClient: HttpClient, ) {
       this.router.routeReuseStrategy.shouldReuseRoute = function () {
         return false;
       };
@@ -37,14 +40,16 @@ export class ViewSourceListComponent implements OnInit {
     }
 
     getSourceList(){
-      this.dataSvc.getSourceList().subscribe(_ => {
-        console.log(_);
-        this.sourceList = _.content;
-      });
+      const href = 'data-api/datasources/';
+    const requestUrl = `${href}`;
+    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.sourceList = _.content;
+      console.log(_);
+    });
     }
 
-    nextToSource(){
-      this.router.navigate(['report-builder/view-constructor'])
+    nextToSource(datasourceId){
+      this.router.navigate(['report-builder/view-constructor/' + datasourceId])
     }
     goBack(){
       window.history.back();

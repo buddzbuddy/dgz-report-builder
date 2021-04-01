@@ -31,7 +31,7 @@ export class ViewAuditSectionComponent implements OnInit {
   getMethod_types(){
     const href = '/api/audit_method_types?pin=02406199910174';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host_kong + "/dgz-kong-api" + requestUrl).subscribe(_ => {
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.method_types = _;
       console.log(_);
     });
