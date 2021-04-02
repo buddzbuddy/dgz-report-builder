@@ -89,7 +89,7 @@ import { KoykaComponent, NewPatientDialog, OutPatientDialog, DeadPatientDialog }
 import { GeoreportComponent } from './reports/georeport/georeport.component';
 import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
 import { MapItemComponent } from './view-map-history/map-item/map-item.component';
-import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListTileDialog, NewListViewDialog, NewPageDialog, NewTextDialog } from './customs/flutter/list-view-widget/list-view-widget.component';
+import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListViewDialog, NewPageDialog, NewTextDialog } from './customs/flutter/list-view-widget/list-view-widget.component';
 import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -108,7 +108,7 @@ import { ViewSupplierLicensesComponent } from './view-analitics/view-supplier/vi
 import { ViewSupplierIpsComponent } from './view-analitics/view-supplier/view-supplier-ips/view-supplier-ips.component';
 import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
 import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
-import { ViewReportConditionsComponent } from './report-builder/view-constructor/view-report-conditions/view-report-conditions.component';
+import { AddCheckboxConditionDialog, AddDateConditionDialog, AddSelectConditionDialog, AddTextConditionDialog, ViewReportConditionsComponent } from './report-builder/view-constructor/view-report-conditions/view-report-conditions.component';
 import { ViewReportResultComponent } from './report-builder/view-constructor/view-report-result/view-report-result.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -188,7 +188,10 @@ export function initializeApp(appConfig: AppConfig) {
     ViewMapHistoryComponent,
     MapItemComponent,
     ListViewWidgetComponent,
-    NewListTileDialog,
+    AddTextConditionDialog,
+    AddDateConditionDialog,
+    AddCheckboxConditionDialog,
+    AddSelectConditionDialog,
     NewListViewDialog,
     NewPageDialog,
     NewTextDialog,
@@ -269,7 +272,10 @@ export function initializeApp(appConfig: AppConfig) {
     NewPatientDialog,
     OutPatientDialog,
     DeadPatientDialog,
-    NewListTileDialog,
+    AddTextConditionDialog,
+    AddDateConditionDialog,
+    AddCheckboxConditionDialog,
+    AddSelectConditionDialog,
     NewListViewDialog,
     NewPageDialog,
     NewTextDialog,

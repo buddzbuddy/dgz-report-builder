@@ -2,24 +2,7 @@ import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { Observable, Subscription } from 'rxjs';
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
-}
-
-/** Constants used to fill up our data base. */
-const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-view-report-result',
@@ -31,7 +14,13 @@ export class ViewReportResultComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true}) sort: MatSort;
 
-  @Input() data: any[] = []
+  private _data = new BehaviorSubject<any[]>([]);
+  @Input()  set data(value: any[]) { 
+    this._data.next(value); 
+}
+get data() {
+  return this._data.getValue();
+}
   @Input() selected_fields: any[] = []
   public columnsProps: string[] = [];
   public columnsCapts: any = {}
@@ -54,11 +43,12 @@ ngOnInit(){
   this.eventsSubscription = this.events.subscribe(() => {
     this.columnsProps = this.selected_fields.map((column) => column.name);
     this.columnsCapts = this.toObject(this.selected_fields)
-    this.dataSource = new MatTableDataSource(this.data);
+  });
+  this._data.subscribe(x => {
+    this.dataSource = new MatTableDataSource(x);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log('table emited')
-  });
+ })
 }
 
 ngOnDestroy() {

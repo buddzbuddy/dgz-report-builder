@@ -5,7 +5,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as moment from 'moment';
 import { AppConfig } from 'src/app/app.config';
-import { EditListTileDialog, NewListTileDialog } from 'src/app/customs/flutter/list-view-widget/list-view-widget.component';
 import { DataService } from 'src/app/data.service';
 
 @Component({
@@ -76,29 +75,5 @@ export class ViewSourceListComponent implements OnInit {
       });
     }
     
-  }
-  
-  editTile(tileComponent:any){
-    const dialogRef = this.dialog.open(EditListTileDialog, {
-      data: {
-        tileId: tileComponent.custom_props.id,
-        leading_icon: tileComponent.leading.data,
-        title_name: tileComponent.title.data
-      }
-    });
-    dialogRef.afterClosed().subscribe(_ => {
-      this.getWidget();
-    });
-  }
-  
-  newTile() {
-    const dialogRef = this.dialog.open(NewListTileDialog, {
-      data: {
-        listViewId: this.listViewId
-      }
-    });
-    dialogRef.afterClosed().subscribe(_ => {
-      this.getWidget();
-    });
   }
 }

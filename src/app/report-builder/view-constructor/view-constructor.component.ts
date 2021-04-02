@@ -52,6 +52,13 @@ export class ViewConstructorComponent implements OnInit {
     });
   }
 
+  moveAll(){
+    this.fields.forEach(f => {
+      this.selected_fields.push(f)
+    });
+    this.fields = []
+    this.emitEventToChild();
+  }
   goBack(){
     window.history.back();
   }
@@ -93,7 +100,7 @@ export class ViewConstructorComponent implements OnInit {
     this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
       if(_.result) {
         this.data = _.data;
-        this.emitEventToChild();
+        //this.emitEventToChild();
       }
     });
   }

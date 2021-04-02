@@ -60,14 +60,14 @@ export class ListViewWidgetComponent implements OnInit, OnDestroy {
     }
   }
   newTile() {
-    const dialogRef = this.dialog.open(NewListTileDialog, {
+    /*const dialogRef = this.dialog.open(NewListTileDialog, {
       data: {
         listViewId: this.listViewId
       }
     });
     dialogRef.afterClosed().subscribe(_ => {
       this.getWidget();
-    });
+    });*/
   }
   
   editTile(tileComponent:any){
@@ -171,32 +171,6 @@ export class ListViewWidgetComponent implements OnInit, OnDestroy {
   }
 }
 
-export interface NewListTileDialogData {
-  listViewId: number;
-  field_name: string;
-}
-@Component({
-  selector: 'new-list-tile-dialog',
-  templateUrl: 'new-list-tile-dialog.html',
-})
-export class NewListTileDialog implements OnInit{
-  formGroup: FormGroup;
-  constructor(
-    public dialogRef: MatDialogRef<NewListTileDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: NewListTileDialogData,
-    private _formBuilder: FormBuilder) {}
-    ngOnInit() {
-      this.formGroup = this._formBuilder.group({
-        field_val: '',
-      });
-    }
-  onSaveClick(): void {
-    this.dialogRef.close({ ...this.formGroup.value, field_name: this.data.field_name});
-  }
-  onCloseClick(): void {
-    this.dialogRef.close();
-  }
-}
 export interface EditListTileDialogData {
   tileId: number;
   leading_icon: string;
