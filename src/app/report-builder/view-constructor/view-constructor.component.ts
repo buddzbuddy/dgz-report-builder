@@ -16,12 +16,12 @@ export class ViewConstructorComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private _httpClient: HttpClient, ) { }
-    datasourceId: number
+    className: String
   ngOnInit() {
     if (this.route.params != null){
       this.route.params.subscribe(params => {
-        if (params['datasourceId'] != null) {
-          this.datasourceId = params['datasourceId'];
+        if (params['className'] != null) {
+          this.className = params['className'];
           this.getSourceDetails();
         }
       });
@@ -33,18 +33,24 @@ export class ViewConstructorComponent implements OnInit {
   selected_fields = []
 
   getSourceFields(){
-    const href = `data-api/datasources/${this.datasourceId}/fields/`;
+    this.fields = this.sourceObj.propList;
+    let conditionFields = []
+    this.fields.forEach(val => conditionFields.push(Object.assign({}, val)));
+    //console.log(conditionFields)
+    this.offline_fields = conditionFields;
+    //this.emitEventToChild();
+    /*const href = `data-api/datasources/${this.datasourceId}/fields/`;
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.fields = _;
     });
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.offline_fields = _;
-    });
+    });*/
   }
   sourceObj:any = {}
   getSourceDetails(){
-    const href = `data-api/datasources/${this.datasourceId}`;
+    const href = `data-api/query/getMeta/${this.className}`;
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.sourceObj = _;

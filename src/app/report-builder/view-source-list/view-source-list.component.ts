@@ -39,15 +39,15 @@ export class ViewSourceListComponent implements OnInit {
     }
 
     getSourceList(){
-      const href = 'data-api/datasources/';
+      const href = 'data-api/query/getMeta';
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
-      this.sourceList = _.content;
+      this.sourceList = _.data;
     });
     }
 
-    nextToSource(datasourceId){
-      this.router.navigate(['report-builder/view-constructor/' + datasourceId])
+    nextToSource(className){
+      this.router.navigate(['report-builder/view-constructor/' + className])
     }
     goBack(){
       window.history.back();

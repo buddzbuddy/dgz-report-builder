@@ -27,10 +27,11 @@ get fields() {
   }
   selectItems = {}
   loadSelectItems(fields: any[]) {
+    console.log('loadSelectItems', fields)
     const href = `data-api/query/execute`;
 const requestUrl = `${href}`;
     fields.forEach(f => {
-      if(f.dataType == 'select' && f.dictionaryClassName != null) {
+      if(f.dataType == 'Long' && f.dictionaryClassName != null) {
     let obj = {
       table: f.dictionaryClassName
     };
@@ -43,11 +44,12 @@ const requestUrl = `${href}`;
     });
   }
   addCondition(f) {
+    console.log(this.selectItems[f.name])
     var d = {
       field_name: f.name,
       field_label: f.label
     };
-    if (f.dataType == 'select') {
+    if (f.dataType == 'Long' && f.dictionaryFieldName != null) {
       d['items'] = this.selectItems[f.name];
       d['item_field_name'] = f.dictionaryFieldName
     }
@@ -155,8 +157,8 @@ export class AddSelectConditionDialog {
 }
 
 const ELEMENTS = {
-  select: AddSelectConditionDialog,
-  text: AddTextConditionDialog,
+  Long: AddSelectConditionDialog,
+  String: AddTextConditionDialog,
   date: AddDateConditionDialog,
-  checkbox: AddCheckboxConditionDialog
+  Boolean: AddCheckboxConditionDialog
 }

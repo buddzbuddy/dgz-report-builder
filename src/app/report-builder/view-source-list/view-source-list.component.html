@@ -8,9 +8,9 @@
         <mat-list>
             <mat-list-item role="listitem" *ngFor="let s of sourceList">
                 <mat-icon>source</mat-icon>
-                <span style="padding-left: 10px;">{{s.description}}</span>
+                <span style="padding-left: 10px;">{{s.classLabel}}</span>
                 <span class="fill-remaining-space"></span>
-                <button mat-icon-button (click)="nextToSource(s.id)" matTooltip="Далее к списку">
+                <button mat-icon-button (click)="nextToSource(s.className)" matTooltip="Далее к списку">
                     <mat-icon>navigate_next</mat-icon>
                 </button>
             </mat-list-item>
