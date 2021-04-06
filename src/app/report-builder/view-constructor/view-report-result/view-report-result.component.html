@@ -1,9 +1,8 @@
-<mat-toolbar>Результат запроса</mat-toolbar>
+<mat-toolbar>Результат запроса {{data.length || 0}}</mat-toolbar>
 <mat-form-field>
     <mat-label>Поиск по тексту</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Иванов Иван" #input>
   </mat-form-field>
-  
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="example-table" matSort>
         <ng-container [matColumnDef]="column" *ngFor="let column of columnsProps">

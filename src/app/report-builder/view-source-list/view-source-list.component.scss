@@ -7,3 +7,11 @@
     background-image: url('../../../assets/images/logo.png');
     background-size: cover;
   }
+
+  .list-btn{
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .list-btn:hover {
+    background-color: rgba(190, 190, 190, 0.514);
+  }

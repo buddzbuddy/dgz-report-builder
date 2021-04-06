@@ -5,36 +5,68 @@
       <mat-card-subtitle>Конструктор отчета</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>
+                rule
+                </mat-icon>
+              <span style="padding: 2px;">Выбрать поля</span>
+            </mat-panel-title>
+            <mat-panel-description style="flex-grow: 0">
+              Здесь вы можете задать поля которые хотите видеть в таблице
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div>
+
       <button mat-stroked-button color="primary" (click)="moveAll()">Выбрать все</button>
-<div cdkDropListGroup>
-    <div class="example-container">
-      <h4>
-        <span *ngIf="sourceObj.classLabel != null">{{sourceObj.classLabel}}</span>
-        <span *ngIf="sourceObj.classLabel == null">Источник</span>
-      </h4>
-      <div
-        cdkDropList
-        [cdkDropListData]="fields"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let f of fields" cdkDrag>{{f.label}}</div>
-      </div>
-    </div>
-  
-    <div class="example-container">
-      <h4>Выбранные поля</h4>
-  
-      <div
-        cdkDropList
-        [cdkDropListData]="selected_fields"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let f of selected_fields" cdkDrag>{{f.label}}</div>
-      </div>
-    </div>
-  </div>
+      <div cdkDropListGroup>
+          <div class="example-container">
+            <h4>
+              <span *ngIf="sourceObj.classLabel != null">{{sourceObj.classLabel}}</span>
+              <span *ngIf="sourceObj.classLabel == null">Источник</span>
+            </h4>
+            <div
+              cdkDropList
+              [cdkDropListData]="fields"
+              class="example-list"
+              (cdkDropListDropped)="drop($event)">
+              <div class="example-box" *ngFor="let f of fields" cdkDrag>{{f.label}}</div>
+            </div>
+          </div>
+        
+          <div class="example-container">
+            <h4>Выбранные поля</h4>
+        
+            <div
+              cdkDropList
+              [cdkDropListData]="selected_fields"
+              class="example-list"
+              (cdkDropListDropped)="drop($event)">
+              <div class="example-box" *ngFor="let f of selected_fields" cdkDrag>{{f.label}}</div>
+              <i *ngIf="!selected_fields.length">Перетащите сюда поля</i>
+            </div>
+          </div>
+        </div>
+          </div>
+          
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Условия запроса
+            </mat-panel-title>
+            <mat-panel-description style="flex-grow: 0">
+              Здесь вы можете задать критерии поиска
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            
   <app-view-report-conditions [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
+    
+        </mat-expansion-panel>
+      </mat-accordion>
     
 </mat-card-content>
     <mat-card-actions>
@@ -42,6 +74,7 @@
       <button [disabled]="!selected_fields.length" mat-button (click)="fetchData()" matTooltip="Сформировать данные">СФОРМИРОВАТЬ ДАННЫЕ</button>
     </mat-card-actions>
   </mat-card>
-  <div style="padding: 10px;">
+  <div [ngStyle]="{'display': selected_fields.length > 0 ? 'block' : 'none'}" style="padding: 10px;">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
     <app-view-report-result [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
   </div>

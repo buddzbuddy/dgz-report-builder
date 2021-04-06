@@ -1,7 +1,6 @@
 
   <div>
     <div class="example-container">
-      <h4>Условия выборки</h4>
       <div
         class="example-list">
         <div class="example-box" *ngFor="let f of fields">
@@ -9,15 +8,13 @@
         <span style="padding-left: 10px;">{{f.label}}</span>
         <span class="fill-remaining-space"></span>
             <button *ngIf="f.dataType != 'select' || (f.dataType == 'select' && selectItems[f.name])" mat-icon-button (click)="addCondition(f)" matTooltip="Задать условие">
-                <mat-icon>add_circle_outline</mat-icon>
+                <mat-icon>edit</mat-icon>
             </button>
         </div>
       </div>
     </div>
   
     <div class="example-container">
-      <h4>Значение</h4>
-  
       <div
         class="example-list">
         <div class="example-box" *ngFor="let f of fields">

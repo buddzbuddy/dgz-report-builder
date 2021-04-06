@@ -50,7 +50,6 @@ ngOnInit(){
     this.dataSource.sort = this.sort;
  })
 }
-
 ngOnDestroy() {
   this.eventsSubscription.unsubscribe();
 }

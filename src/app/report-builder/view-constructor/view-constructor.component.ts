@@ -86,26 +86,29 @@ export class ViewConstructorComponent implements OnInit {
     console.log('conditions updated', c);
     this.conditions = c;
   }
+  isLoading = false
   data = []
   fetchData() {
-    const href = `data-api/query/execute`;
+    const href = `data-api/query/exec`;
     const requestUrl = `${href}`;
     let paramList = []
     for (let i = 0; i < Object.keys(this.conditions).length; i++) {
       const el = Object.keys(this.conditions)[i];
       paramList.push({
-        key: el,
-        operation: ":",
+        property: el,
+        operator: "=",
         value: this.conditions[el]
       })
     }
     let obj = {
-      table: this.sourceObj.name,
-      params: paramList
+      rootName: this.sourceObj.className,
+      searchFitler: paramList
     }
+    this.isLoading = true;
     this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
       if(_.result) {
         this.data = _.data;
+        this.isLoading = false;
         //this.emitEventToChild();
       }
     });
