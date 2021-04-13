@@ -4,7 +4,10 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Иванов Иван" #input>
   </mat-form-field>
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" class="example-table" matSort>
+    <button color="primary" matTooltip="Скачать в Excel" mat-button (click)="exporter.exportTable('xlsx', {fileName:'export-file', sheet: 'sheet_name', Props: {Author: 'Talha'}})">
+      <mat-icon>get_app</mat-icon> скачать Excel
+    </button>
+    <table matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]"  mat-table [dataSource]="dataSource" class="example-table" matSort>
         <ng-container [matColumnDef]="column" *ngFor="let column of columnsProps">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsCapts[column]}} </th>
           <td mat-cell *matCellDef="let element">

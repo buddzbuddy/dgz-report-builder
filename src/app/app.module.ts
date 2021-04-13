@@ -110,7 +110,7 @@ import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-
 import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
 import { AddCheckboxConditionDialog, AddDateConditionDialog, AddSelectConditionDialog, AddTextConditionDialog, ViewReportConditionsComponent } from './report-builder/view-constructor/view-report-conditions/view-report-conditions.component';
 import { ViewReportResultComponent } from './report-builder/view-constructor/view-report-result/view-report-result.component';
-
+import { MatTableExporterModule } from 'mat-table-exporter';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -238,7 +238,8 @@ export function initializeApp(appConfig: AppConfig) {
     VgOverlayPlayModule,
     VgBufferingModule,
     NgxMaskModule.forRoot(),
-    DragDropModule
+    DragDropModule,
+    MatTableExporterModule
   ],
   providers: [
     AppConfig,
