@@ -1,7 +1,7 @@
 {
     "appConfig":{
         "dbPrefix": "dgz",
-        "host": "http://localhost:8080/",
+        "host": "http://localhost:46142/",
         "host_logs": "",
         "host_kong": "",
         "host_analitics":"",
