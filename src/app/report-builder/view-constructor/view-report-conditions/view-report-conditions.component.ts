@@ -31,7 +31,7 @@ get fields() {
     const href = `data-api/query/execute`;
 const requestUrl = `${href}`;
     fields.forEach(f => {
-      if(f.dataType == 'Long' && f.dictionaryClassName != null) {
+      if(f.dataType == 'long' && f.dictionaryClassName != null) {
     let obj = {
       table: f.dictionaryClassName
     };
@@ -49,7 +49,7 @@ const requestUrl = `${href}`;
       field_name: f.name,
       field_label: f.label
     };
-    if (f.dataType == 'Long' && f.dictionaryFieldName != null) {
+    if (f.dataType == 'long' && f.dictionaryFieldName != null) {
       d['items'] = this.selectItems[f.name];
       d['item_field_name'] = f.dictionaryFieldName
     }
@@ -156,9 +156,9 @@ export class AddSelectConditionDialog {
   }
 }
 
-const ELEMENTS = {
-  Long: AddSelectConditionDialog,
+export const ELEMENTS = {
+  long: AddSelectConditionDialog,
   String: AddTextConditionDialog,
   date: AddDateConditionDialog,
-  Boolean: AddCheckboxConditionDialog
+  boolean: AddCheckboxConditionDialog
 }

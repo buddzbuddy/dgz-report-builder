@@ -66,6 +66,19 @@
   <app-view-report-conditions [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
     
         </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Добавить новую запись
+            </mat-panel-title>
+            <mat-panel-description style="flex-grow: 0">
+              Здесь вы можете добавить записи вручную
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            
+  <app-view-report-item-filler [fields]="{fields: offline_fields, entityName: sourceObj.className}"></app-view-report-item-filler>
+    
+        </mat-expansion-panel>
       </mat-accordion>
     
 </mat-card-content>

@@ -111,6 +111,7 @@ import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/v
 import { AddCheckboxConditionDialog, AddDateConditionDialog, AddSelectConditionDialog, AddTextConditionDialog, ViewReportConditionsComponent } from './report-builder/view-constructor/view-report-conditions/view-report-conditions.component';
 import { ViewReportResultComponent } from './report-builder/view-constructor/view-report-result/view-report-result.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { ViewReportItemFillerComponent } from './report-builder/view-constructor/view-report-item-filler/view-report-item-filler.component';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -214,7 +215,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewSodUpdaterComponent,
     ViewAuditSectionComponent,
     ViewReportConditionsComponent,
-    ViewReportResultComponent
+    ViewReportResultComponent,
+    ViewReportItemFillerComponent
   ],
   imports: [
     BrowserModule,
