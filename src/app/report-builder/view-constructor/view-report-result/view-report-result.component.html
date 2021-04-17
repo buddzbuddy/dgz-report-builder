@@ -7,6 +7,14 @@
     <button color="primary" matTooltip="Скачать в Excel" mat-button (click)="exporter.exportTable('xlsx', {fileName:'export-file', sheet: 'sheet_name', Props: {Author: 'Talha'}})">
       <mat-icon>get_app</mat-icon> скачать Excel
     </button>
+    <mat-button-toggle-group #group="matButtonToggleGroup">
+      <mat-button-toggle value="basic">
+        обычный
+      </mat-button-toggle>
+      <mat-button-toggle value="source">
+        исходный
+      </mat-button-toggle>
+    </mat-button-toggle-group>
     <table matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]"  mat-table [dataSource]="dataSource" class="example-table" matSort>
         <ng-container [matColumnDef]="column" *ngFor="let column of columnsProps">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsCapts[column]}} </th>
@@ -15,10 +23,26 @@
               {{element[column] | date:'dd.MM.yyyy'}}
             </ng-container>
             <ng-container *ngIf="columnsTypes[column].isSelect">
-              {{parseSelect(column, element[column])}}
+              <ng-container *ngIf="group.value == 'source'">
+                {{element[column]}}
+              </ng-container>
+              <ng-container *ngIf="!(group.value == 'source')">
+                {{parseSelect(column, element[column])}}
+              </ng-container>
             </ng-container>
-            <ng-container *ngIf="!columnsTypes[column].isSelect && columnsTypes[column].type != 'Date'">
+            <ng-container *ngIf="
+            !columnsTypes[column].isSelect
+             && columnsTypes[column].type != 'Date'
+             && columnsTypes[column].type != 'boolean'">
               {{element[column]}}
+            </ng-container>
+            <ng-container *ngIf="columnsTypes[column].type == 'boolean'">
+              <ng-container *ngIf="group.value == 'source'">
+                {{element[column]}}
+              </ng-container>
+              <ng-container *ngIf="!(group.value == 'source')">
+                {{element[column] ? 'да' : 'нет'}}
+              </ng-container>
             </ng-container>
           </td>
         </ng-container>
