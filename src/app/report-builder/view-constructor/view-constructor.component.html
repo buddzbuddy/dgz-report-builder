@@ -66,7 +66,7 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Добавить новую запись
+              Добавить 1 новую запись
             </mat-panel-title>
             <mat-panel-description style="flex-grow: 0">
               Здесь вы можете добавить записи вручную
@@ -76,6 +76,21 @@
   <app-view-report-item-filler [selectItems]="selectItems" [fields]="{fields: offline_fields, entityName: sourceObj.className}"></app-view-report-item-filler>
     
         </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Добавить список (из excel)
+            </mat-panel-title>
+            <mat-panel-description style="flex-grow: 0">
+              Здесь вы можете добавить записи пакетно
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            
+  <app-view-report-uploader [entityName]="sourceObj.className"></app-view-report-uploader>
+    
+        </mat-expansion-panel>
+
       </mat-accordion>
     
 </mat-card-content>

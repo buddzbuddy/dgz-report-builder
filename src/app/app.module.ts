@@ -112,6 +112,7 @@ import { AddCheckboxConditionDialog, AddDateConditionDialog, AddSelectConditionD
 import { ViewReportResultComponent } from './report-builder/view-constructor/view-report-result/view-report-result.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ViewReportItemFillerComponent } from './report-builder/view-constructor/view-report-item-filler/view-report-item-filler.component';
+import { ViewReportUploaderComponent } from './report-builder/view-constructor/view-report-uploader/view-report-uploader.component';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -216,7 +217,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewAuditSectionComponent,
     ViewReportConditionsComponent,
     ViewReportResultComponent,
-    ViewReportItemFillerComponent
+    ViewReportItemFillerComponent,
+    ViewReportUploaderComponent
   ],
   imports: [
     BrowserModule,
