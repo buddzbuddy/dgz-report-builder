@@ -24,30 +24,13 @@ get fields() {
   entityName = ''
   ngOnInit(){
     this._fields.subscribe(x => {
-      this.loadSelectItems(x.fields);
+      //this.loadSelectItems(x.fields);
       this.entityName = x.entityName
    })
   }
-  selectItems = {}
-  loadSelectItems(fields: any[]) {
-    console.log('loadSelectItems', fields)
-    const href = `data-api/query/execute`;
-const requestUrl = `${href}`;
-    fields.forEach(f => {
-      if(f.dataType == 'long' && f.dictionaryClassName != null) {
-    let obj = {
-      table: f.dictionaryClassName
-    };
-    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
-      if(_.result) {
-        this.selectItems[f.name] = _.data;
-      }
-    });
-      }
-    });
-  }
+  @Input() selectItems = {}
   addCondition(f) {
-    console.log(this.selectItems[f.name])
+    //console.log(this.selectItems[f.name])
     var d = {
       field_name: f.name,
       field_label: f.label
@@ -66,7 +49,7 @@ const requestUrl = `${href}`;
     //this.updateListEvent.emit(this.field_vals);
       }
       else {
-        console.log('filter not set')
+        //console.log('filter not set')
       }
       //this.getWidget();
     });

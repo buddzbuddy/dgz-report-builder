@@ -38,6 +38,7 @@ export class ViewConstructorComponent implements OnInit {
     this.fields.forEach(val => conditionFields.push(Object.assign({}, val)));
     //console.log(conditionFields)
     this.offline_fields = conditionFields;
+    this.loadSelectItems();
     //this.emitEventToChild();
     /*const href = `data-api/datasources/${this.datasourceId}/fields/`;
     const requestUrl = `${href}`;
@@ -118,4 +119,22 @@ export class ViewConstructorComponent implements OnInit {
 emitEventToChild() {
   this.eventsSubject.next();
 }
+
+selectItems = {}
+  loadSelectItems() {
+    const href = `data-api/query/exec`;
+const requestUrl = `${href}`;
+    this.offline_fields.forEach(f => {
+      if(f.dataType == 'long' && f.dictionaryClassName != null) {
+    let obj = {
+      rootName: f.dictionaryClassName
+    };
+    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      if(_.result) {
+        this.selectItems[f.name] = _.data;
+      }
+    });
+      }
+    });
+  }
 }

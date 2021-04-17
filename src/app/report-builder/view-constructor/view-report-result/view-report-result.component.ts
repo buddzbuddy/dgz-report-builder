@@ -24,6 +24,8 @@ get data() {
   @Input() selected_fields: any[] = []
   public columnsProps: string[] = [];
   public columnsCapts: any = {}
+  public columnsTypes: any = {}
+  public columnsCollections: any = {}
   constructor() {
   }
 
@@ -35,6 +37,38 @@ get data() {
     }
     return r;
   }
+
+  toObject2(arr: any[]):any {
+    var r = {}
+    for (let i = 0; i < arr.length; i++) {
+      const el = arr[i];
+      r[el.name] = {
+        type: el.dataType,
+        isSelect: el.dictionaryClassName != null,
+        selectFieldName: el.dictionaryFieldName
+      }
+    }
+    return r;
+  }
+
+  @Input() selectItems = {}
+
+  parseSelect(fieldName: string, valId: number) : string {
+    let valName = ""
+
+    if(this.selectItems[fieldName]) {
+      let items: any[] = this.selectItems[fieldName];
+      for (let index = 0; index < items.length; index++) {
+        const e = items[index];
+        if(e.id == valId) {
+          return e.name;
+        }
+      }
+    }
+
+    return valName;
+  }
+
   private eventsSubscription: Subscription;
 
 @Input() events: Observable<void>;
@@ -42,7 +76,8 @@ get data() {
 ngOnInit(){
   this.eventsSubscription = this.events.subscribe(() => {
     this.columnsProps = this.selected_fields.map((column) => column.name);
-    this.columnsCapts = this.toObject(this.selected_fields)
+    this.columnsCapts = this.toObject(this.selected_fields);
+    this.columnsTypes = this.toObject2(this.selected_fields);
   });
   this._data.subscribe(x => {
     this.dataSource = new MatTableDataSource(x);

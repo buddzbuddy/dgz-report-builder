@@ -11,7 +11,15 @@
         <ng-container [matColumnDef]="column" *ngFor="let column of columnsProps">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsCapts[column]}} </th>
           <td mat-cell *matCellDef="let element">
-            {{element[column]}}
+            <ng-container *ngIf="columnsTypes[column].type == 'Date'">
+              {{element[column] | date:'dd.MM.yyyy'}}
+            </ng-container>
+            <ng-container *ngIf="columnsTypes[column].isSelect">
+              {{parseSelect(column, element[column])}}
+            </ng-container>
+            <ng-container *ngIf="!columnsTypes[column].isSelect && columnsTypes[column].type != 'Date'">
+              {{element[column]}}
+            </ng-container>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsProps; sticky: true"></tr>

@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z8 example-card">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Построение отчета</mat-card-title>
+      <mat-card-title>{{sourceObj.classLabel}}</mat-card-title>
       <mat-card-subtitle>Конструктор отчета</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
@@ -21,13 +21,10 @@
           
           <div>
 
-      <button mat-stroked-button color="primary" (click)="moveAll()">Выбрать все</button>
       <div cdkDropListGroup>
           <div class="example-container">
-            <h4>
-              <span *ngIf="sourceObj.classLabel != null">{{sourceObj.classLabel}}</span>
-              <span *ngIf="sourceObj.classLabel == null">Источник</span>
-            </h4>
+
+      <button mat-stroked-button color="primary" (click)="moveAll()">Выбрать все</button>
             <div
               cdkDropList
               [cdkDropListData]="fields"
@@ -63,7 +60,7 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
             
-  <app-view-report-conditions [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
+  <app-view-report-conditions [selectItems]="selectItems" [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
     
         </mat-expansion-panel>
         <mat-expansion-panel>
@@ -76,7 +73,7 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
             
-  <app-view-report-item-filler [fields]="{fields: offline_fields, entityName: sourceObj.className}"></app-view-report-item-filler>
+  <app-view-report-item-filler [selectItems]="selectItems" [fields]="{fields: offline_fields, entityName: sourceObj.className}"></app-view-report-item-filler>
     
         </mat-expansion-panel>
       </mat-accordion>
@@ -89,5 +86,5 @@
   </mat-card>
   <div [ngStyle]="{'display': selected_fields.length > 0 ? 'block' : 'none'}" style="padding: 10px;">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <app-view-report-result [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
+    <app-view-report-result [selectItems]="selectItems" [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
   </div>
