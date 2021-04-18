@@ -1,6 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import { Router } from '@angular/router';
@@ -19,7 +20,7 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   constructor(private _httpClient: HttpClient, private router: Router, private _formBuilder: FormBuilder, ) { }
   suppliersDisplayedColumns: string[] = ['id', 'name', 'inn', 'legalAddress', 'ownershipTypeId', 'industryId'];
   httpDatabase: HttpDatabase | null;
-  suppliersData: any[] = [];
+  suppliersData: MatTableDataSource<any> = new MatTableDataSource();
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -39,66 +40,21 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   }
   ngOnInit(){
     this.formGroup = this._formBuilder.group({
-      ownership_type: '',
+      ownershipTypeId: '',
       inn: '',
-      industry:'',
-      license__license_type:''
+      industryId:''
     });
-    this.searchNameCtrl.valueChanges
-      .pipe(
-        debounceTime(500),
-        tap(() => {
-          this.filteredNames = [];
-          this.isLoading = true;
-        }),
-        switchMap(value => this._httpClient.get(AppConfig.settings.host + "/data-api/suppliers/SearchByName?src=" + value+'&pin=02406199910174')
-          .pipe(
-            finalize(() => {
-              this.isLoading = false
-            }),
-          )
-        )
-      )
-      .subscribe(data => {
-        this.filteredNames = data;
-        console.log(this.filteredNames);
-      });
-    this.formGroup.addControl('name', this.searchNameCtrl);
   }
-  searchNameCtrl = new FormControl();
   filteredNames: any;
   isLoading = false;
 
   fetchSuppliers(filterObj: any[]){
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-    console.log('aaa')
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.httpDatabase.getSuppliers(
-            this.sort.active, this.sort.direction, this.paginator.pageIndex, filterObj, this.page_size);
-        }),
-        map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.totalElements;
-
-          return data;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          // Catch if the GitHub API has reached its rate limit. Return empty data.
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => {
-        this.suppliersData = data.content;
-        console.log(this.suppliersData)
-      });
+    this.httpDatabase.getSuppliers(filterObj).subscribe(_ => {
+      this.suppliersData = new MatTableDataSource(_.data);
+      this.suppliersData.paginator = this.paginator;
+      this.suppliersData.sort = this.sort;
+      this.isLoadingResults = false;
+    });
   }
   navigateTo(row: any) {
     this.router.navigate(['/analitics/view-supplier/'+row.id]);
@@ -106,38 +62,67 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
   ownership_types: any[] = [];
   getOwnership_types(){
-    const href = 'data-api/ownership_types';
+    const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
-      this.ownership_types = _['content'];
+    let obj = {
+      rootName: "OwnershipType"
+    }
+    this._httpClient.post(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      this.ownership_types = _['data'];
     });
   }
 
   industries: any[] = [];
   getIndustries(){
-    const href = 'data-api/industries';
+    let obj = {
+      rootName: "Industry"
+    }
+    const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
-      this.industries = _['content'];
+    this._httpClient.post(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      this.industries = _['data'];
     });
   }
   license_types: any[] = [];
   getLicense_types(){
-    const href = 'data-api/license_types';
+    let obj = {
+      rootName: "LicenseType"
+    }
+    const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
-      this.license_types = _['content'];
+    this._httpClient.post(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      this.license_types = _['data'];
     });
   }
-  page_size: number = 5;
+
+
+  parseSelect(fieldName: string, valId: number) : string {
+    let valName = ""
+
+    if(fieldName == 'ownershipTypeId') {
+      for (let index = 0; index < this.ownership_types.length; index++) {
+        const e = this.ownership_types[index];
+        if(e.id == valId) {
+          return e.name;
+        }
+      }
+    }
+    if(fieldName == 'industryId') {
+      for (let index = 0; index < this.industries.length; index++) {
+        const e = this.industries[index];
+        if(e.id == valId) {
+          return e.name;
+        }
+      }
+    }
+
+    return valName;
+  }
   applyFilter(){
-    console.log(this.formGroup.value);
-    console.log(this.page_size);
-    if(this.page_size == null) this.page_size = 5;
     let filterObj: any[] = [];
     for(let f of Object.keys(this.formGroup.value)){
       if(this.formGroup.value[f] != null && this.formGroup.value[f] != ''){
-        filterObj.push({ field_name: f, operation: '==', val: this.formGroup.value[f] });
+        filterObj.push({ property: f, operator: '=', value: this.formGroup.value[f] });
       }
     }
     this.fetchSuppliers(filterObj);
@@ -152,18 +137,17 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   }
   
 }
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 /** An example database that the data source uses to retrieve data for the table. */
 export class HttpDatabase {
   constructor(private _httpClient: HttpClient) {}
 
-  getSuppliers(sort: string, order: string, page: number, filterObj: any[], size: number): Observable<any> {
-    const href = 'data-api/suppliers';
-    const requestUrl = `${href}?size=${size}&sort=${sort}&order=${order}&page=${page + 1}`;
-    return this._httpClient.get(AppConfig.settings.host + requestUrl, httpOptions);
+  getSuppliers(filterObj: any[]): Observable<any> {
+    const href = 'data-api/query/exec';
+    let obj = {
+      rootName: "Supplier",
+      searchFitler: filterObj
+    }
+    const requestUrl = `${href}`;
+    return this._httpClient.post(AppConfig.settings.host + requestUrl, obj);
   }
 }

@@ -22,11 +22,31 @@
         </tr>
         <tr>
             <td>Форма собственности</td>
-            <td>{{supplier.ownershipTypeId}}</td>
+            <td>{{supplier.ownershipType?.name}}</td>
+        </tr>
+        <tr>
+            <td>Отрасль</td>
+            <td>{{supplier.industry?.name}}</td>
+        </tr>
+        <tr>
+            <td>Юр. адрес</td>
+            <td>{{supplier.legalAddress}}</td>
         </tr>
         <tr>
             <td>Факт. адрес</td>
             <td>{{supplier.factAddress}}</td>
+        </tr>
+        <tr [class.blackList]="supplier.isBlack">
+          <td>
+            Черный список
+          </td>
+          <td>{{supplier.isBlack ? 'да' : 'нет'}}</td>
+        </tr>
+        <tr>
+          <td>
+            Резидент
+          </td>
+          <td>{{supplier.isResident ? 'да' : 'нет'}}</td>
         </tr>
         <tr>
             <td>Руководитель</td>
@@ -57,12 +77,6 @@
         <tr>
           <td>Наличие претензий по качеству</td>
           <td>Исполнение договоров госзакупок</td>
-        </tr>
-        <tr>
-          <td>
-            Черный список
-          </td>
-          <td>нет</td>
         </tr>
         <tr>
           <td>Жалобы</td>

@@ -24,7 +24,7 @@ export class ViewSupplierComponent implements OnInit {
     }
   }
   get_supplier_details(supplierId){
-    const href = '/data-api/suppliers/' + supplierId;
+    const href = 'data-api/supplier-details/get/' + supplierId;
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.supplier = _;
