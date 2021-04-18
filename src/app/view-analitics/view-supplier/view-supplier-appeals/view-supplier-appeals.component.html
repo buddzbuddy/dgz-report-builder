@@ -2,7 +2,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-            Всего {{appeals.length}} шт.
+            Всего {{appeals?.length}} шт.
         </mat-panel-title>
         <mat-panel-description>
           
@@ -25,10 +25,10 @@
             </tr>
             <tr *ngFor="let a of appeals">
                 <td>
-                    {{a.created_at | date:'dd.MM.yyyy'}}
+                    {{a.createdAt | date:'dd.MM.yyyy'}}
                 </td>
                 <td>
-                    {{a._procuring_entity?.name}}
+                    {{a.procuringEntity?.name}}
                 </td>
                 <td>
                     {{a.description}}

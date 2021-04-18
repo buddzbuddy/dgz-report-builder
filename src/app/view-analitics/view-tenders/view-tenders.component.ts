@@ -20,7 +20,7 @@ export class ViewTendersComponent implements OnInit {
 
   isLoadingResults: boolean = false;
   ngOnInit() {
-    this.fetchTenders();
+    //this.fetchTenders();
   }
   displayedColumns: string[] = ['tender_tenderNumber', 'date', 'tender_title', 'tender_status', 'contracts_length'];
   dataSource: MatTableDataSource<any>;

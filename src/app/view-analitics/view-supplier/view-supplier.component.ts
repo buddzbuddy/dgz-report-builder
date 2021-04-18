@@ -24,12 +24,12 @@ export class ViewSupplierComponent implements OnInit {
     }
   }
   get_supplier_details(supplierId){
-    const href = 'data-api/supplier-details/get/' + supplierId;
+    const href = 'data-api/supplier-requests/getDetails/' + supplierId;
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.supplier = _;
       console.log(_);
-      this.getContractData();
+      //this.getContractData();
     });
   }
   contractInfo: any = {}

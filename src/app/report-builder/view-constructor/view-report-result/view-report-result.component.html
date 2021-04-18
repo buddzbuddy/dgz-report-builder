@@ -15,7 +15,7 @@
         исходный
       </mat-button-toggle>
     </mat-button-toggle-group>
-    <table matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]"  mat-table [dataSource]="dataSource" class="example-table" matSort>
+    <table matTableExporter #exporter="matTableExporter" mat-table [dataSource]="dataSource" class="example-table" matSort>
         <ng-container [matColumnDef]="column" *ngFor="let column of columnsProps">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsCapts[column]}} </th>
           <td mat-cell *matCellDef="let element">

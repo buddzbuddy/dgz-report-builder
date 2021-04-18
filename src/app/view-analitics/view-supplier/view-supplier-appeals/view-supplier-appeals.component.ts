@@ -12,15 +12,7 @@ export class ViewSupplierAppealsComponent implements OnInit {
   constructor(private _httpClient: HttpClient) { }
   @Input() supplierId: number = 0;
   ngOnInit() {
-    this.fetchAppeals();
+    //this.fetchAppeals();
   }
-  appeals: any[] = []
-  fetchAppeals(){
-    const href = '/api/appeals/GetBySupplier?supplier='+this.supplierId;
-    const requestUrl = `${href}`;
-    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
-      this.appeals = _;
-    });
-  }
-
+  @Input() appeals: any[] = []
 }

@@ -7,7 +7,7 @@
               Кадровый состав
             </mat-panel-title>
             <mat-panel-description>
-              Всего {{supplier_members.length}}
+              Всего {{supplier_members?.length}}
               <span class="fill-remaining-space"></span>
               <mat-icon>person</mat-icon>
             </mat-panel-description>
@@ -34,7 +34,7 @@
                       {{item.patronymic}}
                   </td>
                   <td>
-                      {{item._member_type?.name}}
+                      {{item.memberType?.name}}
                   </td>
               </tr>
           </table>

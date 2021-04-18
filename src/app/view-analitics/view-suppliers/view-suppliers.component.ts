@@ -8,12 +8,38 @@ import { Router } from '@angular/router';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, debounceTime, finalize, map, startWith, switchMap, tap} from 'rxjs/operators';
 import { AppConfig } from 'src/app/app.config';
-
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD.MM.YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-view-suppliers',
   templateUrl: './view-suppliers.component.html',
-  styleUrls: ['./view-suppliers.component.scss']
+  styleUrls: ['./view-suppliers.component.scss'],
+  providers:[
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    //{provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }}
+  ]
 })
 export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
@@ -23,7 +49,7 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   suppliersData: MatTableDataSource<any> = new MatTableDataSource();
 
   resultsLength = 0;
-  isLoadingResults = true;
+  isLoadingResults = false;
   isRateLimitReached = false;
 
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
@@ -33,7 +59,7 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.httpDatabase = new HttpDatabase(this._httpClient);
 
-    this.fetchSuppliers([]);
+    //this.fetchSuppliers([]);
     this.getOwnership_types();
     this.getIndustries();
     this.getLicense_types();
@@ -48,7 +74,8 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   filteredNames: any;
   isLoading = false;
 
-  fetchSuppliers(filterObj: any[]){
+  fetchSuppliers(filterObj: any){
+    this.isLoadingResults = true;
     this.httpDatabase.getSuppliers(filterObj).subscribe(_ => {
       this.suppliersData = new MatTableDataSource(_.data);
       this.suppliersData.paginator = this.paginator;
@@ -118,6 +145,28 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
     return valName;
   }
+
+  isChecked1 = false
+  spec1 = {
+    
+  }
+  isChecked2 = false
+  spec2 = {
+
+  }
+  isChecked3 = false
+  spec3 = {
+
+  }
+  isChecked4 = false
+  spec4 = {
+
+  }
+  isChecked5 = false
+  spec5 = {
+
+  }
+
   applyFilter(){
     let filterObj: any[] = [];
     for(let f of Object.keys(this.formGroup.value)){
@@ -125,12 +174,32 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
         filterObj.push({ property: f, operator: '=', value: this.formGroup.value[f] });
       }
     }
-    this.fetchSuppliers(filterObj);
+    let obj = {
+      searchQuery: {
+        searchFitler: filterObj
+      }
+    };
+    if(this.isChecked1) {
+      obj['spec1'] = this.spec1;
+    }
+    if(this.isChecked2) {
+      obj['spec2'] = this.spec2;
+    }
+    if(this.isChecked3) {
+      obj['spec3'] = this.spec3;
+    }
+    if(this.isChecked4) {
+      obj['spec4'] = this.spec4;
+    }
+    if(this.isChecked5) {
+      obj['spec5'] = this.spec5;
+    }
+    this.fetchSuppliers(obj);
   }
 
   clearFilter() {
     this.formGroup.reset();
-    this.fetchSuppliers([]);
+    this.fetchSuppliers({searchQuery:{}});
   }
   goBack(){
     
@@ -141,13 +210,9 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 export class HttpDatabase {
   constructor(private _httpClient: HttpClient) {}
 
-  getSuppliers(filterObj: any[]): Observable<any> {
-    const href = 'data-api/query/exec';
-    let obj = {
-      rootName: "Supplier",
-      searchFitler: filterObj
-    }
+  getSuppliers(filterObj: any): Observable<any> {
+    const href = 'data-api/supplier-requests/exec';
     const requestUrl = `${href}`;
-    return this._httpClient.post(AppConfig.settings.host + requestUrl, obj);
+    return this._httpClient.post(AppConfig.settings.host + requestUrl, filterObj);
   }
 }

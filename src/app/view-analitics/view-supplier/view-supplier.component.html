@@ -51,7 +51,7 @@
         <tr>
             <td>Руководитель</td>
             <td>
-                <view-supplier-members [supplierId]="supplierId"></view-supplier-members>
+                <view-supplier-members [supplier_members]="supplier.supplierMembers" [supplierId]="supplierId"></view-supplier-members>
             </td>
         </tr>
         <tr>
@@ -59,15 +59,23 @@
           <td><app-view-supplier-licenses [licenses]="supplier.licenses"></app-view-supplier-licenses></td>
         </tr>
         <tr>
+          <td>Жалобы</td>
+          <td><app-view-supplier-appeals [appeals]="supplier.appeals" [supplierId]="supplierId"></app-view-supplier-appeals></td>
+        </tr>
+        <tr>
+          <td>Задолженности по налогам</td>
+          <td><app-view-supplier-ips [items]="[]"></app-view-supplier-ips></td>
+        </tr>
+        <tr>
           <td>Выручка и прибыл (убыток) поставщика</td>
-          <td>
+          <td><!--
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
             <ng-container *ngIf="!isLoadingResults && hasContractData">
               {{contractInfo.value?.amount}} KGS (№ договора {{contractInfo.contractNumber}} от {{contractInfo.dateSigned | date:'dd.MM.yyyy'}})
             </ng-container>
             <ng-container *ngIf="!hasContractData">
               данные не найдены в OCDS-базе (http://ocds.zakupki.gov.kg/api/)
-            </ng-container>
+            </ng-container>-->
           </td>
         </tr>
         <tr>
@@ -77,18 +85,6 @@
         <tr>
           <td>Наличие претензий по качеству</td>
           <td>Исполнение договоров госзакупок</td>
-        </tr>
-        <tr>
-          <td>Жалобы</td>
-          <td><app-view-supplier-appeals [supplierId]="supplierId"></app-view-supplier-appeals></td>
-        </tr>
-        <tr>
-          <td>Налоговые отчисления</td>
-          <td><app-view-supplier-ips [items]="supplier.ip_items"></app-view-supplier-ips></td>
-        </tr>
-        <tr>
-          <td>Задолженности по налогам</td>
-          <td>данные отсутствуют</td>
         </tr>
         <tr>
           <td>

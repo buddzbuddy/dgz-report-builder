@@ -13,13 +13,12 @@ export class ViewSupplierMembersComponent implements OnInit {
 
   @Input() supplierId: number = 0;
   ngOnInit() {
-    this.get_supplier_members();
   }
 
-  supplier_members: any[] = [];
+  @Input() supplier_members: any[] = [];
   getDirectorName() : string {
     let managerName = '-';
-    if(this.supplier_members.length){
+    if(this.supplier_members){
       for (let index = 0; index < this.supplier_members.length; index++) {
         const m = this.supplier_members[index];
         if(m.memberTypeId == 1) {
@@ -29,12 +28,4 @@ export class ViewSupplierMembersComponent implements OnInit {
     }
     return managerName;
   }
-  get_supplier_members(){
-    const href = '/api/AnalisingServices/GetSupplierMembers?supplierId=' + this.supplierId;
-    const requestUrl = `${href}`;
-    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
-      this.supplier_members = _;
-    });
-  }
-
 }
