@@ -59,7 +59,7 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.httpDatabase = new HttpDatabase(this._httpClient);
 
-    //this.fetchSuppliers([]);
+    this.fetchSuppliers({searchQuery:{}});
     this.getOwnership_types();
     this.getIndustries();
     this.getLicense_types();

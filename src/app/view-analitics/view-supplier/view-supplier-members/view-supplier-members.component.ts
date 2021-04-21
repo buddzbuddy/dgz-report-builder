@@ -21,7 +21,7 @@ export class ViewSupplierMembersComponent implements OnInit {
     if(this.supplier_members){
       for (let index = 0; index < this.supplier_members.length; index++) {
         const m = this.supplier_members[index];
-        if(m.memberTypeId == 1) {
+        if(m.memberType.name == 'Руководитель') {
           managerName = m.surname + ' ' + m.name + ' ' + (m.patronymic || '');
         }
       }
