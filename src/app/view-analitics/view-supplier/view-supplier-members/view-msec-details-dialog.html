@@ -1,0 +1,36 @@
+<h1 mat-dialog-title><mat-icon>filter_alt</mat-icon> Данные МСЭК</h1>
+<div mat-dialog-content style="padding: 10px;">
+    <table class="table">
+        <tr>
+            <th>Дата запроса</th>
+            <th>Выдавший орган</th>
+            <th>Дата освидетельствования</th>
+            <th>Тип</th>
+            <th>Группа инвалидности</th>
+            <th>Дата след. освид.</th>
+        </tr>
+        <tr *ngFor="let item of data.msecDetails">
+            <td>
+                {{item.createdAt | date:'dd.MM.yyyy'}}
+            </td>
+            <td>
+                {{item.organizationName}}
+            </td>
+            <td>
+                {{item.examinationDate | date:'dd.MM.yyyy'}}
+            </td>
+            <td>
+                {{item.examinationType}}
+            </td>
+            <td>
+                {{item.disabilityGroup}}
+            </td>
+            <td>
+                {{item.reExamination}}
+            </td>
+        </tr>
+    </table>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCloseClick()">ОК</button>
+</div>

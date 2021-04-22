@@ -84,3 +84,6 @@ mat-form-field + mat-form-field, mat-form-field + button, button + mat-form-fiel
 .mat-header-row  th{
   color: black !important;
 }
+.blackList {
+  background-color: rgba(255, 0, 0, 0.363);
+}

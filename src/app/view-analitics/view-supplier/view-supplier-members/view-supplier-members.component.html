@@ -19,6 +19,7 @@
                   <th>Имя</th>
                   <th>Отчество</th>
                   <th>Должность</th>
+                  <th></th>
               </tr>
               <tr *ngFor="let item of supplier_members">
                   <td>
@@ -35,6 +36,9 @@
                   </td>
                   <td>
                       {{item.memberType?.name}}
+                  </td>
+                  <td>
+                    <button *ngIf="item.msecDetails.length" mat-stroked-button color="primary" (click)="viewMsecDetails(item)">Данные МСЭК</button>
                   </td>
               </tr>
           </table>

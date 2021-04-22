@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { AppConfig } from 'src/app/app.config';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'view-supplier-members',
@@ -9,7 +8,7 @@ import { AppConfig } from 'src/app/app.config';
 })
 export class ViewSupplierMembersComponent implements OnInit {
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(public dialog: MatDialog,) { }
 
   @Input() supplierId: number = 0;
   ngOnInit() {
@@ -27,5 +26,24 @@ export class ViewSupplierMembersComponent implements OnInit {
       }
     }
     return managerName;
+  }
+
+  viewMsecDetails(mem) {
+    const dialogRef = this.dialog.open(ViewMsecDetailsDialog, {
+      data: mem
+    });
+  }
+}
+
+@Component({
+  selector: 'view-msec-details-dialog',
+  templateUrl: 'view-msec-details-dialog.html',
+})
+export class ViewMsecDetailsDialog {
+  constructor(
+    public dialogRef: MatDialogRef<ViewMsecDetailsDialog>,
+    @Inject(MAT_DIALOG_DATA) public data) {}
+  onCloseClick(): void {
+    this.dialogRef.close();
   }
 }

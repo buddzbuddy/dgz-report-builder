@@ -41,7 +41,7 @@ export const MY_FORMATS = {
     //{provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }}
   ]
 })
-export class ViewSuppliersComponent implements AfterViewInit, OnInit {
+export class ViewSuppliersComponent implements OnInit {
 
   constructor(private _httpClient: HttpClient, private router: Router, private _formBuilder: FormBuilder, ) { }
   suppliersDisplayedColumns: string[] = ['id', 'name', 'inn', 'legalAddress', 'ownershipTypeId', 'industryId'];
@@ -56,20 +56,18 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort, { static: true}) sort: MatSort;
 
   formGroup: FormGroup;
-  ngAfterViewInit() {
-    this.httpDatabase = new HttpDatabase(this._httpClient);
-
-    this.fetchSuppliers({searchQuery:{}});
-    this.getOwnership_types();
-    this.getIndustries();
-    this.getLicense_types();
-  }
   ngOnInit(){
     this.formGroup = this._formBuilder.group({
       ownershipTypeId: '',
       inn: '',
       industryId:''
     });
+    this.httpDatabase = new HttpDatabase(this._httpClient);
+
+    this.getOwnership_types();
+    this.getIndustries();
+    this.getLicense_types();
+    this.fetchSuppliers({searchQuery:{}});
   }
   filteredNames: any;
   isLoading = false;
@@ -166,14 +164,26 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
   spec5 = {
 
   }
-
+  isBlack: boolean;
+  isResident: boolean;
   applyFilter(){
     let filterObj: any[] = [];
     for(let f of Object.keys(this.formGroup.value)){
-      if(this.formGroup.value[f] != null && this.formGroup.value[f] != ''){
-        filterObj.push({ property: f, operator: '=', value: this.formGroup.value[f] });
+      let val = this.formGroup.value[f];
+      if(val != null && val != ''){
+        filterObj.push({ property: f, operator: '=', value: val });
       }
     }
+    if(this.isBlack != null) {
+      filterObj.push({ property: 'isBlack', operator: '=', value: this.isBlack });
+    }
+
+    if(this.isResident != null) {
+      filterObj.push({ property: 'isResident', operator: '=', value: this.isResident });
+    }
+    
+    console.log(filterObj);
+    console.log(this.formGroup.value);
     let obj = {
       searchQuery: {
         searchFitler: filterObj
@@ -199,6 +209,13 @@ export class ViewSuppliersComponent implements AfterViewInit, OnInit {
 
   clearFilter() {
     this.formGroup.reset();
+    this.isChecked1 = false;
+    this.isChecked2 = false;
+    this.isChecked3 = false;
+    this.isChecked4 = false;
+    this.isChecked5 = false;
+    this.isBlack = null;
+    this.isResident = null;
     this.fetchSuppliers({searchQuery:{}});
   }
   goBack(){

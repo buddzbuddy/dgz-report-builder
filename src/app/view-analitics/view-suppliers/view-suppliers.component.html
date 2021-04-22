@@ -21,35 +21,68 @@
               <mat-icon>filter_alt</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <form [formGroup]="formGroup">
-            <mat-form-field appearance="outline" style="width: 400px;">
-                <mat-label>Форма собственности</mat-label>
-                <mat-select formControlName="ownershipTypeId">
-                  <mat-option>-</mat-option>
-                  <mat-option *ngFor="let item of ownership_types" [value]="item.id">
-                    {{item.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 400px;">
-                  <mat-label>Отрасль</mat-label>
-                  <mat-select formControlName="industryId">
-                    <mat-option>-</mat-option>
-                    <mat-option *ngFor="let item of industries" [value]="item.id">
-                      {{item.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>ИНН</mat-label>
-                <input matInput formControlName="inn">
-              </mat-form-field>
-          </form>
           <div style="width: 90%;border: 1px solid gray;border-radius: 5px;padding: 5px;margin: 5px;">
+            <div class="row">
+              <form [formGroup]="formGroup" class="col-md-4">
+                <table>
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>ИНН</mat-label>
+                        <input matInput formControlName="inn">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Отрасль</mat-label>
+                        <mat-select formControlName="industryId">
+                          <mat-option>-</mat-option>
+                          <mat-option *ngFor="let item of industries" [value]="item.id">
+                            {{item.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="100%">
+                      <mat-form-field style="width: 370px;">
+                        <mat-label>Форма собственности</mat-label>
+                        <mat-select formControlName="ownershipTypeId">
+                          <mat-option>-</mat-option>
+                          <mat-option *ngFor="let item of ownership_types" [value]="item.id">
+                            {{item.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </form>
+              <table class="col-md-4">
+                <tr>
+                  <td style="text-align: right; padding: 20px;">
+                    Черный список
+                  </td>
+                  <td>
+                    <mat-radio-group [(ngModel)]="isBlack">
+                      <mat-radio-button [value]="true">Да</mat-radio-button>
+                      <mat-radio-button [value]="false">Нет</mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: right; padding: 20px;">
+                    Резидент
+                  </td>
+                  <td>
+                    <mat-radio-group [(ngModel)]="isResident">
+                      <mat-radio-button [value]="true">Да</mat-radio-button>
+                      <mat-radio-button [value]="false">Нет</mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+              </table>
+            </div>
             <table>
-              <tr>
-                <th colspan="100%">Специальные условия</th>
-              </tr>
               <tr>
                 <td style="text-align: right; width: 250px; padding: 20px;"> 
                   <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked1">Наличие лицензии</mat-slide-toggle>
@@ -159,8 +192,10 @@
         </mat-expansion-panel>
       </mat-accordion>
     <div class="example-table-container">
-        
-      <table mat-table [dataSource]="suppliersData" class="example-table"
+      <button color="primary" matTooltip="Скачать в Excel" mat-button (click)="exporter.exportTable('xlsx', {fileName:'export-file', sheet: 'sheet_name', Props: {Author: 'Talha'}})">
+        <mat-icon>get_app</mat-icon> скачать Excel
+      </button>
+      <table matTableExporter #exporter="matTableExporter" mat-table [dataSource]="suppliersData" class="example-table"
              matSort>
         <!-- name Column -->
         <ng-container matColumnDef="name">
@@ -201,7 +236,7 @@
         </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="suppliersDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: suppliersDisplayedColumns;" (click)="navigateTo(row)"></tr>
+        <tr [class.blackList]="row.isBlack" mat-row *matRowDef="let row; columns: suppliersDisplayedColumns;" (click)="navigateTo(row)"></tr>
       </table>
     </div>
   

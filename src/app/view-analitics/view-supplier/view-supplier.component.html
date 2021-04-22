@@ -63,12 +63,17 @@
           <td><app-view-supplier-appeals [appeals]="supplier.appeals" [supplierId]="supplierId"></app-view-supplier-appeals></td>
         </tr>
         <tr>
-          <td>Задолженности по налогам</td>
+          <td>Данные о налоговой регистрации</td>
           <td><app-view-supplier-ips [items]="[]"></app-view-supplier-ips></td>
         </tr>
         <tr>
-          <td>Выручка и прибыл (убыток) поставщика</td>
-          <td><!--
+          <td>Данные о задолженности по налогам</td>
+          <td><app-view-supplier-debts [items]="supplier.debts"></app-view-supplier-debts></td>
+        </tr>
+        <tr>
+          <td>Данные по договорам поставщика (суммы)</td>
+          <td>
+            данные не найдены в OCDS-базе (http://ocds.zakupki.gov.kg/api/)<!--
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
             <ng-container *ngIf="!isLoadingResults && hasContractData">
               {{contractInfo.value?.amount}} KGS (№ договора {{contractInfo.contractNumber}} от {{contractInfo.dateSigned | date:'dd.MM.yyyy'}})

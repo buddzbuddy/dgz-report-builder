@@ -96,7 +96,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
 import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
-import { ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
+import { ViewMsecDetailsDialog, ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
 import { ViewSuppliersComponent } from './view-analitics/view-suppliers/view-suppliers.component';
 import { ViewProcurementsComponent } from './view-analitics/view-procurements/view-procurements.component';
 import { ViewProcurementDetailsComponent } from './view-analitics/view-procurements/view-procurement-details/view-procurement-details.component';
@@ -113,6 +113,7 @@ import { ViewReportResultComponent } from './report-builder/view-constructor/vie
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ViewReportItemFillerComponent } from './report-builder/view-constructor/view-report-item-filler/view-report-item-filler.component';
 import { ViewReportUploaderComponent } from './report-builder/view-constructor/view-report-uploader/view-report-uploader.component';
+import { ViewSupplierDebtsComponent } from './view-analitics/view-supplier/view-supplier-debts/view-supplier-debts.component';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -199,6 +200,7 @@ export function initializeApp(appConfig: AppConfig) {
     NewTextDialog,
     EditTextDialog,
     EditListTileDialog,
+    ViewMsecDetailsDialog,
     ViewSourceListComponent,
     ViewConstructorComponent,
     ViewAnaliticsComponent,
@@ -218,7 +220,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewReportConditionsComponent,
     ViewReportResultComponent,
     ViewReportItemFillerComponent,
-    ViewReportUploaderComponent
+    ViewReportUploaderComponent,
+    ViewSupplierDebtsComponent
   ],
   imports: [
     BrowserModule,
@@ -285,7 +288,8 @@ export function initializeApp(appConfig: AppConfig) {
     NewPageDialog,
     NewTextDialog,
     EditTextDialog,
-    EditListTileDialog
+    EditListTileDialog,
+    ViewMsecDetailsDialog
   ]
 })
 export class AppModule {
