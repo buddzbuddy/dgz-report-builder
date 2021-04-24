@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Date } from 'core-js';
 import { AppConfig } from 'src/app/app.config';
 
 @Component({
@@ -12,20 +13,125 @@ export class ViewAuditSectionComponent implements OnInit {
   constructor(private _httpClient: HttpClient, ) { }
 
   ngOnInit() {
-    this.getMethod_types();
+    //this.getMethod_types();
     this.getLogs();
   }
   isLoading = false;
   requests = []
+  fakeLogs(){
+    this.isLoading = false;
+    this.requests = [
+      {
+        started_at: Date.now(),
+        service: {
+          name: "Сервис МТСР МСЭК",
+          host:"192.168.0.1",
+          port:4455
+        },
+        request:{
+          uri: "0.0.0.0",
+          querystring: {
+            pin: "123123123"
+          },
+          method: "ОТПРАВКА"
+        },
+        latencies: {
+          request: 4111,
+          kong: 444,
+          proxy: 32
+        },
+        response: {
+          status: "УСПЕХ"
+        },
+        client_ip: "127.0.0.1"
+      },
+      {
+        started_at: Date.now(),
+        service: {
+          name: "Сервис МТСР МСЭК",
+          host:"192.168.0.1",
+          port:4455
+        },
+        request:{
+          uri: "0.0.0.0",
+          querystring: {
+            pin: "123123123"
+          },
+          method: "ОТПРАВКА"
+        },
+        latencies: {
+          request: 4111,
+          kong: 444,
+          proxy: 32
+        },
+        response: {
+          status: "УСПЕХ"
+        },
+        client_ip: "127.0.0.1"
+      },
+      {
+        started_at: Date.now(),
+        service: {
+          name: "Сервис ГНС Регистрация",
+          host:"192.168.0.1",
+          port:4455
+        },
+        request:{
+          uri: "0.0.0.0",
+          querystring: {
+            pin: "123123123"
+          },
+          method: "ОТПРАВКА"
+        },
+        latencies: {
+          request: 4111,
+          kong: 444,
+          proxy: 32
+        },
+        response: {
+          status: "УСПЕХ"
+        },
+        client_ip: "127.0.0.1"
+      },
+      {
+        started_at: Date.now(),
+        service: {
+          name: "Сервис ГНС Задолженность",
+          host:"192.168.0.1",
+          port:4455
+        },
+        request:{
+          uri: "0.0.0.0",
+          querystring: {
+            pin: "123123123"
+          },
+          method: "ОТПРАВКА"
+        },
+        latencies: {
+          request: 4111,
+          kong: 444,
+          proxy: 32
+        },
+        response: {
+          status: "УСПЕХ"
+        },
+        client_ip: "127.0.0.1"
+      }
+    ]
+  }
   getLogs(){
     this.isLoading = true;
 
+    setTimeout(() => {
+      this.fakeLogs();
+    }, 1000);
+    /*
     const href = '/logs';
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host_logs + requestUrl).subscribe(_ => {
       this.isLoading = false;
       this.requests = _;
-    });
+    });*/
   }
   method_types: any[] = [];
   getMethod_types(){

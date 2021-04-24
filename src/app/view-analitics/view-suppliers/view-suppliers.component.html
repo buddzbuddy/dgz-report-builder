@@ -1,7 +1,9 @@
 <mat-toolbar><span>Список поставщиков</span>
   <span class="fill-remaining-space"></span>
-  <a mat-button color="primary" routerLink="view-audit-section" matTooltip="Просмотреть запросы">Аудит запросов</a></mat-toolbar>
-<div class="example-container mat-elevation-z8">
+  <a mat-button color="primary" routerLink="view-audit-section" matTooltip="Просмотреть запросы">Аудит запросов</a>
+  <!--<button mat-button color="secondary" (click)="goBack()">Назад</button>-->
+</mat-toolbar>
+  <div class="example-container mat-elevation-z8">
     <div class="example-loading-shade"
          *ngIf="isLoadingResults || isRateLimitReached">
       <mat-spinner *ngIf="isLoadingResults"></mat-spinner>

@@ -219,7 +219,7 @@ export class ViewSuppliersComponent implements OnInit {
     this.fetchSuppliers({searchQuery:{}});
   }
   goBack(){
-    
+    window.history.back();
   }
   
 }

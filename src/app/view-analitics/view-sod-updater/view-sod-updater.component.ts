@@ -12,7 +12,7 @@ export class ViewSodUpdaterComponent implements OnInit {
   constructor(private _httpClient: HttpClient, ) { }
 
   ngOnInit() {
-    this.checkLoading();
+    //this.checkLoading();
   }
   checkLoading(){
     const href = '/api/AnalisingServices/IsLoading?pin=02406199910174';
@@ -28,11 +28,18 @@ export class ViewSodUpdaterComponent implements OnInit {
     if(this.isLoading) return;
     this.isLoading = true;
 
+
+    setTimeout(() => {
+      this.isLoading = false;
+      this.result.ip_infos = 14;
+      this.result.pension_infos = 3;
+    }, 3000);
+    /*
     const href = '/api/AnalisingServices/UpdateSODData?sti=true&sf=true&pin=02406199910174';
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.isLoading = false;
       this.result = _;
-    });
+    });*/
   }
 }
