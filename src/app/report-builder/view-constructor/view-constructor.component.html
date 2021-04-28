@@ -60,8 +60,14 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
             
-  <app-view-report-conditions [selectItems]="selectItems" [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
-    
+  <app-view-report-conditions [field_vals]="importedVals" [selectItems]="selectItems" [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
+  <button [disabled]="conditions.filters.length == 0" mat-stroked-button color="primary" (click)="exportJson()"><mat-icon class="material-icons-outlined">file_download</mat-icon> Скачать шаблон запроса</button>
+  <span style="width: 20px;display:inline-block"></span>
+  <button [disabled]="conditions.filters.length > 0" mat-stroked-button color="primary" (click)="fileInput.click()"><mat-icon class="material-icons-outlined">file_upload</mat-icon> Загрузить шаблон запроса</button>
+  <input
+  style="display: none"
+  type="file" (change)="onFileChanged($event)"
+  #fileInput>
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>

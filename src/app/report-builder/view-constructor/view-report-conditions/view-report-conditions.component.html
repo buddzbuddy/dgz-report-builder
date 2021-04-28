@@ -4,12 +4,15 @@
       <div
         class="example-list">
         <div class="example-box" *ngFor="let f of fields">
-            <mat-icon>filter_alt</mat-icon>
-        <span style="padding-left: 10px;">{{f.label}}</span>
-        <span class="fill-remaining-space"></span>
-            <button *ngIf="f.dataType != 'select' || (f.dataType == 'select' && selectItems[f.name])" mat-icon-button (click)="addCondition(f)" matTooltip="Задать условие">
-                <mat-icon>add</mat-icon>
-            </button>
+          <ng-container *ngIf="f.name != 'id'">
+            <mat-icon class="material-icons-outlined">filter_alt</mat-icon>
+            <span style="padding-left: 10px;">{{f.label}}</span>
+            <span class="fill-remaining-space"></span>
+                <button *ngIf="f.dataType != 'select' || (f.dataType == 'select' && selectItems[f.name])" mat-icon-button (click)="addCondition(f)" matTooltip="Задать условие">
+                    <mat-icon class="material-icons-outlined">add_box</mat-icon>
+                </button>
+          </ng-container>
+          <ng-container *ngIf="f.name == 'id'">Поле</ng-container>
         </div>
       </div>
     </div>
@@ -18,17 +21,20 @@
       <div
         class="example-list">
         <div class="example-box" *ngFor="let f of fields">
-          <mat-icon *ngIf="!hasAnyVals(f.name)" color="secondary">panorama_fish_eye</mat-icon>
-          <mat-icon *ngIf="hasAnyVals(f.name)" color="primary">check_circle_outline</mat-icon>
-        <span style="padding-left: 10px;">
-          <ng-container *ngFor="let fVal of getFieldValsFromList(f.name); let i = index">
-            <span>{{fVal}}{{(i + 1) == getFieldValsFromList(f.name).length ? '' : ', '}}</span>
+          <ng-container *ngIf="f.name != 'id'">
+            <mat-icon *ngIf="!hasAnyVals(f.name)" color="secondary">panorama_fish_eye</mat-icon>
+            <mat-icon *ngIf="hasAnyVals(f.name)" color="primary">check_circle_outline</mat-icon>
+          <span style="padding-left: 10px;">
+            <ng-container *ngFor="let fVal of getFieldValsFromList(f.name); let i = index">
+              <span>{{fVal}}{{(i + 1) == getFieldValsFromList(f.name).length ? '' : ', '}}</span>
+            </ng-container>
+          </span>
+          <span class="fill-remaining-space"></span>
+              <button  *ngIf="hasAnyVals(f.name)" mat-icon-button (click)="removeCondition(f.name)" matTooltip="Удалить условие">
+                  <mat-icon>delete_outline</mat-icon>
+              </button>
           </ng-container>
-        </span>
-        <span class="fill-remaining-space"></span>
-            <button  *ngIf="field_vals[f.name] != null" mat-icon-button (click)="removeCondition(f.name)" matTooltip="Удалить условие">
-                <mat-icon>delete_outline</mat-icon>
-            </button>
+          <ng-container *ngIf="f.name == 'id'">Значение</ng-container>
         </div>
       </div>
     </div>

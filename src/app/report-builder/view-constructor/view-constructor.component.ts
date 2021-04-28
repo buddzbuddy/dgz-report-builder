@@ -33,6 +33,28 @@ export class ViewConstructorComponent implements OnInit {
     }
   }
 
+  download(blob, filename) {
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(blob, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
+}
+  exportJson(): void {
+    console.log(this.conditions)
+    const c = JSON.stringify(this.conditions);
+    const file = new Blob([c], {type: 'text/json'});
+    this.download(file,"fileName.json");
+  }
   fields = []
   offline_fields = []
   selected_fields = []
@@ -63,7 +85,23 @@ export class ViewConstructorComponent implements OnInit {
       this.getSourceFields()
     });
   }
-
+  selectedFile
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsText(this.selectedFile, "UTF-8");
+    fileReader.onload = () => {
+      const resStr = fileReader.result;
+      let resObj = JSON.parse(fileReader.result.toString());
+      console.log("UPLOADED", resObj);
+      this.conditions = resObj;
+      this.importedVals = resObj.filters;
+    }
+    fileReader.onerror = (error) => {
+      console.log(error);
+    }
+  }
+  importedVals = []
   moveAll(){
     this.fields.forEach(f => {
       this.selected_fields.push(f)

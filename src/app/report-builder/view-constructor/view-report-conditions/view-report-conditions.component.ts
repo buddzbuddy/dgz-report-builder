@@ -19,7 +19,7 @@ get fields() {
   return this._fields.getValue();
 }
   constructor(public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string) { }
-  field_vals = []
+  @Input() field_vals = []
   ngOnInit(){
     /*this._fields.subscribe(x => {
       this.loadSelectItems(x);
@@ -98,8 +98,16 @@ get fields() {
     return false;
   }
 
-  removeCondition(field_name) {
-    delete this.field_vals[field_name];
+  removeCondition(fname) {
+    //delete this.field_vals[field_name];
+    let new_field_vals = [];
+    for (let index = 0; index < this.field_vals.length; index++) {
+      const fObj = this.field_vals[index];
+      if(fObj.property != fname) {
+        new_field_vals.push(fObj);
+      }
+    }
+    this.field_vals = new_field_vals;
     this.updateListEvent.emit(this.field_vals);
   }
   @Output() updateListEvent = new EventEmitter<any[]>();
