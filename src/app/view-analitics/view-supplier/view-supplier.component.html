@@ -71,6 +71,14 @@
           <td><app-view-supplier-debts [items]="supplier.debts"></app-view-supplier-debts></td>
         </tr>
         <tr>
+          <td>Данные о заведенных уголовных делах</td>
+          <td><app-view-supplier-crimes [items]="supplier.criminalCases"></app-view-supplier-crimes></td>
+        </tr>
+        <tr>
+          <td>Данные о судебных тяжбах</td>
+          <td><app-view-supplier-litigations [items]="supplier.litigations"></app-view-supplier-litigations></td>
+        </tr>
+        <tr>
           <td>Данные по договорам поставщика (суммы)</td>
           <td>
             данные не найдены в OCDS-базе (http://ocds.zakupki.gov.kg/api/)<!--

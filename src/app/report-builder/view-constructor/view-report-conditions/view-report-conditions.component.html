@@ -8,7 +8,7 @@
         <span style="padding-left: 10px;">{{f.label}}</span>
         <span class="fill-remaining-space"></span>
             <button *ngIf="f.dataType != 'select' || (f.dataType == 'select' && selectItems[f.name])" mat-icon-button (click)="addCondition(f)" matTooltip="Задать условие">
-                <mat-icon>edit</mat-icon>
+                <mat-icon>add</mat-icon>
             </button>
         </div>
       </div>
@@ -18,9 +18,13 @@
       <div
         class="example-list">
         <div class="example-box" *ngFor="let f of fields">
-          <mat-icon *ngIf="field_vals[f.name] == null" color="secondary">panorama_fish_eye</mat-icon>
-          <mat-icon *ngIf="field_vals[f.name] != null" color="primary">check_circle_outline</mat-icon>
-        <span style="padding-left: 10px;">{{field_vals[f.name]}}</span>
+          <mat-icon *ngIf="!hasAnyVals(f.name)" color="secondary">panorama_fish_eye</mat-icon>
+          <mat-icon *ngIf="hasAnyVals(f.name)" color="primary">check_circle_outline</mat-icon>
+        <span style="padding-left: 10px;">
+          <ng-container *ngFor="let fVal of getFieldValsFromList(f.name); let i = index">
+            <span>{{fVal}}{{(i + 1) == getFieldValsFromList(f.name).length ? '' : ', '}}</span>
+          </ng-container>
+        </span>
         <span class="fill-remaining-space"></span>
             <button  *ngIf="field_vals[f.name] != null" mat-icon-button (click)="removeCondition(f.name)" matTooltip="Удалить условие">
                 <mat-icon>delete_outline</mat-icon>

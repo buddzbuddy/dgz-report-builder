@@ -1,0 +1,33 @@
+<mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Всего {{items?.length}} записей
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="fill-remaining-space"></span>
+          <mat-icon>gavel</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div style="max-height:300px;overflow:auto;">
+        <table class="table">
+            <tr>
+                <th>
+                    Дата запроса
+                </th>
+                <th>
+                    Имеется?
+                </th>
+            </tr>
+            <tr *ngFor="let a of items">
+                <td>
+                    {{a.createdAt | date:'dd.MM.yyyy'}}
+                </td>
+                <td>
+                    {{a.has ? 'ДА' : 'НЕТ'}}
+                </td>
+            </tr>
+          </table>
+       </div>
+    </mat-expansion-panel>
+  </mat-accordion>

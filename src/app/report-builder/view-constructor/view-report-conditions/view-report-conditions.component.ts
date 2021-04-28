@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
@@ -18,8 +18,8 @@ export class ViewReportConditionsComponent implements OnInit {
 get fields() {
   return this._fields.getValue();
 }
-  constructor(public dialog: MatDialog,private _httpClient: HttpClient, ) { }
-  field_vals = {}
+  constructor(public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string) { }
+  field_vals = []
   ngOnInit(){
     /*this._fields.subscribe(x => {
       this.loadSelectItems(x);
@@ -42,7 +42,11 @@ get fields() {
     dialogRef.afterClosed().subscribe(_ => {
       if(_ != null) {
         console.log('filter set')
-        this.field_vals[_.field_name] = _.field_val
+        this.field_vals.push({
+          property: _.field_name,
+          operator: _.operation != null ? _.operation : '=',
+          value: _.field_val
+        });
     this.updateListEvent.emit(this.field_vals);
       }
       else {
@@ -52,11 +56,53 @@ get fields() {
     });
   }
 
+  hasAnyVals(fname: string) : boolean {
+    let res = false;
+
+    for (let index = 0; index < this.field_vals.length; index++) {
+      const fObj = this.field_vals[index];
+      if(fObj.property == fname) {
+        res = true;
+        break;
+      }
+    }
+
+    return res;
+  }
+
+  getFieldValsFromList(fname: string) : any[] {
+    let res = [];
+    for (let index = 0; index < this.field_vals.length; index++) {
+      const fObj = this.field_vals[index];
+      if(fObj.property == fname) {
+        if(this.isDate(fObj.property)) {
+          res.push(fObj.operator + ' ' + formatDate(fObj.value, 'dd.MM.yyyy', this.locale));
+        }
+        else {
+          res.push(fObj.operator + ' ' + fObj.value);
+        }
+      }
+    }
+    return res;
+  }
+
+  isDate(fname: string):boolean {
+
+    for (let index = 0; index < this.fields.length; index++) {
+      const f = this.fields[index];
+      if(f.name == fname && f.dataType == 'Date') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   removeCondition(field_name) {
     delete this.field_vals[field_name];
     this.updateListEvent.emit(this.field_vals);
   }
-  @Output() updateListEvent = new EventEmitter<any>();
+  @Output() updateListEvent = new EventEmitter<any[]>();
 }
 
 @Component({
@@ -95,6 +141,7 @@ export class AddDateConditionDialog implements OnInit{
     ngOnInit() {
       this.formGroup = this._formBuilder.group({
         field_val: '',
+        operation: '>'
       });
     }
   onSaveClick(): void {

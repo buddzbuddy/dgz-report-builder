@@ -114,6 +114,8 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ViewReportItemFillerComponent } from './report-builder/view-constructor/view-report-item-filler/view-report-item-filler.component';
 import { ViewReportUploaderComponent } from './report-builder/view-constructor/view-report-uploader/view-report-uploader.component';
 import { ViewSupplierDebtsComponent } from './view-analitics/view-supplier/view-supplier-debts/view-supplier-debts.component';
+import { ViewSupplierCrimesComponent } from './view-analitics/view-supplier/view-supplier-crimes/view-supplier-crimes.component';
+import { ViewSupplierLitigationsComponent } from './view-analitics/view-supplier/view-supplier-litigations/view-supplier-litigations.component';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -221,7 +223,9 @@ export function initializeApp(appConfig: AppConfig) {
     ViewReportResultComponent,
     ViewReportItemFillerComponent,
     ViewReportUploaderComponent,
-    ViewSupplierDebtsComponent
+    ViewSupplierDebtsComponent,
+    ViewSupplierCrimesComponent,
+    ViewSupplierLitigationsComponent
   ],
   imports: [
     BrowserModule,

@@ -182,8 +182,6 @@ export class ViewSuppliersComponent implements OnInit {
       filterObj.push({ property: 'isResident', operator: '=', value: this.isResident });
     }
     
-    console.log(filterObj);
-    console.log(this.formGroup.value);
     let obj = {
       searchQuery: {
         searchFitler: filterObj
@@ -204,6 +202,7 @@ export class ViewSuppliersComponent implements OnInit {
     if(this.isChecked5) {
       obj['spec5'] = this.spec5;
     }
+    console.log(JSON.stringify(obj));
     this.fetchSuppliers(obj);
   }
 

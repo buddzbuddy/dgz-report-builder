@@ -16,12 +16,17 @@ export class ViewConstructorComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private _httpClient: HttpClient, ) { }
-    className: String
+    className: string
   ngOnInit() {
+    
     if (this.route.params != null){
       this.route.params.subscribe(params => {
         if (params['className'] != null) {
           this.className = params['className'];
+          this.conditions = {
+            entityName: this.className,
+            filters: []
+          }
           this.getSourceDetails();
         }
       });
@@ -82,25 +87,29 @@ export class ViewConstructorComponent implements OnInit {
     }
     this.emitEventToChild();
   }
-  conditions = {}
-  updateConditions(c:any){
+  conditions = {
+    entityName: '',
+    filters: []
+  }
+  updateConditions(c:any[]){
     console.log('conditions updated', c);
-    this.conditions = c;
+    this.conditions.filters = c;
   }
   isLoading = false
   data = []
   fetchData() {
     const href = `data-api/query/exec`;
     const requestUrl = `${href}`;
-    let paramList = []
-    for (let i = 0; i < Object.keys(this.conditions).length; i++) {
+    let paramList = this.conditions.filters;
+    
+    /*for (let i = 0; i < Object.keys(this.conditions).length; i++) {
       const el = Object.keys(this.conditions)[i];
       paramList.push({
         property: el,
         operator: "=",
         value: this.conditions[el]
       })
-    }
+    }*/
     let obj = {
       rootName: this.sourceObj.className,
       searchFitler: paramList
