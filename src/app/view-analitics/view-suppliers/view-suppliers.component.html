@@ -187,6 +187,27 @@
                   </ng-container>
                 </td>
               </tr>
+              <tr>
+                <td style="text-align: right; width: 250px; padding: 20px;"> 
+                  <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked6">Наличие жалоб и претензий на поставщика</mat-slide-toggle>
+                </td>
+                <td>
+                  <ng-container *ngIf="isChecked6">
+                    <mat-form-field>
+                      <mat-label>С</mat-label>
+                      <input matInput [matDatepicker]="pickerspecfrom6" [(ngModel)]="spec6.dateFrom">
+                      <mat-datepicker-toggle matSuffix [for]="pickerspecfrom6"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerspecfrom6></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>По</mat-label>
+                      <input matInput [matDatepicker]="pickerspecto6" [(ngModel)]="spec6.dateTo">
+                      <mat-datepicker-toggle matSuffix [for]="pickerspecto6"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerspecto6></mat-datepicker>
+                    </mat-form-field>
+                  </ng-container>
+                </td>
+              </tr>
             </table>
           </div>
           <button mat-raised-button (click)="applyFilter()" class="custom-btn-color">Применить</button>

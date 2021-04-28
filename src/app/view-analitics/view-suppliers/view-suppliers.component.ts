@@ -164,6 +164,10 @@ export class ViewSuppliersComponent implements OnInit {
   spec5 = {
 
   }
+  isChecked6 = false
+  spec6 = {
+
+  }
   isBlack: boolean;
   isResident: boolean;
   applyFilter(){
@@ -202,6 +206,9 @@ export class ViewSuppliersComponent implements OnInit {
     if(this.isChecked5) {
       obj['spec5'] = this.spec5;
     }
+    if(this.isChecked6) {
+      obj['spec6'] = this.spec6;
+    }
     console.log(JSON.stringify(obj));
     this.fetchSuppliers(obj);
   }
@@ -213,6 +220,7 @@ export class ViewSuppliersComponent implements OnInit {
     this.isChecked3 = false;
     this.isChecked4 = false;
     this.isChecked5 = false;
+    this.isChecked6 = false;
     this.isBlack = null;
     this.isResident = null;
     this.fetchSuppliers({searchQuery:{}});
