@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
 
@@ -29,6 +29,7 @@ export class ViewSodUpdaterComponent implements OnInit {
     this.isLoading = true;
 
 
+    this.updateMsecData();
     setTimeout(() => {
       this.isLoading = false;
       this.result.ip_infos = 14;
@@ -41,5 +42,36 @@ export class ViewSodUpdaterComponent implements OnInit {
       this.isLoading = false;
       this.result = _;
     });*/
+  }
+
+  msecDataResult: any
+  isMsecLoading = false
+  updateMsecData() {
+    this.isMsecLoading = true;
+    this._httpClient.get(AppConfig.settings.host + 'data-api/supplier-requests/initMsecDataAll').subscribe(_ => {
+      this.isMsecLoading = false;
+      this.msecDataResult = _;
+    });
+  }
+
+  public licenseUploadResult: any
+  public licenseProgress: number;
+  public uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    this.licenseUploadResult = null;
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    this._httpClient.post(AppConfig.settings.host + 'data-api/query/upload/license', formData, {reportProgress: true, observe: 'events'})
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.licenseProgress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.licenseUploadResult = event.body;
+          files = []
+        }
+      });
   }
 }

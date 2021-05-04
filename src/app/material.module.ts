@@ -50,7 +50,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     Material.MatExpansionModule,
     Material.MatAutocompleteModule,
     Material.MatButtonToggleModule,
-    Material.MatSlideToggleModule
+    Material.MatSlideToggleModule,
+    Material.MatRippleModule
   ],
   exports: [
     Material.MatTableModule,
@@ -83,7 +84,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     Material.MatExpansionModule,
     Material.MatAutocompleteModule,
     Material.MatButtonToggleModule,
-    Material.MatSlideToggleModule
+    Material.MatSlideToggleModule,
+    Material.MatRippleModule
   ]
 })
 export class MaterialModule { }
