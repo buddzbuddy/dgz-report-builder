@@ -7,11 +7,16 @@
       </mat-card-header>
     <mat-card-content>
         <div style="padding: 20px">
-            <div *ngIf="!isLoading" style="color: rgb(24, 141, 0);width: 80%; margin: 0 auto;" class="example-ripple-container mat-elevation-z2" (click)="start()" matRipple>
-                <mat-icon  class="material-icons-outlined">refresh</mat-icon><br>
-                <span>Обновить все данные</span>
+            <div style="color: rgb(24, 141, 0);width: 80%; margin: 0 auto;" class="example-ripple-container mat-elevation-z2" (click)="start()" matRipple>
+                <ng-container *ngIf="!isLoading">
+                    <mat-icon  class="material-icons-outlined">refresh</mat-icon><br>
+                    <span>Обновить все данные</span>
+                </ng-container>
+                <ng-container *ngIf="isLoading">
+                    <mat-icon  class="material-icons-outlined">pending</mat-icon><br>
+                    <span>Обновляю...</span>
+                </ng-container>
               </div>
-              <mat-spinner style="margin: 0 auto;" *ngIf="isLoading"></mat-spinner>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -21,6 +26,32 @@
                         <td>Кол-во обновленных записей</td>
                         <td>{{result.ip_infos}}</td>
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="row">
+                                <div style="color: darkslategray;" class="col-md-6 example-ripple-container mat-elevation-z2" (click)="downloadTemplate(2)" matRipple>
+                                    <mat-icon  class="material-icons-outlined">file_download</mat-icon><br>
+                                    <span>Скачать шаблон</span>
+                                  </div>
+                                <div style="color: green;" class="col-md-6 example-ripple-container mat-elevation-z2" (click)="fileDebtInput.click()" matRipple>
+                                    <mat-icon  class="material-icons-outlined">file_upload</mat-icon><br>
+                                    <span>Загрузить файл</span>
+                                  </div>
+                            </div>
+                            <input style="display: none" type="file" (change)="uploadDebtFile(fileDebtInput.files)" #fileDebtInput accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                        </td>
+                    </tr>
+                    <tr *ngIf="debtProgress > 0 || debtUploadResult">
+                        <td colspan="2">
+
+  <span class="upload" *ngIf="debtProgress > 0">
+    {{debtProgress}}%
+  </span>
+  <span class="upload" *ngIf="debtUploadResult">
+    {{debtUploadResult.message}}
+  </span>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div class="col-md-6">
@@ -28,7 +59,7 @@
                 <table class="table table-with-col">
                     <tr>
                         <td>Просканировано поставщиков</td>
-                        <td>{{msecDataResult?.scannedCount}}</td>
+                        <td>{{msecDataResult?.scannedCount || 0}}</td>
                     </tr>
                     <tr *ngIf="isMsecLoading">
                         <td colspan="2">
@@ -63,7 +94,7 @@
                         <tr>
                             <td colspan="2">
                                 <div class="row">
-                                    <div style="color: darkslategray;" class="col-md-6 example-ripple-container mat-elevation-z2" matRipple>
+                                    <div style="color: darkslategray;" class="col-md-6 example-ripple-container mat-elevation-z2" (click)="downloadTemplate(1)" matRipple>
                                         <mat-icon  class="material-icons-outlined">file_download</mat-icon><br>
                                         <span>Скачать шаблон</span>
                                       </div>
@@ -74,7 +105,7 @@
                                 </div>
                                 <input
   style="display: none"
-  type="file" (change)="uploadFile(fileLicenseInput.files)"
+  type="file" (change)="uploadLicenseFile(fileLicenseInput.files)"
   #fileLicenseInput
   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                             </td>
@@ -94,6 +125,15 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-6">
+                <mat-toolbar>Министерство<br>юстиции</mat-toolbar>
+                    <table class="table table-with-col">
+                        <tr>
+                            <td>Кол-во обновленных записей</td>
+                            <td>0</td>
+                        </tr>
+                      </table>
+            </div>
             <div class="col-md-6">
                 <mat-toolbar>Данные Судебного<br>департамента</mat-toolbar>
                     <table class="table table-with-col">

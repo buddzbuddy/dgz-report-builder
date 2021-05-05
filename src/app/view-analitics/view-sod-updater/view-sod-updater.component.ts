@@ -1,5 +1,6 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/app.config';
 
 @Component({
@@ -9,7 +10,7 @@ import { AppConfig } from 'src/app/app.config';
 })
 export class ViewSodUpdaterComponent implements OnInit {
 
-  constructor(private _httpClient: HttpClient, ) { }
+  constructor(private _httpClient: HttpClient, private router: Router) { }
 
   ngOnInit() {
     //this.checkLoading();
@@ -34,7 +35,7 @@ export class ViewSodUpdaterComponent implements OnInit {
       this.isLoading = false;
       this.result.ip_infos = 14;
       this.result.pension_infos = 3;
-    }, 3000);
+    }, 5000);
     /*
     const href = '/api/AnalisingServices/UpdateSODData?sti=true&sf=true&pin=02406199910174';
     const requestUrl = `${href}`;
@@ -42,6 +43,15 @@ export class ViewSodUpdaterComponent implements OnInit {
       this.isLoading = false;
       this.result = _;
     });*/
+  }
+
+  downloadTemplate(code: number) {
+    if(code == 1) {
+      window.location.assign(AppConfig.settings.host + 'data-api/query/download/license');
+    }
+    else if(code == 2) {
+      window.location.assign(AppConfig.settings.host + 'data-api/query/download/debt');
+    }
   }
 
   msecDataResult: any
@@ -56,7 +66,7 @@ export class ViewSodUpdaterComponent implements OnInit {
 
   public licenseUploadResult: any
   public licenseProgress: number;
-  public uploadFile = (files) => {
+  public uploadLicenseFile = (files) => {
     if (files.length === 0) {
       return;
     }
@@ -70,6 +80,27 @@ export class ViewSodUpdaterComponent implements OnInit {
           this.licenseProgress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.licenseUploadResult = event.body;
+          files = []
+        }
+      });
+  }
+
+  public debtUploadResult: any
+  public debtProgress: number;
+  public uploadDebtFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    this.debtUploadResult = null;
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    this._httpClient.post(AppConfig.settings.host + 'data-api/query/upload/debt', formData, {reportProgress: true, observe: 'events'})
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.debtProgress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.debtUploadResult = event.body;
           files = []
         }
       });
