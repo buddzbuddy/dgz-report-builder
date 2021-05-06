@@ -52,6 +52,16 @@ export class ViewSodUpdaterComponent implements OnInit {
     else if(code == 2) {
       window.location.assign(AppConfig.settings.host + 'data-api/query/download/debt');
     }
+    else if(code == 3) {
+      window.location.assign(AppConfig.settings.host + 'data-api/query/download/supplierone');
+    }
+    else {
+      alert("Отсутствует шаблон для данного источника!");
+    }
+  }
+
+  goBack(){
+    window.history.back();
   }
 
   msecDataResult: any
@@ -101,6 +111,27 @@ export class ViewSodUpdaterComponent implements OnInit {
           this.debtProgress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.debtUploadResult = event.body;
+          files = []
+        }
+      });
+  }
+
+  public supplieroneUploadResult: any
+  public supplieroneProgress: number;
+  public uploadSupplieroneFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    this.supplieroneUploadResult = null;
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    this._httpClient.post(AppConfig.settings.host + 'data-api/query/upload/supplierone', formData, {reportProgress: true, observe: 'events'})
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.supplieroneProgress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.supplieroneUploadResult = event.body;
           files = []
         }
       });

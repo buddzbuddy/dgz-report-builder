@@ -1,10 +1,7 @@
 <mat-card class="example-sized-card">
-    <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>
-            Межведомственное взаимодействие
-        </mat-card-title>
-      </mat-card-header>
+      <div style="padding: 10px;"><img src="assets/images/api.png" width="80">
+        <span style="margin-left: 10px;font-size: 18px;font-weight: bold;">Межведомственное взаимодействие</span>
+      </div>
     <mat-card-content>
         <div style="padding: 20px">
             <div style="color: rgb(24, 141, 0);width: 80%; margin: 0 auto;" class="example-ripple-container mat-elevation-z2" (click)="start()" matRipple>
@@ -144,9 +141,63 @@
                       </table>
             </div>
         </div>
+        <div style="margin-top: 20px;text-align: center;color: cadetblue;">
+            <h4>Данные из других источников / партнеров</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div style="padding: 10px;"><img src="assets/images/wb-logo.png" width="40"><span style="margin-left: 10px;">Всемирный Банк</span></div>
+                <table class="table">
+                    <tr>
+                        <td colspan="2">
+                            <div class="row">
+                                <div style="color: darkslategray;" class="col-md-6 example-ripple-container mat-elevation-z2" (click)="downloadTemplate(3)" matRipple>
+                                    <mat-icon  class="material-icons-outlined">file_download</mat-icon><br>
+                                    <span>Скачать шаблон</span>
+                                  </div>
+                                <div style="color: green;" class="col-md-6 example-ripple-container mat-elevation-z2" (click)="fileSupplieroneInput.click()" matRipple>
+                                    <mat-icon  class="material-icons-outlined">file_upload</mat-icon><br>
+                                    <span>Загрузить файл</span>
+                                  </div>
+                            </div>
+                            <input style="display: none" type="file" (change)="uploadSupplieroneFile(fileSupplieroneInput.files)" #fileSupplieroneInput accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                        </td>
+                    </tr>
+                    <tr *ngIf="supplieroneProgress > 0 || supplieroneUploadResult">
+                        <td colspan="2">
+
+  <span class="upload" *ngIf="supplieroneProgress > 0">
+    {{supplieroneProgress}}%
+  </span>
+  <span class="upload" *ngIf="supplieroneUploadResult">
+    {{supplieroneUploadResult.message}}
+  </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <div style="padding: 10px;"><img src="assets/images/adb-logo.png" width="40"><span style="margin-left: 10px;">Азиатский Банк Развития</span></div>
+                <table class="table table-with-col">
+                    <tr>
+                        <td colspan="2">
+                            <div class="row">
+                                <div style="color: rgb(85, 85, 85);" class="col-md-6 example-ripple-container mat-elevation-z2" (click)="downloadTemplate(100)" matRipple>
+                                    <mat-icon  class="material-icons-outlined">file_download</mat-icon><br>
+                                    <span>Скачать шаблон</span>
+                                  </div>
+                                <div style="color: rgb(85, 85, 85);" class="col-md-6 example-ripple-container mat-elevation-z2" matRipple>
+                                    <mat-icon  class="material-icons-outlined">file_upload</mat-icon><br>
+                                    <span>Загрузить файл</span>
+                                  </div>
+                            </div>
+                        </td>
+                    </tr>
+                  </table>
+            </div>
+        </div>
     </mat-card-content>
-    <!--<mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>-->
+    <mat-card-actions>
+        <button mat-button (click)="goBack()">Вернуться назад</button>
+    </mat-card-actions>
   </mat-card>

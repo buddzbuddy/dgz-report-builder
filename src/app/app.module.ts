@@ -116,6 +116,7 @@ import { ViewReportUploaderComponent } from './report-builder/view-constructor/v
 import { ViewSupplierDebtsComponent } from './view-analitics/view-supplier/view-supplier-debts/view-supplier-debts.component';
 import { ViewSupplierCrimesComponent } from './view-analitics/view-supplier/view-supplier-crimes/view-supplier-crimes.component';
 import { ViewSupplierLitigationsComponent } from './view-analitics/view-supplier/view-supplier-litigations/view-supplier-litigations.component';
+import { ViewPrivacySettingsComponent } from './view-analitics/view-privacy-settings/view-privacy-settings.component';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -225,7 +226,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewReportUploaderComponent,
     ViewSupplierDebtsComponent,
     ViewSupplierCrimesComponent,
-    ViewSupplierLitigationsComponent
+    ViewSupplierLitigationsComponent,
+    ViewPrivacySettingsComponent
   ],
   imports: [
     BrowserModule,
