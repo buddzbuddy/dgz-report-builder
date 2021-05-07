@@ -9,7 +9,7 @@
       <mat-card-title>{{supplier.name}}</mat-card-title>
       <mat-card-subtitle>последний раз обновлено от {{supplier._ownership_type?.created_at | date:'dd.MM.yyyy'}}</mat-card-subtitle>
     </mat-card-header>
-    
+
     <mat-card-content>
       <table class="table table-with-col">
         <tr>
@@ -56,7 +56,11 @@
         </tr>
         <tr>
           <td>Лицензии</td>
-          <td><app-view-supplier-licenses [licenses]="supplier.licenses"></app-view-supplier-licenses></td>
+          <td><app-view-supplier-licenses *ngIf="licenseChecked" [licenses]="supplier.licenses"></app-view-supplier-licenses></td>
+        </tr>
+        <tr>
+          <td>Данные о задолженности по налогам</td>
+          <td><app-view-supplier-debts *ngIf="debtChecked" [items]="supplier.debts"></app-view-supplier-debts></td>
         </tr>
         <tr>
           <td>Жалобы</td>
@@ -65,10 +69,6 @@
         <tr>
           <td>Данные о налоговой регистрации</td>
           <td><app-view-supplier-ips [items]="[]"></app-view-supplier-ips></td>
-        </tr>
-        <tr>
-          <td>Данные о задолженности по налогам</td>
-          <td><app-view-supplier-debts [items]="supplier.debts"></app-view-supplier-debts></td>
         </tr>
         <tr>
           <td>Данные о заведенных уголовных делах</td>

@@ -68,6 +68,7 @@ export class ViewSuppliersComponent implements OnInit {
     this.getIndustries();
     this.getLicense_types();
     this.fetchSuppliers({searchQuery:{}});
+    this.getGrantedSources();
   }
   filteredNames: any;
   isLoading = false;
@@ -146,7 +147,7 @@ export class ViewSuppliersComponent implements OnInit {
 
   isChecked1 = false
   spec1 = {
-    
+
   }
   isChecked2 = false
   spec2 = {
@@ -185,7 +186,7 @@ export class ViewSuppliersComponent implements OnInit {
     if(this.isResident != null) {
       filterObj.push({ property: 'isResident', operator: '=', value: this.isResident });
     }
-    
+
     let obj = {
       searchQuery: {
         searchFitler: filterObj
@@ -228,7 +229,27 @@ export class ViewSuppliersComponent implements OnInit {
   goBack(){
     window.history.back();
   }
-  
+  licenseChecked = false
+  debtChecked = false
+  getGrantedSources() {
+    const href = 'data-api/query/exec';
+    const requestUrl = `${href}`;
+    this._httpClient.post(AppConfig.settings.host + requestUrl, {rootName: 'GrantedSource'}).subscribe(_ => {
+      if(_['data'] != null) {
+        let grantedSources:any[] = _['data'];
+        for (let index = 0; index < grantedSources.length; index++) {
+          const gSource = grantedSources[index];
+          if(gSource.sourceType == 'LICENSE') {
+            this.licenseChecked = true;
+          }
+          if(gSource.sourceType == 'DEBT') {
+            this.debtChecked = true;
+          }
+        }
+      }
+    })
+  }
+
 }
 /** An example database that the data source uses to retrieve data for the table. */
 export class HttpDatabase {

@@ -85,10 +85,10 @@
               </table>
             </div>
             <table>
-              <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;"> 
+              <tr *ngIf="licenseChecked">
+                <td style="text-align: right; width: 250px; padding: 20px;">
                   <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked1">Наличие лицензии</mat-slide-toggle>
-            
+
                 </td>
                 <td>
                   <mat-form-field *ngIf="isChecked1">
@@ -102,8 +102,8 @@
                     </mat-form-field>
                 </td>
               </tr>
-              <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;"> 
+              <tr *ngIf="licenseChecked">
+                <td style="text-align: right; width: 250px; padding: 20px;">
                   <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked2">Просроченные лицензии за период</mat-slide-toggle>
                 </td>
                 <td>
@@ -121,11 +121,11 @@
                       <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
                   </ng-container>
-                    
+
                 </td>
               </tr>
-              <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;"> 
+              <tr *ngIf="debtChecked">
+                <td style="text-align: right; width: 250px; padding: 20px;">
                   <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked3">Наличие задолженности за период</mat-slide-toggle>
                 </td>
                 <td>
@@ -146,7 +146,7 @@
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;"> 
+                <td style="text-align: right; width: 250px; padding: 20px;">
                   <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked4">Наличие уголовных дел за период</mat-slide-toggle>
                 </td>
                 <td>
@@ -167,7 +167,7 @@
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;"> 
+                <td style="text-align: right; width: 250px; padding: 20px;">
                   <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked5">Наличие судебных тяжб за период</mat-slide-toggle>
                 </td>
                 <td>
@@ -188,7 +188,7 @@
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;"> 
+                <td style="text-align: right; width: 250px; padding: 20px;">
                   <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked6">Наличие жалоб и претензий на поставщика</mat-slide-toggle>
                 </td>
                 <td>
@@ -225,31 +225,31 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Название</th>
           <td mat-cell *matCellDef="let row">{{row.name}}</td>
         </ng-container>
-  
+
         <!-- inn Column -->
         <ng-container matColumnDef="inn">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>ИНН</th>
           <td mat-cell *matCellDef="let row">{{row.inn}}</td>
         </ng-container>
-  
+
         <!-- legalAddress Column -->
         <ng-container matColumnDef="legalAddress">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Адрес (юрид)</th>
           <td mat-cell *matCellDef="let row">{{row.legalAddress}}</td>
         </ng-container>
-  
+
         <!-- legalAddress Column -->
         <ng-container matColumnDef="ownershipTypeId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Форма собственности</th>
           <td mat-cell *matCellDef="let row">{{parseSelect('ownershipTypeId', row.ownershipTypeId)}}</td>
         </ng-container>
-  
+
         <!-- legalAddress Column -->
         <ng-container matColumnDef="industryId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Отрасль</th>
           <td mat-cell *matCellDef="let row">{{parseSelect('industryId', row.industryId)}}</td>
         </ng-container>
-  
+
         <!-- Created Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -257,11 +257,11 @@
           </th>
           <td mat-cell *matCellDef="let row">{{row.id}}</td>
         </ng-container>
-  
+
         <tr mat-header-row *matHeaderRowDef="suppliersDisplayedColumns"></tr>
         <tr [class.blackList]="row.isBlack" mat-row *matRowDef="let row; columns: suppliersDisplayedColumns;" (click)="navigateTo(row)"></tr>
       </table>
     </div>
-  
+
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
   </div>

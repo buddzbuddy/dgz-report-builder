@@ -22,6 +22,7 @@ export class ViewSupplierComponent implements OnInit {
         }
       });
     }
+    this.getGrantedSources();
   }
   get_supplier_details(supplierId){
     const href = 'data-api/supplier-requests/getDetails/' + supplierId;
@@ -62,4 +63,26 @@ export class ViewSupplierComponent implements OnInit {
   goBack(){
     window.history.back();
   }
+
+  licenseChecked = false
+  debtChecked = false
+  getGrantedSources() {
+    const href = 'data-api/query/exec';
+    const requestUrl = `${href}`;
+    this._httpClient.post(AppConfig.settings.host + requestUrl, {rootName: 'GrantedSource'}).subscribe(_ => {
+      if(_['data'] != null) {
+        let grantedSources:any[] = _['data'];
+        for (let index = 0; index < grantedSources.length; index++) {
+          const gSource = grantedSources[index];
+          if(gSource.sourceType == 'LICENSE') {
+            this.licenseChecked = true;
+          }
+          if(gSource.sourceType == 'DEBT') {
+            this.debtChecked = true;
+          }
+        }
+      }
+    })
+  }
+
 }
