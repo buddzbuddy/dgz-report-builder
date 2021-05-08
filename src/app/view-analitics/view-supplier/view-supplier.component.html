@@ -56,11 +56,17 @@
         </tr>
         <tr>
           <td>Лицензии</td>
-          <td><app-view-supplier-licenses *ngIf="licenseChecked" [licenses]="supplier.licenses"></app-view-supplier-licenses></td>
+          <td>
+            <app-view-supplier-licenses *ngIf="licenseChecked" [licenses]="supplier.licenses"></app-view-supplier-licenses>
+            <span style="font-style: italic; color: darkred;" *ngIf="!licenseChecked">Данная информация скрыта</span>
+          </td>
         </tr>
         <tr>
           <td>Данные о задолженности по налогам</td>
-          <td><app-view-supplier-debts *ngIf="debtChecked" [items]="supplier.debts"></app-view-supplier-debts></td>
+          <td>
+            <app-view-supplier-debts *ngIf="debtChecked" [items]="supplier.debts"></app-view-supplier-debts>
+            <span style="font-style: italic; color: darkred;" *ngIf="!debtChecked">Данная информация скрыта</span>
+          </td>
         </tr>
         <tr>
           <td>Жалобы</td>
