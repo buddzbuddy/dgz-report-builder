@@ -1,0 +1,71 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+          Дополнительно {{items?.length}} локальных ограничений
+      </mat-panel-title>
+      <mat-panel-description>
+        <span class="fill-remaining-space"></span>
+        <mat-icon>lock</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div style="max-height:300px;overflow:auto;">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field >
+            <mat-label>ИНН</mat-label>
+            <input matInput [(ngModel)]="inn">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <button mat-raised-button (click)="findByInn()">Найти поставщика</button>
+        </div>
+      </div>
+      <div class="row" *ngFor="let supplier of foundSuppliers">
+        <div class="col-md-4">{{supplier.name}}</div>
+        <div class="col-md-4">
+          <mat-slide-toggle  [labelPosition]="'before'" (change)="licenseChanged($event)">Данные по лицензиям</mat-slide-toggle>
+        </div>
+        <div class="col-md-4">
+          <mat-slide-toggle  [labelPosition]="'before'" (change)="debtChanged($event)" >Данные по задолженностям</mat-slide-toggle>
+        </div>
+      </div>
+      <table class="table">
+          <tr>
+              <th>
+                  Дата настройки
+              </th>
+              <th>
+                  Тип ограничения
+              </th>
+              <th>
+                  ИНН
+              </th>
+              <th>
+                  Название
+              </th>
+              <th></th>
+          </tr>
+          <tr *ngFor="let a of items">
+              <td>
+                  {{a.createdAt | date:'dd.MM.yyyy'}}
+              </td>
+              <td>
+                  {{getSourceTypeName(a.sourceType)}}
+              </td>
+              <td>
+                  {{a.supplier?.inn}}
+              </td>
+              <td>
+                  {{a.supplier?.name}}
+              </td>
+              <td>
+                <button color="warn" mat-icon-button (click)="denySource(a.sourceType, a.supplier?.inn)" matTooltip="Удалить ограничение">
+                  <mat-icon>remove_circle_outline</mat-icon>
+                </button>
+              </td>
+          </tr>
+        </table>
+     </div>
+  </mat-expansion-panel>
+</mat-accordion>

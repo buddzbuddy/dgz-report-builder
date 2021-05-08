@@ -117,6 +117,7 @@ import { ViewSupplierDebtsComponent } from './view-analitics/view-supplier/view-
 import { ViewSupplierCrimesComponent } from './view-analitics/view-supplier/view-supplier-crimes/view-supplier-crimes.component';
 import { ViewSupplierLitigationsComponent } from './view-analitics/view-supplier/view-supplier-litigations/view-supplier-litigations.component';
 import { ViewPrivacySettingsComponent } from './view-analitics/view-privacy-settings/view-privacy-settings.component';
+import { LocalGrantedSourcesComponent } from './view-analitics/view-privacy-settings/local-granted-sources/local-granted-sources.component';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -227,7 +228,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewSupplierDebtsComponent,
     ViewSupplierCrimesComponent,
     ViewSupplierLitigationsComponent,
-    ViewPrivacySettingsComponent
+    ViewPrivacySettingsComponent,
+    LocalGrantedSourcesComponent
   ],
   imports: [
     BrowserModule,
