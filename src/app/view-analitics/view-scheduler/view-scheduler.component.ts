@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router }                       from "@angular/router";
 import { Observable, Subscription, timer } from "rxjs";
+import { NotificationService } from "src/app/notification.service";
 import { ServerResponseCode } from "../scheduler/response.code.constants";
 import { SchedulerService } from "../scheduler/scheduler.service";
 
@@ -21,7 +22,8 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
   constructor(private _router: Router,
     private _fb: FormBuilder,
     private _schedulerService : SchedulerService,
-    private _responseCode : ServerResponseCode) {}
+    private _responseCode : ServerResponseCode,
+    private notificationSvc: NotificationService) {}
 
   ngOnInit() {
     this.jobNameStatus = "";
@@ -33,7 +35,7 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
       day: [''],
       hour: [''],
       minute: [''],
-      cronExpression: ['0 0/1 * 1/1 * ? *']
+      cronExpression: ['']//0 0/1 * 1/1 * ? *
     });
     this.setDate();
     this.getJobs();
@@ -78,7 +80,7 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
           if(success.statusCode == ServerResponseCode.SUCCESS){
             this.jobRecords = success.data;
           }else{
-            alert("Some error while fetching jobs");
+            this.notificationSvc.warn("Some error while fetching jobs");
           }
 
           /*
@@ -89,7 +91,7 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
           */
       },
       err => {
-        alert("Error while getting all jobs");
+        this.notificationSvc.warn("Error while getting all jobs");
       });
   }
 
@@ -110,14 +112,14 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
               this.jobNameStatus = "Good :)";
             }
           }else if(success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT){
-            alert("Job name is mandatory.");
+            this.notificationSvc.warn("Job name is mandatory.");
             this.schedulerForm.patchValue({
               jobName: "",
             });
           }
       },
       err => {
-        alert("Error while checkinh job with name exist.");
+        this.notificationSvc.warn("Error while checkinh job with name exist.");
       });
       this.jobNameStatus = "";
   }
@@ -139,19 +141,19 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
     this._schedulerService.scheduleJob(data).subscribe(
       success => {
           if(success.statusCode == ServerResponseCode.SUCCESS){
-            alert("Job scheduled successfully.");
+            this.notificationSvc.success("Задача успешно создана");
             this.resetForm();
 
           }else if(success.statusCode == ServerResponseCode.JOB_WITH_SAME_NAME_EXIST){
-            alert("Job with same name exists, Please choose different name.");
+            this.notificationSvc.warn("Эта задача уже запланирована");
 
           }else if(success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT){
-            alert("Job name is mandatory.");
+            this.notificationSvc.warn("Наиманование задачи не указана");
           }
           this.jobRecords = success.data;
       },
       err => {
-        alert("Error while getting all jobs");
+        this.notificationSvc.warn("Error while getting all jobs");
       });
   }
 
@@ -172,19 +174,19 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
     this._schedulerService.updateJob(data).subscribe(
       success => {
           if(success.statusCode == ServerResponseCode.SUCCESS){
-            alert("Job updated successfully.");
+            this.notificationSvc.success("Задача успешно обновлена.");
             this.resetForm();
 
           }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-            alert("Job no longer exist.");
+            this.notificationSvc.warn("Данная задача уже не существует");
 
           }else if(success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT){
-            alert("Please provide job name.");
+            this.notificationSvc.warn("Please provide job name.");
           }
           this.jobRecords = success.data;
       },
       err => {
-        alert("Error while updating job");
+        this.notificationSvc.warn("Неизвестная ошибка при обновлении");
       });
   }
 
@@ -215,17 +217,17 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
       this._schedulerService.pauseJob(data).subscribe(
         success => {
           if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            alert("Job paused successfully.")
+            this.notificationSvc.success("Задача успешно приостановлена")
 
           }else if(success.data == false){
             if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-                alert("Job already started/completed, so cannot be paused.");
+              this.notificationSvc.warn("Задача уже запущена/завершена, поэтому ПАУЗА недопустима (пауза действует для запланированных задач)");
             }
           }
           this.getJobs();
         },
         err => {
-          alert("Error while pausing job");
+          this.notificationSvc.warn("Ошибка при ПАУЗЕ задачи");
         });
 
       //For updating fresh status of all jobs
@@ -239,11 +241,11 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
      this._schedulerService.resumeJob(data).subscribe(
       success => {
         if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            alert("Job resumed successfully.")
+          this.notificationSvc.success("Задача успешно продолжена")
 
           }else if(success.data == false){
             if(success.statusCode == ServerResponseCode.JOB_NOT_IN_PAUSED_STATE){
-                alert("Job is not in paused state, so cannot be resumed.");
+              this.notificationSvc.warn("Job is not in paused state, so cannot be resumed.");
             }
           }
 
@@ -251,7 +253,7 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
           this.getJobs();
       },
       err => {
-        alert("Error while resuming job");
+        this.notificationSvc.warn("Error while resuming job");
       });
 
       //For updating fresh status of all jobs
@@ -265,17 +267,17 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
       this._schedulerService.stopJob(data).subscribe(
         success => {
           if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            alert("Job stopped successfully.")
+            this.notificationSvc.success("Задача остановлена успешно")
 
           }else if(success.data == false){
             if(success.statusCode == ServerResponseCode.JOB_NOT_IN_RUNNING_STATE){
-              alert("Job not started, so cannot be stopped.");
+              this.notificationSvc.warn("Job not started, so cannot be stopped.");
 
             }else if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-              alert("Job already started.");
+              this.notificationSvc.warn("Job already started.");
 
             }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-              alert("Job no longer exist.");
+              this.notificationSvc.warn("Job no longer exist.");
             }
           }
 
@@ -283,7 +285,7 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
           this.getJobs();
         },
         err => {
-          alert("Error while pausing job");
+          this.notificationSvc.warn("Error while pausing job");
         });
   }
 
@@ -294,17 +296,17 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
       this._schedulerService.startJobNow(data).subscribe(
         success => {
           if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            alert("Job started successfully.")
+            this.notificationSvc.success("Задача успешно запущена.")
 
           }else if(success.data == false){
             if(success.statusCode == ServerResponseCode.ERROR){
-                alert("Server error while starting job.");
+              this.notificationSvc.warn("Server error while starting job.");
 
             }else if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-              alert("Job is already started.");
+              this.notificationSvc.warn("Job is already started.");
 
             }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-              alert("Job no longer exist.");
+              this.notificationSvc.warn("Job no longer exist.");
             }
           }
 
@@ -312,7 +314,7 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
           this.getJobs();
         },
         err => {
-          alert("Error while starting job now.");
+          this.notificationSvc.warn("Error while starting job now.");
         });
 
       //For updating fresh status of all jobs
@@ -326,14 +328,14 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
     this._schedulerService.deleteJob(data).subscribe(
       success => {
           if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            alert("Job deleted successfully.");
+            this.notificationSvc.success("Задача успешно удалена");
 
           }else if(success.data == false){
             if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-                alert("Job is already started/completed, so cannot be deleted.");
+              this.notificationSvc.warn("Job is already started/completed, so cannot be deleted.");
 
             }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-              alert("Job no longer exist.");
+              this.notificationSvc.warn("Job no longer exist.");
             }
           }
 
@@ -341,7 +343,7 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
           this.getJobs();
       },
       err => {
-        alert("Error while deleting job");
+        this.notificationSvc.warn("Error while deleting job");
       });
   }
 
@@ -354,5 +356,37 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
     this.schedulerForm.patchValue({
         cronExpression: cronExp
       });
+  }
+  jobNameChange(name){
+    this.schedulerForm.patchValue({
+      jobName: name
+      });
+  }
+
+  getJobCaption(jobState: string): string {
+    let jobCaption = jobState;
+    if(jobState == 'RUNNING') {
+      jobCaption = 'ВЫПОЛНЯЕТСЯ';
+    }
+    else if(jobState == 'PAUSED') {
+      jobCaption = 'ПРИОСТАНОВЛЕН';
+    }
+    else if(jobState == 'BLOCKED') {
+      jobCaption = 'ЗАБЛОКИРОВАН';
+    }
+    else if(jobState == 'COMPLETE') {
+      jobCaption = 'ЗАВЕРШЕН';
+    }
+    else if(jobState == 'ERROR') {
+      jobCaption = 'ОШИБКА';
+    }
+    else if(jobState == 'NONE') {
+      jobCaption = 'ПУСТО';
+    }
+    else if(jobState == 'SCHEDULED') {
+      jobCaption = 'ЗАПЛАНИРОВАН';
+    }
+
+    return jobCaption;
   }
 }
