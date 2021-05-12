@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Input, Output, EventEmitter }                              from '@angular/core';
 import { Injectable }                                                          from '@angular/core';
+import { AppConfig } from 'src/app/app.config';
 
 
 @Injectable({
@@ -8,15 +9,15 @@ import { Injectable }                                                          f
   })
 export class SchedulerService {
 
-    getJobsUrl = "data-api/scheduler/jobs";
-    scheduleJobUrl = "data-api/scheduler/schedule";
-    pauseJobUrl = "data-api/scheduler/pause";
-    resumeJobUrl = "data-api/scheduler/resume";
-    deleteJobUrl = "data-api/scheduler/delete";
-    updateJobUrl = "data-api/scheduler/update";
-    isJobWithNamePresentUrl = "data-api/scheduler/checkJobName";
-    stopJobUrl = "data-api/scheduler/stop";
-    startJobNowUrl = "data-api/scheduler/start";
+    getJobsUrl = AppConfig.settings.host + "data-api/scheduler/jobs";
+    scheduleJobUrl = AppConfig.settings.host + "data-api/scheduler/schedule";
+    pauseJobUrl = AppConfig.settings.host + "data-api/scheduler/pause";
+    resumeJobUrl = AppConfig.settings.host + "data-api/scheduler/resume";
+    deleteJobUrl = AppConfig.settings.host + "data-api/scheduler/delete";
+    updateJobUrl = AppConfig.settings.host + "data-api/scheduler/update";
+    isJobWithNamePresentUrl = AppConfig.settings.host + "data-api/scheduler/checkJobName";
+    stopJobUrl = AppConfig.settings.host + "data-api/scheduler/stop";
+    startJobNowUrl = AppConfig.settings.host + "data-api/scheduler/start";
 
     constructor(
         private _http: HttpClient) {
