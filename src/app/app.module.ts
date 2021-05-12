@@ -118,6 +118,9 @@ import { ViewSupplierCrimesComponent } from './view-analitics/view-supplier/view
 import { ViewSupplierLitigationsComponent } from './view-analitics/view-supplier/view-supplier-litigations/view-supplier-litigations.component';
 import { ViewPrivacySettingsComponent } from './view-analitics/view-privacy-settings/view-privacy-settings.component';
 import { LocalGrantedSourcesComponent } from './view-analitics/view-privacy-settings/local-granted-sources/local-granted-sources.component';
+import { ViewSchedulerComponent } from './view-analitics/view-scheduler/view-scheduler.component';
+import { SchedulerService } from './view-analitics/scheduler/scheduler.service';
+import { ServerResponseCode } from './view-analitics/scheduler/response.code.constants';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 
@@ -229,7 +232,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewSupplierCrimesComponent,
     ViewSupplierLitigationsComponent,
     ViewPrivacySettingsComponent,
-    LocalGrantedSourcesComponent
+    LocalGrantedSourcesComponent,
+    ViewSchedulerComponent
   ],
   imports: [
     BrowserModule,
@@ -263,6 +267,8 @@ export function initializeApp(appConfig: AppConfig) {
       deps: [AppConfig], multi: true },
     CamundaRestService,
     DataService,
+    ServerResponseCode,
+    SchedulerService,
     MaterialService,
     NavService,
     LocalStorageService,

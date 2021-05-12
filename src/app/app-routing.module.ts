@@ -38,6 +38,7 @@ import { UploadSupplierListComponent } from './view-analitics/upload-supplier-li
 import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
 import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
 import { ViewPrivacySettingsComponent } from './view-analitics/view-privacy-settings/view-privacy-settings.component';
+import { ViewSchedulerComponent } from './view-analitics/view-scheduler/view-scheduler.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -83,6 +84,7 @@ const routes: Routes = [
   { path: 'analitics/view-sod-updater', component: ViewSodUpdaterComponent },
   { path: 'analitics/view-audit-section', component: ViewAuditSectionComponent },
   { path: 'analitics/view-privacy-settings', component: ViewPrivacySettingsComponent },
+  { path: 'analitics/view-scheduler', component: ViewSchedulerComponent },
 
 ];
 
