@@ -101,7 +101,8 @@
                     <option value=""></option>
                     <option value="0 0/1 * 1/1 * ? *">Каждую 1 минуту</option>
                     <option value="0 0 10 1/1 * ? *">Каждый день в 10 утра</option>
-                    <option value="0 0 0/1 1/1 * ? *">Каждый час начиная с 10 утра</option>
+                    <option value="0 0 0 1/10 * ? *">Каждые 10 дней</option>
+                    <option value="0 0 0 1/31 * ? *">Каждый месяц 1-го числа</option>
                     <option value="0 0 10 ? * TUE,THU *">Каждую неделю во ВТ и ЧТ в 10 утра</option>
                 </select>
             </td>
@@ -120,7 +121,8 @@
         <tr>
             <td></td>
             <td colspan="2">
-                <b>Если крон выражение оставите пустым то будет означать как одноразовая задача</b>
+                <b>Если крон выражение оставите пустым то будет означать как одноразовая задача</b><br>
+                <b>Генератор КРОН-выражений <a href="https://www.freeformatter.com/cron-expression-generator-quartz.html" target="_blank">здесь</a></b>
             </td>
         </tr>
     </table>
@@ -171,10 +173,10 @@
         2. Если статус задачи "ВЫПОЛНЯЕТСЯ", то действия "Пауза, Продолжить, Удалить, Изменить" не будут доступны</label>
     <br/><br/>
 
-    <table class="table table-responsive table-hover" border="1" style="width : 100%;">
+    <table class="table">
         <thead>
             <th>Задача</th>
-            <th>Время запуска</th>
+            <th>Создано</th>
             <th>Дата/время послед. запуска</th>
             <th>Дата/время след. запуска</th>
             <th>Действия</th>
