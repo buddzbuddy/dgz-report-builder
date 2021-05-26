@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from 'src/app/data.service';
+import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
 import { AppConfig } from 'src/app/app.config';
 import { Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./view-constructor.component.scss']
 })
 export class ViewConstructorComponent implements OnInit {
-
+  @ViewChild('table', { static: false }) table: ElementRef;
   constructor(private route: ActivatedRoute,
     private _httpClient: HttpClient, public dialog: MatDialog,  ) { }
     className: string
@@ -199,7 +199,7 @@ const requestUrl = `${href}`;
     let sql = `
 SELECT
 {selects}
-FROM {root} t0
+FROM {root} tRoot
 {joins}
 {conditions}
     `;
@@ -249,7 +249,7 @@ FROM {root} t0
     res.map(_ => this.availableSources.push(_));
   }
 
-  getInternalSources(srcObj): any[] {
+  getInternalSources(srcObj, parentAlias = 'tRoot'): any[] {
     let res = [];
 
     for (let i = 0; i < srcObj.propList.length; i++) {
@@ -259,7 +259,7 @@ FROM {root} t0
         for (let j = 0; j < this.allSources.length; j++) {
           const s = this.allSources[j];
           if(s['className'] == className) {
-            res.push({s, f});
+            res.push({s, f, alias: 't' + j, parentAlias});
           }
         }
       }
@@ -275,7 +275,7 @@ FROM {root} t0
   selectSource(sf) {
     this.selectedSources.push(sf);
 
-    this.calcJoin(sf);
+    this.calcJoinFor(sf);
 
     let oldList = this.availableSources;
     this.availableSources = [];
@@ -286,10 +286,10 @@ FROM {root} t0
       }
     }
   }
-  calcJoin(sf){
-    let tAlias = 't'+(this.queryConfig.joins.length+1);
+  calcJoinFor(sf){
+    let tAlias = sf.alias;
     let pkField = tAlias + '.id';
-    let fkField = 't0.' + sf.f.dbName;
+    let fkField = sf.parentAlias + '.' + sf.f.dbName;
     this.queryConfig.joins.push(
       {
         entityTo: sf.s.dbName,
@@ -301,11 +301,11 @@ FROM {root} t0
   }
 
   hasSubSources(src):boolean{
-    let sList = this.getInternalSources(src.s);
+    let sList = this.getInternalSources(src.s, src.alias);
     return sList.length > 0;
   }
   addSubSource(src){
-    let sList = this.getInternalSources(src.s);
+    let sList = this.getInternalSources(src.s, src.alias);
     console.log(sList);
     const dialogRef = this.dialog.open(AddSubSourceDialog, {
       data: sList
@@ -319,18 +319,47 @@ FROM {root} t0
 
   selectedFields: any = {}
   selects = []
-  addSelectedField(sf, srcAlias) {
-    if(this.selectedFields[srcAlias]) {
-      let fName = this.selectedFields[srcAlias].dbName;
+  addSelectedField(sf) {
+    if(this.selectedFields[sf.alias]) {
+      let fName = this.selectedFields[sf.alias].dbName;
       this.queryConfig.selects.push({
-        entityFor: srcAlias,
+        entityFor: sf.alias,
         field: fName,
-        alias: srcAlias + '_' + fName
+        alias: sf.alias + '_' + fName
       });
-      this.selects.push({ s: sf.s, f: this.selectedFields[srcAlias]});
-      delete this.selectedFields[srcAlias];
+      this.selects.push({ s: sf.s, f: this.selectedFields[sf.alias]});
+      delete this.selectedFields[sf.alias];
     }
   }
+  sqlData: any[][] = []
+  executeQuery(){
+    this.buildSql();
+    const href = `data-api/query/exec-sql`;
+    const requestUrl = `${href}`;
+    this._httpClient.post<any[][]>(AppConfig.settings.host + requestUrl, { sqlScript: this.queryString }).subscribe(_ => {
+      this.sqlData = _;
+    });
+  }
+
+  export()
+{
+  const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);
+
+  var wscols = [
+    {wch:6},
+    {wch:27},
+    {wch:6}
+];
+
+ws['!cols'] = wscols;
+
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  /* save to file */
+  XLSX.writeFile(wb, 'SheetJS.xlsx');
+
+}
 }
 
 @Component({

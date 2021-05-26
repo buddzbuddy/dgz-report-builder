@@ -74,3 +74,20 @@
   .list-btn:hover {
     background-color: rgba(190, 190, 190, 0.514);
   }
+
+
+  .mat-table {
+    width: 100%;
+    font-family: 'Times New Roman', Times, serif;
+    table-layout: fixed;
+    tr {
+        //border-bottom: 1px solid gray;
+        td {
+            padding: 5px;
+            border: 1px solid rgb(224, 224, 224);
+        }
+    }
+    tr:hover {
+      background: whitesmoke;
+    }
+  }

@@ -5,7 +5,7 @@
       <mat-card-subtitle>Конструктор отчета</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-accordion>
+      <!--<mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -94,17 +94,8 @@
           </mat-expansion-panel-header>
   <app-view-report-uploader [entityName]="sourceObj.className"></app-view-report-uploader>
         </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              test
-            </mat-panel-title>
-            <mat-panel-description style="flex-grow: 0">
-              test
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <p>Основной источник</p>
+      </mat-accordion>-->
+      <p>Основной источник</p>
           <mat-list>
             <mat-list-item role="listitem">
               <mat-icon>source</mat-icon>
@@ -112,7 +103,7 @@
               <span class="fill-remaining-space"></span>
               <mat-form-field>
                 <mat-label>Выбрать поле</mat-label>
-                <mat-select [(value)]="selectedFields['t0']">
+                <mat-select [(value)]="selectedFields['tRoot']">
                   <mat-option>-</mat-option>
                   <ng-container *ngFor="let p of sourceObj.propList">
                     <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
@@ -120,7 +111,7 @@
                 </mat-select>
               </mat-form-field>
 
-              <button [disabled]="!selectedFields['t0']" mat-icon-button (click)="addSelectedField({s:sourceObj}, 't0')" matTooltip="Добавить поле из источника">
+              <button [disabled]="!selectedFields['tRoot']" mat-icon-button (click)="addSelectedField({s:sourceObj, alias: 'tRoot'})" matTooltip="Добавить поле из источника">
                 <mat-icon class="material-icons-outlined">add_task</mat-icon>
             </button>
             </mat-list-item>
@@ -143,7 +134,7 @@
               </button>
                 <mat-form-field>
                   <mat-label>Выбрать поле</mat-label>
-                  <mat-select [(value)]="selectedFields['t'+(i+1)]">
+                  <mat-select [(value)]="selectedFields[sf.alias]">
                     <mat-option>-</mat-option>
                     <ng-container *ngFor="let p of sf.s.propList">
                       <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
@@ -151,7 +142,7 @@
                   </mat-select>
                 </mat-form-field>
 
-                <button [disabled]="!selectedFields['t'+(i+1)]" mat-icon-button (click)="addSelectedField(sf, 't'+(i+1))" matTooltip="Добавить поле из источника">
+                <button [disabled]="!selectedFields[sf.alias]" mat-icon-button (click)="addSelectedField(sf)" matTooltip="Добавить поле из источника">
                   <mat-icon class="material-icons-outlined">add_task</mat-icon>
               </button>
                 <button mat-icon-button (click)="removeSource(f)" matTooltip="Удалить источник">
@@ -176,9 +167,26 @@
                 </td>
               </tr>
             </table>
-        </mat-expansion-panel>
-
-      </mat-accordion>
+            <button *ngIf="selects.length > 1" mat-raised-button (click)="executeQuery()">
+              Выполнить
+          </button>
+          <span class="fill-remaining-space"></span>
+          <button *ngIf="sqlData.length" color="primary" matTooltip="Скачать в Excel" mat-raised-button (click)="export()">
+            <mat-icon>get_app</mat-icon>
+            <span>Excel</span>
+        </button>
+            <table *ngIf="selects.length" class="mat-table" #table>
+              <tr class="mat-row">
+                <th class="mat-cell" *ngFor="let f of selects">
+                  {{f.f.label}}
+                </th>
+              </tr>
+              <tr class="mat-row"  *ngFor="let r of sqlData">
+                <td class="mat-cell"  *ngFor="let f of r">
+                  {{f}}
+                </td>
+              </tr>
+            </table>
 </mat-card-content>
     <mat-card-actions>
         <button mat-button (click)="goBack()">Назад</button>
