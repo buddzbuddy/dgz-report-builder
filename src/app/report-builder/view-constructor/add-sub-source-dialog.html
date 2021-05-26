@@ -1,0 +1,14 @@
+<h1 mat-dialog-title><mat-icon>add_box</mat-icon> Выберите источник</h1>
+<div mat-dialog-content>
+    <mat-form-field appearance="outline">
+        <mat-label>Выбрать</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let item of data" [value]="item">{{item.s.classLabel}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSaveClick()" [disabled]="selected == null">Сохранить</button>
+  <button mat-button (click)="onCloseClick()">Отмена</button>
+</div>

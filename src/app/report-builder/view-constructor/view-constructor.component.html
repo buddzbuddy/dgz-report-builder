@@ -18,7 +18,7 @@
               Здесь вы можете задать поля которые хотите видеть в таблице
             </mat-panel-description>
           </mat-expansion-panel-header>
-          
+
           <div>
 
       <div cdkDropListGroup>
@@ -33,10 +33,10 @@
               <div class="example-box" *ngFor="let f of fields" cdkDrag>{{f.label}}</div>
             </div>
           </div>
-        
+
           <div class="example-container">
             <h4>Выбранные поля</h4>
-        
+
             <div
               cdkDropList
               [cdkDropListData]="selected_fields"
@@ -48,7 +48,7 @@
           </div>
         </div>
           </div>
-          
+
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -59,7 +59,7 @@
               Здесь вы можете задать критерии поиска
             </mat-panel-description>
           </mat-expansion-panel-header>
-            
+
   <app-view-report-conditions [field_vals]="importedVals" [selectItems]="selectItems" [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
   <button [disabled]="conditions.filters.length == 0" mat-stroked-button color="primary" (click)="exportJson()"><mat-icon class="material-icons-outlined">file_download</mat-icon> Скачать шаблон запроса</button>
   <span style="width: 20px;display:inline-block"></span>
@@ -78,9 +78,9 @@
               Здесь вы можете добавить записи вручную
             </mat-panel-description>
           </mat-expansion-panel-header>
-            
+
   <app-view-report-item-filler [selectItems]="selectItems" [fields]="{fields: offline_fields, entityName: sourceObj.className}"></app-view-report-item-filler>
-    
+
         </mat-expansion-panel>
 
         <mat-expansion-panel>
@@ -94,6 +94,90 @@
           </mat-expansion-panel-header>
   <app-view-report-uploader [entityName]="sourceObj.className"></app-view-report-uploader>
         </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              test
+            </mat-panel-title>
+            <mat-panel-description style="flex-grow: 0">
+              test
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>Основной источник</p>
+          <mat-list>
+            <mat-list-item role="listitem">
+              <mat-icon>source</mat-icon>
+              <span style="padding-left: 10px;">{{sourceObj.classLabel}}</span>
+              <span class="fill-remaining-space"></span>
+              <mat-form-field>
+                <mat-label>Выбрать поле</mat-label>
+                <mat-select [(value)]="selectedFields['t0']">
+                  <mat-option>-</mat-option>
+                  <ng-container *ngFor="let p of sourceObj.propList">
+                    <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+
+              <button [disabled]="!selectedFields['t0']" mat-icon-button (click)="addSelectedField({s:sourceObj}, 't0')" matTooltip="Добавить поле из источника">
+                <mat-icon class="material-icons-outlined">add_task</mat-icon>
+            </button>
+            </mat-list-item>
+          </mat-list>
+            <p *ngIf="availableSources.length">Доступные источники</p>
+            <mat-list *ngIf="availableSources.length">
+              <mat-list-item role="listitem" *ngFor="let sf of availableSources" (click)="selectSource(sf)" class="list-btn">
+                <mat-icon>add_task</mat-icon>
+                <span style="padding-left: 10px;">{{sf.s.classLabel}}</span>
+              </mat-list-item>
+            </mat-list>
+            <p *ngIf="selectedSources.length">Выбранные источники</p>
+            <mat-list *ngIf="selectedSources.length">
+              <mat-list-item role="listitem" *ngFor="let sf of selectedSources; let i = index;">
+                <mat-icon>source</mat-icon>
+                <span style="padding-left: 10px;">{{sf.s.classLabel}}</span>
+                <span class="fill-remaining-space"></span>
+                <button *ngIf="hasSubSources(sf)" mat-raised-button (click)="addSubSource(sf)">
+                  Добавить вложенный источник
+              </button>
+                <mat-form-field>
+                  <mat-label>Выбрать поле</mat-label>
+                  <mat-select [(value)]="selectedFields['t'+(i+1)]">
+                    <mat-option>-</mat-option>
+                    <ng-container *ngFor="let p of sf.s.propList">
+                      <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+
+                <button [disabled]="!selectedFields['t'+(i+1)]" mat-icon-button (click)="addSelectedField(sf, 't'+(i+1))" matTooltip="Добавить поле из источника">
+                  <mat-icon class="material-icons-outlined">add_task</mat-icon>
+              </button>
+                <button mat-icon-button (click)="removeSource(f)" matTooltip="Удалить источник">
+                  <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
+              </button>
+              </mat-list-item>
+            </mat-list>
+            <p *ngIf="selects.length">Выбранные поля</p>
+            <table *ngIf="selects.length" class="table">
+              <tr>
+                <th>Источник</th>
+                <th>Поле</th>
+                <th></th>
+              </tr>
+              <tr *ngFor="let p of selects;">
+                <td>{{p.s.classLabel}}</td>
+                <td>{{p.f.label}}</td>
+                <td>
+                  <button mat-icon-button (click)="removeSource(f)" matTooltip="Удалить поле">
+                    <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
+                </button>
+                </td>
+              </tr>
+            </table>
+        </mat-expansion-panel>
+
       </mat-accordion>
 </mat-card-content>
     <mat-card-actions>
@@ -105,3 +189,9 @@
     <mat-spinner *ngIf="isLoading"></mat-spinner>
     <app-view-report-result [selectItems]="selectItems" [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
   </div>
+  <button mat-button (click)="buildSql()">Build SQL</button>
+  <b>queryConfig:</b>
+  <pre>{{queryConfig | json}}</pre>
+  <b>queryString:</b>
+  <pre>{{queryString}}</pre>
+

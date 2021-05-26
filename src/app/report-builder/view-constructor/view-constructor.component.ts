@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 import { HttpClient } from '@angular/common/http';
 import { AppConfig } from 'src/app/app.config';
 import { Subject } from 'rxjs';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-view-constructor',
@@ -15,10 +15,10 @@ import { Subject } from 'rxjs';
 export class ViewConstructorComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
-    private _httpClient: HttpClient, ) { }
+    private _httpClient: HttpClient, public dialog: MatDialog,  ) { }
     className: string
   ngOnInit() {
-    
+
     if (this.route.params != null){
       this.route.params.subscribe(params => {
         if (params['className'] != null) {
@@ -45,8 +45,8 @@ export class ViewConstructorComponent implements OnInit {
         a.click();
         setTimeout(function() {
             document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);  
-        }, 0); 
+            window.URL.revokeObjectURL(url);
+        }, 0);
     }
 }
   exportJson(): void {
@@ -82,7 +82,14 @@ export class ViewConstructorComponent implements OnInit {
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.sourceObj = _;
-      this.getSourceFields()
+      this.queryConfig = {
+        rootEntity: _['dbName'],
+        joins: [],
+        selects: [],
+        conditions: []
+      }
+      this.getSourceFields();
+      this.calcAvailableSources();
     });
   }
   selectedFile
@@ -139,7 +146,7 @@ export class ViewConstructorComponent implements OnInit {
     const href = `data-api/query/exec`;
     const requestUrl = `${href}`;
     let paramList = this.conditions.filters;
-    
+
     /*for (let i = 0; i < Object.keys(this.conditions).length; i++) {
       const el = Object.keys(this.conditions)[i];
       paramList.push({
@@ -184,4 +191,186 @@ const requestUrl = `${href}`;
       }
     });
   }
+
+  queryConfig: JsonSqlModel;
+  queryString: string;
+
+  buildSql() {
+    let sql = `
+SELECT
+{selects}
+FROM {root} t0
+{joins}
+{conditions}
+    `;
+    sql = sql.replace('{root}', this.queryConfig.rootEntity);
+    sql = sql.replace('{selects}', this.buildSelects());
+    sql = sql.replace('{joins}', this.buildJoins());
+    sql = sql.replace('{conditions}', (this.queryConfig.conditions.length ? '1' : ''));
+    this.queryString = sql;
+  }
+  buildJoins() : string {
+    let s = '';
+
+    for (let i = 0; i < this.queryConfig.joins.length; i++) {
+      const j = this.queryConfig.joins[i];
+      s += `INNER JOIN ${j.entityTo} ${j.alias} on ${j.fkField}=${j.pkField}`
+      s += '\n';
+    }
+
+    return s;
+  }
+  buildSelects() : string {
+    let s = '*';
+    let sList: string[] = []
+    for (let i = 0; i < this.queryConfig.selects.length; i++) {
+      const el = this.queryConfig.selects[i];
+      sList.push(`${el.entityFor}.${el.field} as ${el.alias}`);
+    }
+
+    if(sList.length) {
+      s = sList.join(', ');
+    }
+
+    return s;
+  }
+  allSources = []
+  calcAvailableSources(){
+    const href = `data-api/query/getMeta/`;
+    const requestUrl = `${href}`;
+    this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.allSources = _['data'];
+      this.calcInternalSources(this.sourceObj);
+    });
+  }
+  availableSources = []
+  calcInternalSources(srcObj){
+    let res = this.getInternalSources(srcObj);
+    res.map(_ => this.availableSources.push(_));
+  }
+
+  getInternalSources(srcObj): any[] {
+    let res = [];
+
+    for (let i = 0; i < srcObj.propList.length; i++) {
+      const f = srcObj.propList[i];
+      if(f['dictionaryClassName'] != null) {
+        let className = f['dictionaryClassName'];
+        for (let j = 0; j < this.allSources.length; j++) {
+          const s = this.allSources[j];
+          if(s['className'] == className) {
+            res.push({s, f});
+          }
+        }
+      }
+    }
+    return res;
+  }
+
+  calcExternalSources(){
+
+  }
+
+  selectedSources = []
+  selectSource(sf) {
+    this.selectedSources.push(sf);
+
+    this.calcJoin(sf);
+
+    let oldList = this.availableSources;
+    this.availableSources = [];
+    for (let i = 0; i < oldList.length; i++) {
+      const oldS = oldList[i];
+      if(oldS.s['className'] != sf.s['className']) {
+        this.availableSources.push(oldS);
+      }
+    }
+  }
+  calcJoin(sf){
+    let tAlias = 't'+(this.queryConfig.joins.length+1);
+    let pkField = tAlias + '.id';
+    let fkField = 't0.' + sf.f.dbName;
+    this.queryConfig.joins.push(
+      {
+        entityTo: sf.s.dbName,
+        alias: tAlias,
+        pkField: pkField,
+        fkField: fkField
+      }
+    )
+  }
+
+  hasSubSources(src):boolean{
+    let sList = this.getInternalSources(src.s);
+    return sList.length > 0;
+  }
+  addSubSource(src){
+    let sList = this.getInternalSources(src.s);
+    console.log(sList);
+    const dialogRef = this.dialog.open(AddSubSourceDialog, {
+      data: sList
+    });
+    dialogRef.afterClosed().subscribe(_ => {
+      if(_ != null) {
+        this.availableSources.push(_);
+      }
+    });
+  }
+
+  selectedFields: any = {}
+  selects = []
+  addSelectedField(sf, srcAlias) {
+    if(this.selectedFields[srcAlias]) {
+      let fName = this.selectedFields[srcAlias].dbName;
+      this.queryConfig.selects.push({
+        entityFor: srcAlias,
+        field: fName,
+        alias: srcAlias + '_' + fName
+      });
+      this.selects.push({ s: sf.s, f: this.selectedFields[srcAlias]});
+      delete this.selectedFields[srcAlias];
+    }
+  }
+}
+
+@Component({
+  selector: 'add-sub-source-dialog',
+  templateUrl: 'add-sub-source-dialog.html',
+})
+export class AddSubSourceDialog {
+  selected: any;
+  constructor(
+    public dialogRef: MatDialogRef<AddSubSourceDialog>,
+    @Inject(MAT_DIALOG_DATA) public data) {}
+  onSaveClick(): void {
+    this.dialogRef.close(this.selected);
+  }
+  onCloseClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+interface JsonSqlModel {
+  rootEntity: string;
+  joins: JsonSqlJoin[];
+  selects: JsonSqlSelect[];
+  conditions: JsonSqlCondition[];
+}
+interface JsonSqlJoin {
+  entityTo: string;
+  alias: string;
+  pkField: string;
+  fkField: string;
+}
+interface JsonSqlSelect {
+  entityFor: string;
+  field: string;
+  alias: string;
+}
+interface JsonSqlCondition{
+  expressionOperation: string;
+  conditionOperation: string;
+  fieldAlias: string;
+  paramName: string;
+  paramValue: string;
 }
