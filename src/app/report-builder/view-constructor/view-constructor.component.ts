@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppConfig } from 'src/app/app.config';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-view-constructor',
@@ -206,7 +207,7 @@ FROM {root} tRoot
     sql = sql.replace('{root}', this.queryConfig.rootEntity);
     sql = sql.replace('{selects}', this.buildSelects());
     sql = sql.replace('{joins}', this.buildJoins());
-    sql = sql.replace('{conditions}', (this.queryConfig.conditions.length ? '1' : ''));
+    sql = sql.replace('{conditions}', this.buildConditions());
     this.queryString = sql;
   }
   buildJoins() : string {
@@ -215,7 +216,9 @@ FROM {root} tRoot
     for (let i = 0; i < this.queryConfig.joins.length; i++) {
       const j = this.queryConfig.joins[i];
       s += `INNER JOIN ${j.entityTo} ${j.alias} on ${j.fkField}=${j.pkField}`
-      s += '\n';
+      if(i < (this.queryConfig.joins.length - 1)) {
+        s += '\n';
+      }
     }
 
     return s;
@@ -230,6 +233,25 @@ FROM {root} tRoot
 
     if(sList.length) {
       s = sList.join(', ');
+    }
+
+    return s;
+  }
+  buildConditions() : string {
+    let s = '';
+    let sList: string[] = []
+    for (let i = 0; i < this.queryConfig.conditions.length; i++) {
+      const el = this.queryConfig.conditions[i];
+      if(el.isStringVal) {
+        sList.push(`${el.entityFor}.${el.fieldName} ${el.conditionOperation} '${el.fieldValue}'`);
+      }
+      else {
+        sList.push(`${el.entityFor}.${el.fieldName} ${el.conditionOperation} ${el.fieldValue}`);
+      }
+    }
+
+    if(sList.length) {
+      s = 'WHERE ' + sList.join(' AND ');
     }
 
     return s;
@@ -317,6 +339,30 @@ FROM {root} tRoot
     });
   }
 
+  addSourceCondition(src){
+    let s = src.s;
+    let alias = src.alias;
+    const dialogRef = this.dialog.open(AddSourceConditionDialog, {
+      data: {
+        s
+      }
+    });
+    dialogRef.afterClosed().subscribe(_ => {
+      if(_ != null) {
+        console.log(alias, _);
+        this.queryConfig.conditions.push({
+          entityFor: alias,
+          fieldName: _.fieldName,
+          fieldValue: _.fieldValue,
+          conditionOperation: _.operator,
+          isStringVal: _.isStringVal
+        });
+        //this.availableSources.push(_);
+      }
+    });
+  }
+
+
   selectedFields: any = {}
   selects = []
   addSelectedField(sf) {
@@ -379,6 +425,66 @@ export class AddSubSourceDialog {
   }
 }
 
+@Component({
+  selector: 'add-source-condition-dialog',
+  templateUrl: 'add-source-condition-dialog.html',
+})
+export class AddSourceConditionDialog implements OnInit {
+  selected: any;
+  constructor(
+    public dialogRef: MatDialogRef<AddSourceConditionDialog>,
+    @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient, ) {}
+
+    ngOnInit() {
+      this.loadSelectItemsFor();
+    }
+
+    parseDate(src) : string {
+      return moment(src).format('YYYY-MM-DD');
+    }
+    conditions: any = {
+
+    }
+  onSaveClick(): void {
+
+    let v = this.conditions.value;
+    if(this.selected.dataType == 'Date') {
+      v = this.parseDate(v);
+    }
+    let res = {
+      fieldName: this.selected.dbName,
+      fieldValue: v,
+      operator: this.conditions.operator,
+      isStringVal: this.isStringVal()
+    }
+
+    this.dialogRef.close(res);
+  }
+  isStringVal() : boolean {
+    return this.selected.dataType == 'Date' || this.selected.dataType == 'String';
+  }
+  onCloseClick(): void {
+    this.dialogRef.close();
+  }
+
+  selectItemsForSrc: any = {}
+  loadSelectItemsFor() {
+    const href = `data-api/query/exec`;const requestUrl = `${href}`;
+    this.data.s.propList.forEach(f => {
+      if(f.dataType == 'long' && f.dictionaryClassName != null) {
+    let obj = {
+      rootName: f.dictionaryClassName
+    };
+    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      if(_.result) {
+        this.selectItemsForSrc[f.name] = _.data;
+      }
+    });
+      }
+    });
+  }
+}
+
 interface JsonSqlModel {
   rootEntity: string;
   joins: JsonSqlJoin[];
@@ -397,9 +503,9 @@ interface JsonSqlSelect {
   alias: string;
 }
 interface JsonSqlCondition{
-  expressionOperation: string;
   conditionOperation: string;
-  fieldAlias: string;
-  paramName: string;
-  paramValue: string;
+  entityFor: string;
+  fieldName: string;
+  fieldValue: any;
+  isStringVal: boolean;
 }

@@ -101,6 +101,9 @@
               <mat-icon>source</mat-icon>
               <span style="padding-left: 10px;">{{sourceObj.classLabel}}</span>
               <span class="fill-remaining-space"></span>
+              <button mat-raised-button (click)="addSourceCondition({s:sourceObj, alias: 'tRoot'})">
+                Добавить условие
+            </button>
               <mat-form-field>
                 <mat-label>Выбрать поле</mat-label>
                 <mat-select [(value)]="selectedFields['tRoot']">
@@ -132,6 +135,9 @@
                 <button *ngIf="hasSubSources(sf)" mat-raised-button (click)="addSubSource(sf)">
                   Добавить вложенный источник
               </button>
+              <button mat-raised-button (click)="addSourceCondition(sf)">
+                Добавить условие
+            </button>
                 <mat-form-field>
                   <mat-label>Выбрать поле</mat-label>
                   <mat-select [(value)]="selectedFields[sf.alias]">
@@ -198,8 +204,8 @@
     <app-view-report-result [selectItems]="selectItems" [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
   </div>
   <button mat-button (click)="buildSql()">Build SQL</button>
-  <b>queryConfig:</b>
-  <pre>{{queryConfig | json}}</pre>
+  <!--<b>queryConfig:</b>
+  <pre>{{queryConfig | json}}</pre>-->
   <b>queryString:</b>
   <pre>{{queryString}}</pre>
 

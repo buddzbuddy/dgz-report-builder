@@ -1,0 +1,61 @@
+<h1 mat-dialog-title><mat-icon>add_box</mat-icon> Выберите поле</h1>
+<div mat-dialog-content>
+    <mat-form-field appearance="outline">
+        <mat-label>Поле</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let item of data.s.propList" [value]="item">{{item.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline" *ngIf="selected != null">
+          <mat-label>Оператор сравнения</mat-label>
+          <mat-select [(value)]="conditions.operator">
+            <mat-option>-</mat-option>
+            <mat-option [value]="'='">РАВНО</mat-option>
+            <mat-option [value]="'!='">НЕ РАВНО</mat-option>
+            <mat-option [value]="'>='">БОЛЬШЕ или РАВНО</mat-option>
+            <mat-option [value]="'<='">МЕНЬШЕ или РАВНО</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+      <ng-container *ngIf="selected?.dataType == 'long' && selected?.dictionaryClassName != null">
+        <mat-form-field appearance="outline">
+          <mat-label>Значение</mat-label>
+          <mat-select [(value)]="conditions.value">
+            <mat-option>-</mat-option>
+            <mat-option *ngFor="let item of selectItemsForSrc[selected.name]" [value]="item.id">{{item[selected.dictionaryFieldName]}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="selected?.dataType == 'String'">
+        <mat-form-field appearance="outline">
+          <mat-label>Значение</mat-label>
+          <input matInput [(ngModel)]="conditions.value">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="selected?.dataType == 'boolean'">
+        <span style="padding: 5px;">Значение</span>
+        <mat-radio-group [(ngModel)]="conditions.value">
+          <mat-radio-button [value]="true">Да</mat-radio-button>
+          <mat-radio-button [value]="false">Нет</mat-radio-button>
+        </mat-radio-group>
+      </ng-container>
+      <ng-container *ngIf="selected?.dataType == 'Date'">
+        <mat-form-field appearance="outline">
+          <mat-label>Значение</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="conditions.value">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <!--<button (click)="parseDate(conditions.value)">parse</button>-->
+      </ng-container>
+
+      <pre>{{selected | json}}</pre>
+
+      <pre>{{conditions | json}}</pre>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSaveClick()" [disabled]="conditions.value == null || conditions.operator == null">Сохранить</button>
+  <button mat-button (click)="onCloseClick()">Отмена</button>
+</div>

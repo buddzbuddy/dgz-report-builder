@@ -93,7 +93,7 @@ import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListVie
 import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import { AddSubSourceDialog, ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
+import { AddSourceConditionDialog, AddSubSourceDialog, ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
 import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewMsecDetailsDialog, ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
@@ -234,7 +234,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewPrivacySettingsComponent,
     LocalGrantedSourcesComponent,
     ViewSchedulerComponent,
-    AddSubSourceDialog
+    AddSubSourceDialog,
+    AddSourceConditionDialog
   ],
   imports: [
     BrowserModule,
@@ -305,7 +306,8 @@ export function initializeApp(appConfig: AppConfig) {
     EditTextDialog,
     EditListTileDialog,
     ViewMsecDetailsDialog,
-    AddSubSourceDialog
+    AddSubSourceDialog,
+    AddSourceConditionDialog
   ]
 })
 export class AppModule {
