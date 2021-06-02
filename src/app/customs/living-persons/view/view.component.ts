@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/data.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { NotificationService } from 'src/app/notification.service';
 export interface DialogData {

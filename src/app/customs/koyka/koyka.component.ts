@@ -4,7 +4,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { AppConfig } from '../../app.config';
 import { DataService } from '../../data.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, interval } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';

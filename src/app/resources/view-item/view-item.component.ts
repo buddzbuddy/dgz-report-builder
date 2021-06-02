@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 import * as moment from 'moment'
 import { Subject } from 'rxjs';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { FieldConfig, CollectionItem } from 'src/app/field.interface';
 import { Validators } from '@angular/forms';
 import { EntityformComponent } from 'src/app/material/entity-form/entity-form.component';

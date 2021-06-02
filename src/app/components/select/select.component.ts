@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, Input } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { FieldConfig, CollectionItem } from "../../field.interface";
-import { MatSelect } from '@angular/material';
+import { MatSelect } from '@angular/material/select';
 import { Subject, ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 @Component({

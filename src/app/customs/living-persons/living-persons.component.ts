@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/data.service';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment'
 import { Router } from '@angular/router';

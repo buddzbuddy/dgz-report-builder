@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
 import { AppConfig } from 'src/app/app.config';
 import { Subject } from 'rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 @Component({
@@ -14,7 +14,7 @@ import * as moment from 'moment';
   styleUrls: ['./view-constructor.component.scss']
 })
 export class ViewConstructorComponent implements OnInit {
-  @ViewChild('table', { static: false }) table: ElementRef;
+  @ViewChild('table') table: ElementRef;
   constructor(private route: ActivatedRoute,
     private _httpClient: HttpClient, public dialog: MatDialog,  ) { }
     className: string

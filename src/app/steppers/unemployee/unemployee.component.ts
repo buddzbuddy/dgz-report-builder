@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/data.service';
 import * as moment from 'moment'
 import { NotificationService } from 'src/app/notification.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 interface selectItem {
   value: string;
@@ -19,7 +19,7 @@ interface selectItemGroup {
   templateUrl: './unemployee.component.html'
 })
 export class UnemployeeComponent implements OnInit {
-  @ViewChild('invisibleText', { static: false }) invisibleText: ElementRef;
+  @ViewChild('invisibleText') invisibleText: ElementRef;
   passportSeries: selectItem[] = [
     {value: 'ID', viewValue: 'ID'},
     {value: 'AN', viewValue: 'AN'},
