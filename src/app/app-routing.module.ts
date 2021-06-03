@@ -39,10 +39,12 @@ import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/v
 import { ViewPrivacySettingsComponent } from './view-analitics/view-privacy-settings/view-privacy-settings.component';
 import { ViewSchedulerComponent } from './view-analitics/view-scheduler/view-scheduler.component';
 import { AuthGuard } from './guard/auth.guard';
+import { KeycloakUserManagerComponent } from './keycloak-user-manager/keycloak-user-manager.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, canActivate:[AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate:[AuthGuard] },
+  { path: 'keycloak-user-manager', component: KeycloakUserManagerComponent, canActivate:[AuthGuard] },
   { path: 'persons', component: LivingPersonsComponent },
   { path: 'persons/view/:appId', component: ViewComponent },
   { path: 'persons/setstatus/:appId', component: SetstatusComponent },

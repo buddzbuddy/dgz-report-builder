@@ -118,6 +118,7 @@ import { ServerResponseCode } from './view-analitics/scheduler/response.code.con
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { TestFieldTestComponent } from './components/test-field-test/test-field-test.component';
+import { AddKeycloakUserDialog, KeycloakUserManagerComponent } from './keycloak-user-manager/keycloak-user-manager.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -246,7 +247,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ViewSchedulerComponent,
     AddSubSourceDialog,
     AddSourceConditionDialog,
-    TestFieldTestComponent
+    AddKeycloakUserDialog,
+    TestFieldTestComponent,
+    KeycloakUserManagerComponent
   ],
   imports: [
     KeycloakAngularModule,
@@ -314,7 +317,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     EditListTileDialog,
     ViewMsecDetailsDialog,
     AddSubSourceDialog,
-    AddSourceConditionDialog
+    AddSourceConditionDialog,
+    AddKeycloakUserDialog
   ]
 })
 export class AppModule {

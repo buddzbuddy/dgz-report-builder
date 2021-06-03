@@ -2,17 +2,12 @@
     "appConfig":{
         "dbPrefix": "dgz",
         "host": "http://localhost:46142/",
+        "host_keycloak": "http://192.168.2.114:8080/",
         "host_logs": "",
         "host_kong": "",
         "host_analitics":"",
         "host_tendering":"",
         "file_port": "3333",
         "dashboardUrl": ""
-    },
-    "authConfig":{
-        "issuer":"http://localhost:81",
-        "redirectUri":"http://localhost:4400/",
-        "clientId":"spa-oasis-dev",
-        "scope":"openid profile roles orgInfo"
     }
 }

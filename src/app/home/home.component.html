@@ -18,14 +18,46 @@
           <mat-icon  class="material-icons-outlined">vpn_lock</mat-icon><br>
           <span>Интеграция</span>
         </div>
-        <div style="color: rgb(182 0 182 / 85%);" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-privacy-settings')" matRipple>
-          <mat-icon  class="material-icons-outlined">lock_open</mat-icon><br>
-          <span style="margin-left: -25px;">Конфиденциальность</span>
-        </div>
-        <div style="color: #ff4081" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-scheduler')" matRipple>
-          <mat-icon  class="material-icons-outlined">event_available</mat-icon><br>
-          <span>Планировщик</span>
-        </div>
+        <ng-container *ngIf="userProfile && userProfile.attributes != null && userProfile.attributes.userRole[0] == 'admin'">
+          <div style="color: rgb(182 0 182 / 85%);" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-privacy-settings')" matRipple>
+            <mat-icon  class="material-icons-outlined">lock_open</mat-icon><br>
+            <span style="margin-left: -25px;">Конфиденциальность</span>
+          </div>
+          <div style="color: #ff4081" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-scheduler')" matRipple>
+            <mat-icon  class="material-icons-outlined">event_available</mat-icon><br>
+            <span>Планировщик</span>
+          </div>
+          <div style="color: #0f4440" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('keycloak-user-manager')" matRipple>
+            <mat-icon  class="material-icons-outlined">account_box</mat-icon><br>
+            <span>Пользователи</span>
+          </div>
+        </ng-container>
       </div>
+
+      <ng-container *ngIf="userProfile">
+        <h4>Данные пользователя</h4>
+        <table>
+          <tr *ngIf="userProfile.username">
+            <th scope="row">Логин</th>
+            <td>{{ userProfile.username }}</td>
+          </tr>
+          <tr *ngIf="userProfile.firstName">
+            <th scope="row">Имя</th>
+            <td>{{ userProfile.firstName }}</td>
+          </tr>
+          <tr *ngIf="userProfile.lastName">
+            <th scope="row">Фамилия</th>
+            <td>{{ userProfile.lastName }}</td>
+          </tr>
+          <tr *ngIf="userProfile.email">
+            <th scope="row">E-mail</th>
+            <td>{{ userProfile.email }}</td>
+          </tr>
+          <tr>
+            <th scope="row">JSON</th>
+            <td>{{ userProfile | json }}</td>
+          </tr>
+        </table>
+      </ng-container>
     </mat-card-content>
   </mat-card>

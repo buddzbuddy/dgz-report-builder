@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  constructor(private router: Router,) { }
+  constructor(private router: Router,private readonly keycloak: KeycloakService) { }
+  public isLoggedIn = false;
+  public userProfile: any//: KeycloakProfile | null = null;
+  public async ngOnInit() {
+    this.isLoggedIn = await this.keycloak.isLoggedIn();
 
-  ngOnInit(){}
+    if (this.isLoggedIn) {
+      this.userProfile = await this.keycloak.loadUserProfile();
+    }
+  }
 
   goto(url){
     setTimeout(() => {
