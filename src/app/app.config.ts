@@ -7,10 +7,10 @@ export class AppConfig {
     constructor(private http: HttpClient) {}
     load() {
         const jsonFile = `assets/config/config.json`;
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<any>((resolve, reject) => {
             this.http.get(jsonFile).toPromise().then((response: any) => {
                AppConfig.settings = <IAppConfig>response.appConfig;
-               resolve();
+               resolve({ host_keycloak: AppConfig.settings.host_keycloak, realm: AppConfig.settings.realm, clientId: AppConfig.settings.clientId });
             }).catch((response: any) => {
                reject(`Could not load config.json file '${jsonFile}': ${JSON.stringify(response)}`);
             });

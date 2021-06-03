@@ -120,23 +120,18 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { TestFieldTestComponent } from './components/test-field-test/test-field-test.component';
 import { AddKeycloakUserDialog, KeycloakUserManagerComponent } from './keycloak-user-manager/keycloak-user-manager.component';
 
-export function initializeApp(appConfig: AppConfig) {
-  return () => appConfig.load();
-}
-
-function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak.init({
-      config: {
-        url: 'http://192.168.2.114:8080/auth',
-        realm: 'dgz',
-        clientId: 'dgz',
-      },
-      initOptions: {
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-      },
-    });
+export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
+  return () => appConfig.load().then((k_obj) => keycloak.init({
+    config: {
+      url: k_obj.host_keycloak + 'auth',
+      realm: k_obj.realm,
+      clientId: k_obj.clientId,
+    },
+    initOptions: {
+      onLoad: 'check-sso',
+      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+    },
+  }));
 }
 
 @NgModule({
@@ -268,16 +263,16 @@ function initializeKeycloak(keycloak: KeycloakService) {
     MatTableExporterModule
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
     AppConfig,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [AppConfig], multi: true },
+      deps: [AppConfig, KeycloakService], multi: true },
+      /*{
+        provide: APP_INITIALIZER,
+        useFactory: initializeKeycloak,
+        multi: true,
+        deps: [KeycloakService, AppConfig],
+      },*/
     CamundaRestService,
     DataService,
     ServerResponseCode,

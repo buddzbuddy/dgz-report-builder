@@ -2,6 +2,8 @@ export interface IAppConfig {
     dbPrefix: string;
     host: string;
     host_keycloak: string;
+    clientId: string;
+    realm: string;
     host_logs: string;
     host_kong: string;
     host_analitics: string;
