@@ -1,6 +1,6 @@
 
 import * as moment from 'moment'
-import { OAuthService } from 'angular-oauth2-oidc';
+
 import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { AppConfig } from '../../app.config';
 import { DataService } from '../../data.service';
@@ -16,12 +16,11 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class KoykaComponent implements AfterViewInit {
   url = AppConfig.settings.dashboardUrl;//'http://localhost/mvd_dashboard/#/dashboard';
-  
+
   constructor(
-    public oauthService: OAuthService,
     private dataSvc: DataService,
     public dialog: MatDialog) {
-      
+
     this.now$ = interval(1000).pipe(
       startWith(null),
       map(() => new Date())
@@ -34,7 +33,7 @@ export class KoykaComponent implements AfterViewInit {
   today: any;
   now$: Observable<Date>;
   new() {
-    if(this.oauthService.hasValidAccessToken()) {
+    if(true) {
       const dialogRef = this.dialog.open(NewPatientDialog, {
         data: {
           UserId: this.userProfile['sub'],
@@ -47,7 +46,7 @@ export class KoykaComponent implements AfterViewInit {
     }
   }
   out(){
-    if(this.oauthService.hasValidAccessToken()) {
+    if(true) {
       const dialogRef = this.dialog.open(OutPatientDialog, {
         data: {
           UserId: this.userProfile['sub'],
@@ -60,7 +59,7 @@ export class KoykaComponent implements AfterViewInit {
     }
   }
   dead(){
-    if(this.oauthService.hasValidAccessToken()) {
+    if(true) {
       const dialogRef = this.dialog.open(DeadPatientDialog, {
         data: {
           UserId: this.userProfile['sub'],
@@ -73,16 +72,15 @@ export class KoykaComponent implements AfterViewInit {
     }
   }
   get claims(): any {
-    this.userProfile = this.oauthService.getIdentityClaims();
     return this.userProfile;
   }
   userProfile: any = {}
   counterInfo: any = {}
   regionItems: any[] = []
   getCounterInfo() {
-    
+
     setTimeout(() => {
-      if(this.oauthService.hasValidAccessToken()) {
+      if(true) {
         let userId = this.claims['sub'];
         console.log('AOUTHORIZED')
         this.dataSvc.customApi_Patients_GetCounterInfo(userId).subscribe(_ => {
@@ -92,7 +90,7 @@ export class KoykaComponent implements AfterViewInit {
       else {
         this.dataSvc.customApi_Patients_GetRegionItems().subscribe(_ => {
           this.regionItems = _;
-          
+
         });
       }
     }, 1000);
@@ -123,7 +121,7 @@ export class NewPatientDialog implements OnInit{
       });
     }
   onSaveClick(): void {
-    
+
     let obj = {
       CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
       UserId: this.data.UserId,
@@ -167,7 +165,7 @@ export class OutPatientDialog implements OnInit{
       });
     }
   onSaveClick(): void {
-    
+
     this.dataSvc.filterODataResource('PatientBedResources', `$filter=Telephone eq '${this.formGroup.value.Telephone}' and OrgId eq ${this.data.OrgId}`).subscribe(res => {
       if(!res.value.length) {
         alert('Пациент с таким ПИН или номером не существует! Проверьте правильность данных!');
@@ -212,7 +210,7 @@ export class DeadPatientDialog implements OnInit{
       });
     }
   onSaveClick(): void {
-    
+
     this.dataSvc.filterODataResource('PatientBedResources', `$filter=Telephone eq '${this.formGroup.value.Telephone}' and OrgId eq ${this.data.OrgId}`).subscribe(res => {
       if(!res.value.length) {
         alert('Пациент с таким ПИН или номером не существует! Проверьте правильность данных!');

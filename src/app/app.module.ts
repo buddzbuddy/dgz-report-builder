@@ -56,7 +56,6 @@ import { FilesComponent } from './files/files.component';
 import { ImageComponent } from './components/image/image.component';
 import { PreviewFileComponent } from './components/preview-file/preview-file.component';
 import { UnemployeeComponent, ViewAgreementDialog } from './steppers/unemployee/unemployee.component';
-import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
 import { SetstatusComponent } from './customs/living-persons/setstatus/setstatus.component';
 import { ViewComponent } from './customs/living-persons/view/view.component';
 import { SodDataComponent } from './customs/living-persons/sod-data/sod-data.component';
@@ -117,11 +116,28 @@ import { ViewSchedulerComponent } from './view-analitics/view-scheduler/view-sch
 import { SchedulerService } from './view-analitics/scheduler/scheduler.service';
 import { ServerResponseCode } from './view-analitics/scheduler/response.code.constants';
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
-
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { TestFieldTestComponent } from './components/test-field-test/test-field-test.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        url: 'http://192.168.2.114:8080/auth',
+        realm: 'dgz',
+        clientId: 'dgz',
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+      },
+    });
+}
+
 @NgModule({
   declarations: [
     SafePipe,
@@ -229,18 +245,14 @@ export function initializeApp(appConfig: AppConfig) {
     LocalGrantedSourcesComponent,
     ViewSchedulerComponent,
     AddSubSourceDialog,
-    AddSourceConditionDialog
+    AddSourceConditionDialog,
+    TestFieldTestComponent
   ],
   imports: [
+    KeycloakAngularModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    OAuthModule.forRoot({
-      resourceServer: {
-          allowedUrls: ['http://localhost:5001/api/identity', 'http://localhost:5001/api/content'],
-          sendAccessToken: true
-      }
-  }),
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
@@ -253,6 +265,12 @@ export function initializeApp(appConfig: AppConfig) {
     MatTableExporterModule
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
     AppConfig,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
@@ -264,7 +282,6 @@ export function initializeApp(appConfig: AppConfig) {
     MaterialService,
     NavService,
     LocalStorageService,
-    OAuthService
   ],
   bootstrap: [AppComponent],
   entryComponents:[

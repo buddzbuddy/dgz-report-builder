@@ -5,7 +5,7 @@ import * as moment from 'moment'
 import { NotificationService } from 'src/app/notification.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 import { FieldConfig } from 'src/app/field.interface';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 interface selectItem {
@@ -36,7 +36,7 @@ export class CreatePersonComponent implements OnInit {
   animalFormGroup: FormGroup;
   carFormGroup: FormGroup;
   constructor(private _formBuilder: FormBuilder, private dataSvc: DataService, private notificationSvc: NotificationService,public dialog: MatDialog,
-    public oauthService: OAuthService, private router: Router) {}
+    private router: Router) {}
     get IsTemporarilyLive(): boolean {
       let IsTemporarilyLive = this.contactsFormGroup.get('IsTemporarilyLive').value;
 
@@ -136,7 +136,6 @@ export class CreatePersonComponent implements OnInit {
         ...this.contactsFormGroup.value,
         ...this.animalFormGroup.value,
         ...this.carFormGroup.value,
-        UserId: this.oauthService.getIdentityClaims()['sub'],
         CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
         Id: this.personObj.Id
       }
@@ -168,7 +167,6 @@ export class CreatePersonComponent implements OnInit {
     var obj = {
       ...this.requestFormGroup.value,
       ...this.contactsFormGroup.value,
-      UserId: this.oauthService.getIdentityClaims()['sub'],
       CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
     }
     Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] == '') && delete obj[key]);

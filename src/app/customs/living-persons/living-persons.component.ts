@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 import * as moment from 'moment'
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 })
 export class LivingPersonsComponent implements OnInit {
   constructor(
-    private router: Router, private oauthService: OAuthService, private dataSvc: DataService
+    private router: Router, private dataSvc: DataService
   ){}
   dataSource = new MatTableDataSource();
   displayedColumns: string[] = ['action', 'CreatedAt', 'PIN', 'FullName', 'Telephone'];
@@ -55,7 +55,7 @@ export class LivingPersonsComponent implements OnInit {
 
     let parsedList: any[] = [];
     let queryString = '$filter=UserId eq {UserId}&$orderby=Id desc';
-    let claims = this.oauthService.getIdentityClaims();
+    let claims = null;
               if(claims != null && claims['sub'] != null){
                 queryString = queryString.replace('{UserId}', claims['sub']);
               }
@@ -87,8 +87,8 @@ export class LivingPersonsComponent implements OnInit {
         });
       this.dataSource.filterPredicate = this.createFilter();
     })
-  
-  
+
+
   }
 
   createNew() {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/data.service';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 import * as moment from 'moment';
 import { NotificationService } from 'src/app/notification.service';
 import { Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
 })
 export class ViewUserCardComponent implements OnInit {
   resetFormSubject: Subject<boolean> = new Subject<boolean>();
-  constructor(private _formBuilder: FormBuilder, private dataSvc: DataService, private oauthService: OAuthService,
+  constructor(private _formBuilder: FormBuilder, private dataSvc: DataService,
     private notificationSvc: NotificationService, ) { }
   formGroup: FormGroup;
   ngOnInit() {
@@ -28,8 +28,8 @@ export class ViewUserCardComponent implements OnInit {
     this.loadProfile();
   }
   loadProfile() {
-    if(this.oauthService.hasValidAccessToken()) {
-      let userId = this.oauthService.getIdentityClaims()['sub'];
+    if(true) {
+      let userId = '';
       this.dataSvc.filterODataResource('ProfileCardResources', `$filter=UserId+eq+${userId}`).subscribe(_ => {
         if(_.value.length) {
           this.hasProfile = true;
@@ -47,11 +47,11 @@ export class ViewUserCardComponent implements OnInit {
   cardId: number = 0;
   isLoggedIn: boolean = false;
   submit(){
-    if(this.oauthService.hasValidAccessToken()) {
+    if(true) {
       var obj = {
         ...this.formGroup.value,
         CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
-        UserId: this.oauthService.getIdentityClaims()['sub']
+
       }
       //Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] == '') && delete obj[key]);
       this.dataSvc.postODataResource("ProfileCardResources", obj).subscribe((_) => {

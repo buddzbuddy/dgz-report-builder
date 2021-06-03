@@ -3,16 +3,7 @@ import { FormGroup } from "@angular/forms";
 import { FieldConfig } from "../../field.interface";
 @Component({
   selector: "app-input",
-  template: `
-<mat-form-field [formGroup]="group" [class.invisible]="field.name == 'Id' || field.name == 'UserId'" appearance="outline">
-<mat-label>{{field.label}}</mat-label>
-<input matInput [formControlName]="field.name" [placeholder]="field.label" [type]="field.inputType" [value]="field?.value || ''" autocomplete="off">
-<ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
-<mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
-</ng-container>
-</mat-form-field>
-`,
-  styles: ['./input-style.scss']
+  templateUrl: './input.component.html'
 })
 export class InputComponent implements OnInit {
   field: FieldConfig;

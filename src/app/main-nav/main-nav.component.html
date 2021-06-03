@@ -26,17 +26,17 @@
       </button>
       <span *ngIf="isHandset$ | async">ДГЗ Управление конструктором</span>
       <div style="margin: 0 0 0 auto">
-        <span *ngIf="oauthService.hasValidAccessToken()">
+        <span *ngIf="true">
           {{claims.orgName}}
         </span>
-        <button *ngIf="!oauthService.hasValidAccessToken()" mat-raised-button color="primary" type="button" (click)="login()">Войти</button>
-        <button *ngIf="oauthService.hasValidAccessToken()" mat-icon-button color="warn" type="button" (click)="logoff()"><mat-icon>exit_to_app</mat-icon></button>
+        <button *ngIf="true" mat-raised-button color="primary" type="button" (click)="login()">Войти</button>
+        <button *ngIf="true" mat-icon-button color="warn" type="button" (click)="logoff()"><mat-icon>exit_to_app</mat-icon></button>
 
       </div>
     </mat-toolbar>-->
     <!-- Add Content Here -->
     <div class="wrapper-content">
       <ng-content></ng-content>
-    </div>    
+    </div>
   <!--</mat-sidenav-content>
 </mat-sidenav-container>-->

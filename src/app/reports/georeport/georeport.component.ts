@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 import * as moment from 'moment'
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 })
 export class GeoreportComponent implements OnInit {
   constructor(
-    private router: Router, private oauthService: OAuthService, private dataSvc: DataService
+    private router: Router, private dataSvc: DataService
   ){}
   dataSource = new MatTableDataSource();
   displayedColumns: string[] = ['action', 'createdAt', 'pin', 'nickname', 'telephone'];
@@ -87,7 +87,7 @@ export class GeoreportComponent implements OnInit {
         });
       this.dataSource.filterPredicate = this.createFilter();
     })
-  
-  
+
+
   }
 }

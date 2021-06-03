@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { NotificationService } from 'src/app/notification.service';
 
 @Component({
@@ -14,7 +13,7 @@ import { NotificationService } from 'src/app/notification.service';
 export class AddFamilyMemberComponent implements OnInit {
 
   constructor(private _formBuilder: FormBuilder, private route: ActivatedRoute,
-    private notificationSvc: NotificationService, private router: Router, private dataSvc: DataService, private oauthService: OAuthService) { }
+    private notificationSvc: NotificationService, private router: Router, private dataSvc: DataService, ) { }
   personId: number = 0;
   formGroup: FormGroup;
   ngOnInit() {
@@ -43,12 +42,11 @@ export class AddFamilyMemberComponent implements OnInit {
     });
   }
   submit(){
-    if(this.oauthService.hasValidAccessToken()) {
+    if(true) {
       var obj = {
         ...this.formGroup.value,
         PersonResourceId: this.personId,
-        CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
-        UserId: this.oauthService.getIdentityClaims()['sub']
+        CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ')
       }
       //Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] == '') && delete obj[key]);
       this.dataSvc.postODataResource("FamilyMemberResources", obj).subscribe((_) => {

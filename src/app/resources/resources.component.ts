@@ -10,7 +10,7 @@ import { MaterialService } from '../material.service';
 import { NotificationService } from '../notification.service';
 import { FieldConfig, CollectionItem } from '../field.interface';
 import { Validators } from '@angular/forms';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 
 /**
  * @title Table retrieving data through HTTP
@@ -50,7 +50,7 @@ export class ResourcesComponent implements OnInit {
     private materialSvc: MaterialService,
     private notificationSvc: NotificationService,
     private router: Router,
-    private oauthService: OAuthService
+
     ) {
       this.isLoadingResults = true;
     }
@@ -238,7 +238,7 @@ export class ResourcesComponent implements OnInit {
     this.isLoadingResults = true;
     if(this.templateId > 0) {
       this.initResourceByTemplateId();
-      this.oauthService.loadUserProfile();
+      //this.oauthService.loadUserProfile();
     }
     else if (this.route.params != null) {
       this.route.params.subscribe(params => {
@@ -249,7 +249,7 @@ export class ResourcesComponent implements OnInit {
             this.hasAddBtn = false;
             this.odataSvc.getBookmark(parseInt(params['bookmarkId'])).subscribe(b => {
               let routerLink = b.RouterLink;
-              let claims = this.oauthService.getIdentityClaims();
+              let claims = ''//this.oauthService.getIdentityClaims();
               if(claims != null && claims['orgId'] != null){
                 routerLink = routerLink.replace('{orgId}', claims['orgId']);
               }

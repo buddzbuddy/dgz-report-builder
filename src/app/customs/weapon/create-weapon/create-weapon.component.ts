@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/data.service';
 import { NotificationService } from 'src/app/notification.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 import * as moment from 'moment';
 import { FieldConfig } from 'src/app/field.interface';
 
@@ -15,7 +15,7 @@ import { FieldConfig } from 'src/app/field.interface';
 export class CreateWeaponComponent implements OnInit {
 
   constructor(private _formBuilder: FormBuilder, private route: ActivatedRoute,
-    private notificationSvc: NotificationService, private router: Router, private dataSvc: DataService, private oauthService: OAuthService) { }
+    private notificationSvc: NotificationService, private router: Router, private dataSvc: DataService, ) { }
   formGroup: FormGroup;
   personId: number = 0;
   field: FieldConfig = { type: 'date', name: 'ReleaseDate', label: 'Дата выпуска' };
@@ -45,12 +45,12 @@ export class CreateWeaponComponent implements OnInit {
   }
 
   submit(){
-    if(this.oauthService.hasValidAccessToken()) {
+    if(true) {
       var obj = {
         ...this.formGroup.value,
         PersonResourceId: this.personId,
         CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
-        UserId: this.oauthService.getIdentityClaims()['sub']
+
       }
       //Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] == '') && delete obj[key]);
       this.dataSvc.postODataResource("PersonWeaponResources", obj).subscribe((_) => {

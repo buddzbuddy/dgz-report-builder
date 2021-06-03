@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { MenuItem } from '../nav-item';
 import { DataService } from '../data.service';
 import { AppConfig } from '../app.config';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,7 +27,6 @@ export class MainNavComponent implements AfterViewInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dataSvc: DataService,
-    public oauthService: OAuthService,
     private ref: ChangeDetectorRef
     ) {
      }
@@ -38,7 +37,7 @@ export class MainNavComponent implements AfterViewInit {
       this.dataSvc.getMenuItems().subscribe(data =>
         {
           //this.menuItems = data.value;
-          if(this.oauthService.hasValidAccessToken()){
+          if(true){
             this.menuItems = data.value;
             this.oauthService.loadUserProfile();
             this.ref.markForCheck();
@@ -49,14 +48,14 @@ export class MainNavComponent implements AfterViewInit {
 
     isLoaded: boolean = false;
     get claims(): any {
-      return this.oauthService.getIdentityClaims();
+      return null;
     }
 
   public login() {
-    this.oauthService.initImplicitFlow();
+
   }
 
   public logoff() {
-      this.oauthService.logOut();
+
   }
 }

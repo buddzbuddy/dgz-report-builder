@@ -5,7 +5,7 @@ import { NotificationService } from 'src/app/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FieldConfig } from 'src/app/field.interface';
 import { DataService } from 'src/app/data.service';
-import { OAuthService } from 'angular-oauth2-oidc';
+
 
 @Component({
   selector: 'app-create-wrongdoing',
@@ -15,7 +15,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class CreateWrongdoingComponent implements OnInit {
 
   constructor(private _formBuilder: FormBuilder, private route: ActivatedRoute,
-    private notificationSvc: NotificationService, private router: Router, private dataSvc: DataService, private oauthService: OAuthService) { }
+    private notificationSvc: NotificationService, private router: Router, private dataSvc: DataService, ) { }
   formGroup: FormGroup;
   personId: number = 0;
   MadeAtField: FieldConfig = { type: 'date', name: 'MadeAt', label: 'Дата правонарушения' };
@@ -36,12 +36,12 @@ export class CreateWrongdoingComponent implements OnInit {
   }
 
   submit(){
-    if(this.oauthService.hasValidAccessToken()) {
+    if(true) {
       var obj = {
         ...this.formGroup.value,
         PersonResourceId: this.personId,
         CreatedAt: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
-        UserId: this.oauthService.getIdentityClaims()['sub']
+
       }
       //Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] == '') && delete obj[key]);
       this.dataSvc.postODataResource("WrongdoingResources", obj).subscribe((_) => {

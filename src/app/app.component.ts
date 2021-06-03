@@ -1,7 +1,6 @@
-import { OAuthService } from 'angular-oauth2-oidc';
-import { JwksValidationHandler } from 'angular-oauth2-oidc';
 import { Component } from '@angular/core';
-import { AppConfig } from './app.config';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +8,23 @@ import { AppConfig } from './app.config';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private oauthService: OAuthService) {
-    this.configureWithNewConfigApi();
+  public isLoggedIn = false;
+  public userProfile: KeycloakProfile | null = null;
+  constructor(private readonly keycloak: KeycloakService) {
   }
-  private configureWithNewConfigApi() {
-    //this.oauthService.configure(AppConfig.authConfig);
-    //this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    /*this.oauthService.loadDiscoveryDocumentAndLogin({
-      preventClearHashAfterLogin: true
-    });*///Login requied
-    //this.oauthService.loadDiscoveryDocumentAndTryLogin();//Login not required, call by click "Login" button
+  public async ngOnInit() {
+    this.isLoggedIn = await this.keycloak.isLoggedIn();
+
+    if (this.isLoggedIn) {
+      this.userProfile = await this.keycloak.loadUserProfile();
+    }
+  }
+
+  public login() {
+    this.keycloak.login();
+  }
+
+  public logout() {
+    this.keycloak.logout();
   }
 }

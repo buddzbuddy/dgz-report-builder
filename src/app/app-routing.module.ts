@@ -38,10 +38,11 @@ import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-
 import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
 import { ViewPrivacySettingsComponent } from './view-analitics/view-privacy-settings/view-privacy-settings.component';
 import { ViewSchedulerComponent } from './view-analitics/view-scheduler/view-scheduler.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate:[AuthGuard] },
   { path: 'persons', component: LivingPersonsComponent },
   { path: 'persons/view/:appId', component: ViewComponent },
   { path: 'persons/setstatus/:appId', component: SetstatusComponent },
