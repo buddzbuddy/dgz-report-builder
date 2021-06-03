@@ -11,7 +11,6 @@ import { ViewItemComponent } from './resources/view-item/view-item.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { FilesComponent } from './files/files.component';
-import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { SetstatusComponent } from './customs/living-persons/setstatus/setstatus.component';
 import { ViewComponent } from './customs/living-persons/view/view.component';
 import { CreatePersonComponent } from './steppers/create-person/create-person.component';
@@ -61,7 +60,6 @@ const routes: Routes = [
   { path: 'bookmarks', component: BookmarkComponent },
   { path: 'upload-image', component: UploadImageComponent },
   { path: 'fileList', component: FilesComponent },
-  { path: 'videoplayer', component: VideoplayerComponent },
   { path: 'persons/create', component: CreatePersonComponent },
   { path: 'add-family-member/:personId', component: AddFamilyMemberComponent },
   { path: 'add-category/:personId', component: AddCategoryComponent },
@@ -89,7 +87,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

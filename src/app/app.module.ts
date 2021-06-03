@@ -55,11 +55,6 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
 import { FilesComponent } from './files/files.component';
 import { ImageComponent } from './components/image/image.component';
 import { PreviewFileComponent } from './components/preview-file/preview-file.component';
-import { VideoplayerComponent } from './videoplayer/videoplayer.component';
-import { VgCoreModule } from 'videogular2/compiled/core';
-import {VgControlsModule} from 'videogular2/compiled/controls';
-import {VgOverlayPlayModule} from 'videogular2/compiled/overlay-play';
-import {VgBufferingModule} from 'videogular2/compiled/buffering';
 import { UnemployeeComponent, ViewAgreementDialog } from './steppers/unemployee/unemployee.component';
 import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
 import { SetstatusComponent } from './customs/living-persons/setstatus/setstatus.component';
@@ -165,7 +160,6 @@ export function initializeApp(appConfig: AppConfig) {
     FilesComponent,
     ImageComponent,
     PreviewFileComponent,
-    VideoplayerComponent,
     UnemployeeComponent,
     SetstatusComponent,
     ViewComponent,
@@ -254,10 +248,6 @@ export function initializeApp(appConfig: AppConfig) {
     LayoutModule,
     StorageServiceModule,
     LeafletModule.forRoot(),
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
     NgxMaskModule.forRoot(),
     DragDropModule,
     MatTableExporterModule

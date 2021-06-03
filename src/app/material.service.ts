@@ -20,7 +20,7 @@ export class MaterialService {
   }
 
   insertResource(entityName: string, obj){
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.odataSvc.postODataResource(entityName, obj)
         .toPromise()
         .then(
@@ -37,7 +37,7 @@ export class MaterialService {
   }
 
   updateResource(entityName: string, obj){
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.odataSvc.putODataResource(entityName, obj)
         .toPromise()
         .then(
@@ -54,7 +54,7 @@ export class MaterialService {
   }
 
   deleteResource(entityName: string, Id){
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.odataSvc.deleteODataResource(entityName, Id)
         .toPromise()
         .then(

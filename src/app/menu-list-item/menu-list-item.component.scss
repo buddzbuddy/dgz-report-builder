@@ -1,8 +1,9 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker hue.
-$app-primary: mat-palette($mat-indigo);
+$app-primary: mat.define-palette(mat.$indigo-palette);
 
 :host {
   display: flex;
@@ -11,12 +12,12 @@ $app-primary: mat-palette($mat-indigo);
   width: 100%;
 
   .mat-list-item.active {
-    background-color: mat-color($app-primary, 50);
+    background-color: mat.get-color-from-palette($app-primary, 50);
   }
   &:hover,
   &:focus {
     >.mat-list-item:not(.expanded) {
-      background-color: mat-color($app-primary, 100) !important;
+      background-color: mat.get-color-from-palette($app-primary, 100) !important;
     }
   }
 }

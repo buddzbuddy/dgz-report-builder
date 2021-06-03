@@ -1,13 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { FieldConfig, CollectionItem } from "../../field.interface";
 import { MatSelect } from '@angular/material/select';
-import { Subject, ReplaySubject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 @Component({
   selector: "app-select",
-  templateUrl: './select.component.html',
-  styles: []
+  templateUrl: './select.component.html'
 })
 export class SelectComponent implements OnInit/*, AfterViewInit, OnDestroy*/ {
 
@@ -16,7 +14,7 @@ export class SelectComponent implements OnInit/*, AfterViewInit, OnDestroy*/ {
   group: FormGroup;
   /** control for the MatSelect filter keyword */
   public filterCtrl: FormControl = new FormControl();
-  @ViewChild('singleSelect', null) singleSelect: MatSelect;
+  @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
 
   /** Subject that emits when the component has been destroyed. */
   //protected _onDestroy = new Subject<void>();

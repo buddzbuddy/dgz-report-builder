@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ViewMapHistoryComponent } from './view-map-history.component';
 
@@ -6,7 +6,7 @@ describe('ViewMapHistoryComponent', () => {
   let component: ViewMapHistoryComponent;
   let fixture: ComponentFixture<ViewMapHistoryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ViewMapHistoryComponent ]
     })

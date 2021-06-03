@@ -90,7 +90,7 @@ export class TaskFormComponent implements OnInit {
     return variables;
   }
   loadExistingVariables(taskId: string) {
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       if(this.localStorageSvc.has(taskId)) {
         let localStorageData = this.localStorageSvc.get(taskId);
         this.data.resourceItem = localStorageData.resourceItem;

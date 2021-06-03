@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from 'src/app/data.service';
-import { isArray, isObject } from 'util';
 
 
 @Component({
@@ -70,10 +69,10 @@ export class SodDataComponent implements OnInit {
     this.isloadWorkPeriodInfo = true;
     this.dataSvc.customApi_GetWorkPeriodInfo(this.pin).subscribe((_) => {
       if(_.WorkPeriods != null) {
-        if(isArray(_.WorkPeriods.WorkPeriod)) {
+        if(Array.isArray(_.WorkPeriods.WorkPeriod)) {
           this.workPeriodInfo = _.WorkPeriods.WorkPeriod.slice(Math.max(_.WorkPeriods.WorkPeriod.length - 10, 0));
         }
-        else if (isObject(_.WorkPeriods.WorkPeriod)) {
+        else if (_.WorkPeriods.WorkPeriod !== null && typeof _.WorkPeriods.WorkPeriod === 'object') {
           this.workPeriodInfo.push(_.WorkPeriods.WorkPeriod);
         }
       }

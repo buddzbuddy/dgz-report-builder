@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { FieldConfig } from 'src/app/field.interface';
-import { MAT_STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 interface selectItem {
   value: string;
   viewValue: string;
@@ -22,7 +22,7 @@ interface selectItemGroup {
   templateUrl: './create-person.component.html',
   styleUrls: ['./create-person.component.scss'],
   providers: [{
-    provide: MAT_STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
   }]
 })
 export class CreatePersonComponent implements OnInit {
