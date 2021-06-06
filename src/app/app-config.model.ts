@@ -4,6 +4,10 @@ export interface IAppConfig {
     host_keycloak: string;
     clientId: string;
     realm: string;
+    temp_clientId: string;
+    t_username: string;
+    t_password: string;
+    client_secret: string;
     host_logs: string;
     host_kong: string;
     host_analitics: string;

@@ -224,10 +224,10 @@ checkPinInSSO(inn: string, ezpInfo: any) {
   const params = new HttpParams({
     fromObject: {
       grant_type: 'password',
-      username: 'dgz',
-      password: '12345',
-      client_id: 'clientid-03',
-      client_secret: 'a610fe47-03f6-4b7f-8446-c84d38ad6cf0',
+      username: AppConfig.settings.t_username,
+      password: AppConfig.settings.t_password,
+      client_id: AppConfig.settings.temp_clientId,
+      client_secret: AppConfig.settings.client_secret,
       scope: 'openid'
     }
   });
