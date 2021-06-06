@@ -1,31 +1,3 @@
 <app-main-nav>
-  <button style="float: right;" *ngIf="isLoggedIn" mat-button type="button" (click)="logout()">Выход</button>
-    <button style="float: right;" *ngIf="!isLoggedIn" mat-button type="button" (click)="login()">Войти</button>
     <router-outlet></router-outlet>
-<!--
-    <ng-container *ngIf="userProfile">
-      <h4>Данные пользователя</h4>
-      <table>
-        <tr *ngIf="userProfile.username">
-          <th scope="row">Логин</th>
-          <td>{{ userProfile.username }}</td>
-        </tr>
-        <tr *ngIf="userProfile.firstName">
-          <th scope="row">Имя</th>
-          <td>{{ userProfile.firstName }}</td>
-        </tr>
-        <tr *ngIf="userProfile.lastName">
-          <th scope="row">Фамилия</th>
-          <td>{{ userProfile.lastName }}</td>
-        </tr>
-        <tr *ngIf="userProfile.email">
-          <th scope="row">E-mail</th>
-          <td>{{ userProfile.email }}</td>
-        </tr>
-        <tr>
-          <th scope="row">JSON</th>
-          <td>{{ userProfile | json }}</td>
-        </tr>
-      </table>
-    </ng-container>-->
 </app-main-nav>

@@ -9,7 +9,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcesslistComponent } from './processlist/processlist.component';
 import { TasklistComponent } from './tasklist/tasklist.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, LoginRutokenDialog } from './home/home.component';
 import { StartProcessComponent } from './start-process/start-process.component';
 import { GenericForm } from './generic-form.component';
 import { CamundaRestService } from './camunda-rest.service';
@@ -244,7 +244,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddSourceConditionDialog,
     AddKeycloakUserDialog,
     TestFieldTestComponent,
-    KeycloakUserManagerComponent
+    KeycloakUserManagerComponent,
+    LoginRutokenDialog
   ],
   imports: [
     KeycloakAngularModule,
@@ -313,7 +314,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     ViewMsecDetailsDialog,
     AddSubSourceDialog,
     AddSourceConditionDialog,
-    AddKeycloakUserDialog
+    AddKeycloakUserDialog,
+    LoginRutokenDialog
   ]
 })
 export class AppModule {

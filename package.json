@@ -40,6 +40,7 @@
     "ngx-webstorage-service": "^3.1.3",
     "ngx-xml2json": "^1.0.2",
     "popper.js": "^1.16.0",
+    "rutoken": "^1.0.8",
     "rxjs": "~6.6.7",
     "tslib": "^2.0.0",
     "xlsx": "^0.17.0",

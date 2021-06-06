@@ -2,10 +2,25 @@
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
       <mat-card-title>Департамент государственных закупок</mat-card-title>
-      <mat-card-subtitle>Система аналитики и отчетности</mat-card-subtitle>
+      <mat-card-subtitle>База данных поставщиков - БДП</mat-card-subtitle>
+
+      <button style="float: right;" *ngIf="isLoggedIn" mat-button type="button" (click)="logout()">Выход</button>
     </mat-card-header>
     <mat-card-content>
-      <div class="row">
+      <ng-container *ngIf="!isLoggedIn">
+        <h4>Войти в систему через:</h4>
+        <div class="row" style="max-width: 500px;margin: 0px auto;">
+          <div style="color: darkblue;" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="loginK()" matRipple>
+            <mat-icon  class="material-icons-outlined">account_circle</mat-icon><br>
+            <span>Логин пароль</span>
+          </div>
+          <div style="color: #f44336;" class="col-md-offset example-ripple-container mat-elevation-z6" color="accent" (click)="loginEZP()" matRipple>
+            <mat-icon  class="material-icons-outlined">vpn_key</mat-icon><br>
+            <span>ЭЦП</span>
+          </div>
+        </div>
+      </ng-container>
+      <div *ngIf="isLoggedIn" class="row">
         <div style="color: darkblue;" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics')" matRipple>
           <mat-icon  class="material-icons-outlined">scatter_plot</mat-icon><br>
           <span>Аналитика</span>

@@ -42,7 +42,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { KeycloakUserManagerComponent } from './keycloak-user-manager/keycloak-user-manager.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate:[AuthGuard] },
+{ path: '', component: HomeComponent, /*canActivate:[AuthGuard]*/ },
   { path: 'home', component: HomeComponent, canActivate:[AuthGuard] },
   { path: 'keycloak-user-manager', component: KeycloakUserManagerComponent, canActivate:[AuthGuard] },
   { path: 'persons', component: LivingPersonsComponent },

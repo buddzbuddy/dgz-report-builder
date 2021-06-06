@@ -1,0 +1,13 @@
+<h1 mat-dialog-title><mat-icon>account_box</mat-icon> Вход через ЭЦП (рутокен)</h1>
+<div mat-dialog-content>
+  <h6>{{progress}}</h6>
+  <mat-form-field appearance="outline" *ngIf="pinEnabled">
+    <mat-label>пин-код</mat-label>
+    <input matInput [(ngModel)]="pin" placeholder="1234">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button *ngIf="foundObj != null" (click)="onOkClick()">Далее</button>
+  <button mat-button (click)="onLoginClick()" [disabled]="!pin.length">Войти в ЭЦП</button>
+  <button mat-button (click)="onCloseClick()">Отмена</button>
+</div>
