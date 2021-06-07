@@ -206,7 +206,10 @@ fetchDataFromEZP() {
       console.log("EZP", inn);
       this.progress = 'Данные найдены, авторизация на сервере...'
       this.checkPinInSSO(inn, this.certData);
-      this.plugin.logout(this.rutokenHandle);
+      console.log('pin', this.pin);
+      this.plugin.logout(this.rutokenHandle).then(() => {
+        console.log('logged out');
+      })
     } else {
       alert("Сертификат на Рутокен не обнаружен")
     }
@@ -239,7 +242,7 @@ checkPinInSSO(inn: string, ezpInfo: any) {
     })
   };
 
-  this._httpClient.post(AppConfig.settings.host_keycloak + 'auth/realms/dgz/protocol/openid-connect/token', params, httpOptions)
+  this._httpClient.post(/*AppConfig.settings.host_keycloak + */'/auth/realms/dgz/protocol/openid-connect/token', params, httpOptions)
     .subscribe(
       (res: any) => {
         this.findInUsers(res.access_token, inn, ezpInfo);
@@ -255,7 +258,7 @@ findInUsers(token: string, inn: string, expInfo: any) {
     })
   };
 
-  this._httpClient.get(AppConfig.settings.host_keycloak + 'auth/admin/realms/dgz/users/?20000', httpOptions)
+  this._httpClient.get(/*AppConfig.settings.host_keycloak + */'/auth/admin/realms/dgz/users/?20000', httpOptions)
     .subscribe(
       (res: any) => {
         console.log(res);
