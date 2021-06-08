@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
@@ -16,18 +16,14 @@ import * as moment from 'moment';
 export class ViewConstructorComponent implements OnInit {
   @ViewChild('table') table: ElementRef;
   constructor(private route: ActivatedRoute,
-    private _httpClient: HttpClient, public dialog: MatDialog,  ) { }
-    className: string
+    private _httpClient: HttpClient, public dialog: MatDialog,) { }
+  className: string
   ngOnInit() {
 
-    if (this.route.params != null){
+    if (this.route.params != null) {
       this.route.params.subscribe(params => {
         if (params['className'] != null) {
           this.className = params['className'];
-          this.conditions = {
-            entityName: this.className,
-            filters: []
-          }
           this.getSourceDetails();
         }
       });
@@ -36,31 +32,31 @@ export class ViewConstructorComponent implements OnInit {
 
   download(blob, filename) {
     if (window.navigator.msSaveOrOpenBlob) // IE10+
-        window.navigator.msSaveOrOpenBlob(blob, filename);
+      window.navigator.msSaveOrOpenBlob(blob, filename);
     else { // Others
-        var a = document.createElement("a"),
-                url = URL.createObjectURL(blob);
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function() {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 0);
+      var a = document.createElement("a"),
+        url = URL.createObjectURL(blob);
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 0);
     }
-}
+  }
   exportJson(): void {
     console.log(this.conditions)
     const c = JSON.stringify(this.conditions);
-    const file = new Blob([c], {type: 'text/json'});
-    this.download(file,"fileName.json");
+    const file = new Blob([c], { type: 'text/json' });
+    this.download(file, "fileName.json");
   }
   fields = []
   offline_fields = []
   selected_fields = []
 
-  getSourceFields(){
+  getSourceFields() {
     this.fields = this.sourceObj.propList;
     let conditionFields = []
     this.fields.forEach(val => conditionFields.push(Object.assign({}, val)));
@@ -77,8 +73,8 @@ export class ViewConstructorComponent implements OnInit {
       this.offline_fields = _;
     });*/
   }
-  sourceObj:any = {}
-  getSourceDetails(){
+  sourceObj: any = {}
+  getSourceDetails() {
     const href = `data-api/query/getMeta/${this.className}`;
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
@@ -110,14 +106,14 @@ export class ViewConstructorComponent implements OnInit {
     }
   }
   importedVals = []
-  moveAll(){
+  moveAll() {
     this.fields.forEach(f => {
       this.selected_fields.push(f)
     });
     this.fields = []
     this.emitEventToChild();
   }
-  goBack(){
+  goBack() {
     window.history.back();
   }
   drop(event: CdkDragDrop<any[]>) {
@@ -126,69 +122,35 @@ export class ViewConstructorComponent implements OnInit {
       console.log('inside container');
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
       console.log('another container');
     }
     this.emitEventToChild();
   }
-  conditions = {
-    entityName: '',
-    filters: []
-  }
-  updateConditions(c:any[]){
-    console.log('conditions updated', c);
-    this.conditions.filters = c;
-  }
   isLoading = false
   data = []
-  fetchData() {
-    const href = `data-api/query/exec`;
-    const requestUrl = `${href}`;
-    let paramList = this.conditions.filters;
-
-    /*for (let i = 0; i < Object.keys(this.conditions).length; i++) {
-      const el = Object.keys(this.conditions)[i];
-      paramList.push({
-        property: el,
-        operator: "=",
-        value: this.conditions[el]
-      })
-    }*/
-    let obj = {
-      rootName: this.sourceObj.className,
-      searchFitler: paramList
-    }
-    this.isLoading = true;
-    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
-      if(_.result) {
-        this.data = _.data;
-        this.isLoading = false;
-        //this.emitEventToChild();
-      }
-    });
-  }
   eventsSubject: Subject<void> = new Subject<void>();
 
-emitEventToChild() {
-  this.eventsSubject.next();
-}
+  emitEventToChild() {
+    this.eventsSubject.next();
+  }
 
-selectItems = {}
+  selectItems = {}
   loadSelectItems() {
     const href = `data-api/query/exec`;
-const requestUrl = `${href}`;
+    const requestUrl = `${href}`;
     this.offline_fields.forEach(f => {
-      if(f.dataType == 'long' && f.dictionaryClassName != null) {
-    let obj = {
-      rootName: f.dictionaryClassName
-    };
-    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
-      if(_.result) {
-        this.selectItems[f.name] = _.data;
-      }
-    });
+      if (f.dataType == 'long' && f.dictionaryClassName != null) {
+        let obj = {
+          rootName: f.dictionaryClassName
+        };
+        this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+          if (_.result) {
+            this.selectItems[f.name] = _.data;
+          }
+        });
       }
     });
   }
@@ -210,20 +172,20 @@ FROM {root} tRoot
     sql = sql.replace('{conditions}', this.buildConditions());
     this.queryString = sql;
   }
-  buildJoins() : string {
+  buildJoins(): string {
     let s = '';
 
     for (let i = 0; i < this.queryConfig.joins.length; i++) {
       const j = this.queryConfig.joins[i];
       s += `INNER JOIN ${j.entityTo} ${j.alias} on ${j.fkField}=${j.pkField}`
-      if(i < (this.queryConfig.joins.length - 1)) {
+      if (i < (this.queryConfig.joins.length - 1)) {
         s += '\n';
       }
     }
 
     return s;
   }
-  buildSelects() : string {
+  buildSelects(): string {
     let s = '*';
     let sList: string[] = []
     for (let i = 0; i < this.queryConfig.selects.length; i++) {
@@ -231,18 +193,18 @@ FROM {root} tRoot
       sList.push(`${el.entityFor}.${el.field} as ${el.alias}`);
     }
 
-    if(sList.length) {
+    if (sList.length) {
       s = sList.join(', ');
     }
 
     return s;
   }
-  buildConditions() : string {
+  buildConditions(): string {
     let s = '';
     let sList: string[] = []
     for (let i = 0; i < this.queryConfig.conditions.length; i++) {
       const el = this.queryConfig.conditions[i];
-      if(el.isStringVal) {
+      if (el.isStringVal) {
         sList.push(`${el.entityFor}.${el.fieldName} ${el.conditionOperation} '${el.fieldValue}'`);
       }
       else {
@@ -250,14 +212,14 @@ FROM {root} tRoot
       }
     }
 
-    if(sList.length) {
+    if (sList.length) {
       s = 'WHERE ' + sList.join(' AND ');
     }
 
     return s;
   }
   allSources = []
-  calcAvailableSources(){
+  calcAvailableSources() {
     const href = `data-api/query/getMeta/`;
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
@@ -266,7 +228,7 @@ FROM {root} tRoot
     });
   }
   availableSources = []
-  calcInternalSources(srcObj){
+  calcInternalSources(srcObj) {
     let res = this.getInternalSources(srcObj);
     res.map(_ => this.availableSources.push(_));
   }
@@ -276,12 +238,12 @@ FROM {root} tRoot
 
     for (let i = 0; i < srcObj.propList.length; i++) {
       const f = srcObj.propList[i];
-      if(f['dictionaryClassName'] != null) {
+      if (f['dictionaryClassName'] != null) {
         let className = f['dictionaryClassName'];
         for (let j = 0; j < this.allSources.length; j++) {
           const s = this.allSources[j];
-          if(s['className'] == className) {
-            res.push({s, f, alias: 't' + j, parentAlias});
+          if (s['className'] == className) {
+            res.push({ s, f, alias: 't' + j, parentAlias });
           }
         }
       }
@@ -289,7 +251,7 @@ FROM {root} tRoot
     return res;
   }
 
-  calcExternalSources(){
+  calcExternalSources() {
 
   }
 
@@ -303,12 +265,12 @@ FROM {root} tRoot
     this.availableSources = [];
     for (let i = 0; i < oldList.length; i++) {
       const oldS = oldList[i];
-      if(oldS.s['className'] != sf.s['className']) {
+      if (oldS.s['className'] != sf.s['className']) {
         this.availableSources.push(oldS);
       }
     }
   }
-  calcJoinFor(sf){
+  calcJoinFor(sf) {
     let tAlias = sf.alias;
     let pkField = tAlias + '.id';
     let fkField = sf.parentAlias + '.' + sf.f.dbName;
@@ -322,24 +284,24 @@ FROM {root} tRoot
     )
   }
 
-  hasSubSources(src):boolean{
+  hasSubSources(src): boolean {
     let sList = this.getInternalSources(src.s, src.alias);
     return sList.length > 0;
   }
-  addSubSource(src){
+  addSubSource(src) {
     let sList = this.getInternalSources(src.s, src.alias);
     console.log(sList);
     const dialogRef = this.dialog.open(AddSubSourceDialog, {
       data: sList
     });
     dialogRef.afterClosed().subscribe(_ => {
-      if(_ != null) {
+      if (_ != null) {
         this.availableSources.push(_);
       }
     });
   }
-
-  addSourceCondition(src){
+  conditions = []
+  addSourceCondition(src) {
     let s = src.s;
     let alias = src.alias;
     const dialogRef = this.dialog.open(AddSourceConditionDialog, {
@@ -348,7 +310,7 @@ FROM {root} tRoot
       }
     });
     dialogRef.afterClosed().subscribe(_ => {
-      if(_ != null) {
+      if (_ != null) {
         console.log(alias, _);
         this.queryConfig.conditions.push({
           entityFor: alias,
@@ -357,28 +319,61 @@ FROM {root} tRoot
           conditionOperation: _.operator,
           isStringVal: _.isStringVal
         });
+        this.conditions.push({ s, v: _, fLabel: this.getFieldLabel(s, _.fieldName), op: this.getOperatorName(_.operator), alias });
         //this.availableSources.push(_);
       }
     });
   }
 
+  getFieldLabel(src, fieldName): string {
+    let res = '';
+    src.propList.map(p => {
+      if (p.dbName == fieldName) {
+        res = p.label;
+      }
+    });
+    return res;
+  }
+  getOperatorName(op): string {
+    let res = '';
+
+    switch (op) {
+      case '=':
+        res = 'РАВНО';
+        break;
+      case '!=':
+        res = 'НЕ РАВНО';
+        break;
+      case '>=':
+        res = 'БОЛЬШЕ или РАВНО';
+        break;
+      case '<=':
+        res = 'МЕНЬШЕ или РАВНО';
+        break;
+      default:
+        break;
+    }
+
+    return res;
+  }
 
   selectedFields: any = {}
   selects = []
   addSelectedField(sf) {
-    if(this.selectedFields[sf.alias]) {
+    if (this.selectedFields[sf.alias]) {
       let fName = this.selectedFields[sf.alias].dbName;
+      let fAlias = sf.alias + '_' + fName;
       this.queryConfig.selects.push({
         entityFor: sf.alias,
         field: fName,
-        alias: sf.alias + '_' + fName
+        alias: fAlias
       });
-      this.selects.push({ s: sf.s, f: this.selectedFields[sf.alias]});
+      this.selects.push({ s: sf.s, f: this.selectedFields[sf.alias], alias: fAlias });
       delete this.selectedFields[sf.alias];
     }
   }
   sqlData: any[][] = []
-  executeQuery(){
+  executeQuery() {
     this.buildSql();
     const href = `data-api/query/exec-sql`;
     const requestUrl = `${href}`;
@@ -387,25 +382,89 @@ FROM {root} tRoot
     });
   }
 
-  export()
-{
-  const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);
+  export() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
 
-  var wscols = [
-    {wch:6},
-    {wch:27},
-    {wch:6}
-];
+    var wscols = [
+      { wch: 6 },
+      { wch: 27 },
+      { wch: 6 }
+    ];
 
-ws['!cols'] = wscols;
+    ws['!cols'] = wscols;
 
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  /* save to file */
-  XLSX.writeFile(wb, 'SheetJS.xlsx');
+    /* save to file */
+    XLSX.writeFile(wb, 'SheetJS.xlsx');
 
-}
+  }
+  removeSelectedField(p) {
+    let selects = [];
+    this.selects.map(_p => {
+      if (_p.s.classLabel != p.s.classLabel) {
+        selects.push(_p);
+      }
+    });
+    this.selects = selects;
+
+    this.removeSelect(p);
+  }
+  removeSelect(p) {
+    let selects: JsonSqlSelect[] = [];
+    this.queryConfig.selects.map(_s => {
+      if (_s.alias != p.alias) {
+        selects.push(_s);
+      }
+    });
+    this.queryConfig.selects = selects
+  }
+  removeSource(sf) {
+    this.availableSources.push(sf);
+    let selectedSources = [];
+    this.selectedSources.map(_sf => {
+      if (_sf.alias != sf.alias) {
+        selectedSources.push(_sf);
+      }
+    });
+
+    this.selectedSources = selectedSources;
+
+    //Calc joins
+    this.removeJoin(sf);
+  }
+  removeJoin(sf) {
+    let joins: JsonSqlJoin[] = [];
+    this.queryConfig.joins.map(_j => {
+      if (_j.alias != sf.alias) {
+        joins.push(_j);
+      }
+    });
+
+    this.queryConfig.joins = joins;
+  }
+
+  removeCondition(c) {
+    let conditions = [];
+    this.conditions.map(_c => {
+      if (_c.alias != c.alias && c.v.fieldName != _c.v.fieldName) {
+        conditions.push(_c);
+      }
+    });
+
+    this.conditions = conditions;
+    this.removeQueryCondition(c);
+  }
+  removeQueryCondition(c) {
+    let conditions: JsonSqlCondition[] = [];
+    this.queryConfig.conditions.map(_c => {
+      if (_c.entityFor != c.alias && _c.fieldName != c.v.fieldName) {
+        conditions.push(_c);
+      }
+    });
+    this.queryConfig.conditions = conditions;
+  }
 }
 
 @Component({
@@ -416,7 +475,7 @@ export class AddSubSourceDialog {
   selected: any;
   constructor(
     public dialogRef: MatDialogRef<AddSubSourceDialog>,
-    @Inject(MAT_DIALOG_DATA) public data) {}
+    @Inject(MAT_DIALOG_DATA) public data) { }
   onSaveClick(): void {
     this.dialogRef.close(this.selected);
   }
@@ -433,22 +492,22 @@ export class AddSourceConditionDialog implements OnInit {
   selected: any;
   constructor(
     public dialogRef: MatDialogRef<AddSourceConditionDialog>,
-    @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient, ) {}
+    @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient,) { }
 
-    ngOnInit() {
-      this.loadSelectItemsFor();
-    }
+  ngOnInit() {
+    this.loadSelectItemsFor();
+  }
 
-    parseDate(src) : string {
-      return moment(src).format('YYYY-MM-DD');
-    }
-    conditions: any = {
+  parseDate(src): string {
+    return moment(src).format('YYYY-MM-DD');
+  }
+  conditions: any = {
 
-    }
+  }
   onSaveClick(): void {
 
     let v = this.conditions.value;
-    if(this.selected.dataType == 'Date') {
+    if (this.selected.dataType == 'Date') {
       v = this.parseDate(v);
     }
     let res = {
@@ -460,7 +519,7 @@ export class AddSourceConditionDialog implements OnInit {
 
     this.dialogRef.close(res);
   }
-  isStringVal() : boolean {
+  isStringVal(): boolean {
     return this.selected.dataType == 'Date' || this.selected.dataType == 'String';
   }
   onCloseClick(): void {
@@ -469,17 +528,17 @@ export class AddSourceConditionDialog implements OnInit {
 
   selectItemsForSrc: any = {}
   loadSelectItemsFor() {
-    const href = `data-api/query/exec`;const requestUrl = `${href}`;
+    const href = `data-api/query/exec`; const requestUrl = `${href}`;
     this.data.s.propList.forEach(f => {
-      if(f.dataType == 'long' && f.dictionaryClassName != null) {
-    let obj = {
-      rootName: f.dictionaryClassName
-    };
-    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
-      if(_.result) {
-        this.selectItemsForSrc[f.name] = _.data;
-      }
-    });
+      if (f.dataType == 'long' && f.dictionaryClassName != null) {
+        let obj = {
+          rootName: f.dictionaryClassName
+        };
+        this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+          if (_.result) {
+            this.selectItemsForSrc[f.name] = _.data;
+          }
+        });
       }
     });
   }
@@ -502,7 +561,7 @@ interface JsonSqlSelect {
   field: string;
   alias: string;
 }
-interface JsonSqlCondition{
+interface JsonSqlCondition {
   conditionOperation: string;
   entityFor: string;
   fieldName: string;

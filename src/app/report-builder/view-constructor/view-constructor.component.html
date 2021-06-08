@@ -1,11 +1,11 @@
 <mat-card class="mat-elevation-z8 example-card">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>{{sourceObj.classLabel}}</mat-card-title>
-      <mat-card-subtitle>Конструктор отчета</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <!--<mat-accordion>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{sourceObj.classLabel}}</mat-card-title>
+    <mat-card-subtitle>Конструктор отчета</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <!--<mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -95,116 +95,134 @@
   <app-view-report-uploader [entityName]="sourceObj.className"></app-view-report-uploader>
         </mat-expansion-panel>
       </mat-accordion>-->
-      <p>Основной источник</p>
-          <mat-list>
-            <mat-list-item role="listitem">
-              <mat-icon>source</mat-icon>
-              <span style="padding-left: 10px;">{{sourceObj.classLabel}}</span>
-              <span class="fill-remaining-space"></span>
-              <button mat-raised-button (click)="addSourceCondition({s:sourceObj, alias: 'tRoot'})">
-                Добавить условие
-            </button>
-              <mat-form-field>
-                <mat-label>Выбрать поле</mat-label>
-                <mat-select [(value)]="selectedFields['tRoot']">
-                  <mat-option>-</mat-option>
-                  <ng-container *ngFor="let p of sourceObj.propList">
-                    <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
-                  </ng-container>
-                </mat-select>
-              </mat-form-field>
-
-              <button [disabled]="!selectedFields['tRoot']" mat-icon-button (click)="addSelectedField({s:sourceObj, alias: 'tRoot'})" matTooltip="Добавить поле из источника">
-                <mat-icon class="material-icons-outlined">add_task</mat-icon>
-            </button>
-            </mat-list-item>
-          </mat-list>
-            <p *ngIf="availableSources.length">Доступные источники</p>
-            <mat-list *ngIf="availableSources.length">
-              <mat-list-item role="listitem" *ngFor="let sf of availableSources" (click)="selectSource(sf)" class="list-btn">
-                <mat-icon>add_task</mat-icon>
-                <span style="padding-left: 10px;">{{sf.s.classLabel}}</span>
-              </mat-list-item>
-            </mat-list>
-            <p *ngIf="selectedSources.length">Выбранные источники</p>
-            <mat-list *ngIf="selectedSources.length">
-              <mat-list-item role="listitem" *ngFor="let sf of selectedSources; let i = index;">
-                <mat-icon>source</mat-icon>
-                <span style="padding-left: 10px;">{{sf.s.classLabel}}</span>
-                <span class="fill-remaining-space"></span>
-                <button *ngIf="hasSubSources(sf)" mat-raised-button (click)="addSubSource(sf)">
-                  Добавить вложенный источник
-              </button>
-              <button mat-raised-button (click)="addSourceCondition(sf)">
-                Добавить условие
-            </button>
-                <mat-form-field>
-                  <mat-label>Выбрать поле</mat-label>
-                  <mat-select [(value)]="selectedFields[sf.alias]">
-                    <mat-option>-</mat-option>
-                    <ng-container *ngFor="let p of sf.s.propList">
-                      <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
-                    </ng-container>
-                  </mat-select>
-                </mat-form-field>
-
-                <button [disabled]="!selectedFields[sf.alias]" mat-icon-button (click)="addSelectedField(sf)" matTooltip="Добавить поле из источника">
-                  <mat-icon class="material-icons-outlined">add_task</mat-icon>
-              </button>
-                <button mat-icon-button (click)="removeSource(f)" matTooltip="Удалить источник">
-                  <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
-              </button>
-              </mat-list-item>
-            </mat-list>
-            <p *ngIf="selects.length">Выбранные поля</p>
-            <table *ngIf="selects.length" class="table">
-              <tr>
-                <th>Источник</th>
-                <th>Поле</th>
-                <th></th>
-              </tr>
-              <tr *ngFor="let p of selects;">
-                <td>{{p.s.classLabel}}</td>
-                <td>{{p.f.label}}</td>
-                <td>
-                  <button mat-icon-button (click)="removeSource(f)" matTooltip="Удалить поле">
-                    <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
-                </button>
-                </td>
-              </tr>
-            </table>
-            <button *ngIf="selects.length > 1" mat-raised-button (click)="executeQuery()">
-              Выполнить
-          </button>
-          <span class="fill-remaining-space"></span>
-          <button *ngIf="sqlData.length" color="primary" matTooltip="Скачать в Excel" mat-raised-button (click)="export()">
-            <mat-icon>get_app</mat-icon>
-            <span>Excel</span>
+    <p>Основной источник</p>
+    <mat-list>
+      <mat-list-item role="listitem">
+        <mat-icon>source</mat-icon>
+        <span style="padding-left: 10px;">{{sourceObj.classLabel}}</span>
+        <span class="fill-remaining-space"></span>
+        <button mat-raised-button (click)="addSourceCondition({s:sourceObj, alias: 'tRoot'})">
+          Добавить условие
         </button>
-            <table *ngIf="selects.length" class="mat-table" #table>
-              <tr class="mat-row">
-                <th class="mat-cell" *ngFor="let f of selects">
-                  {{f.f.label}}
-                </th>
-              </tr>
-              <tr class="mat-row"  *ngFor="let r of sqlData">
-                <td class="mat-cell"  *ngFor="let f of r">
-                  {{f}}
-                </td>
-              </tr>
-            </table>
-</mat-card-content>
-    <mat-card-actions>
-        <button mat-button (click)="goBack()">Назад</button>
-      <button [disabled]="!selected_fields.length" mat-button (click)="fetchData()" matTooltip="Сформировать данные">Применить</button>
-    </mat-card-actions>
-  </mat-card>
-  <div [ngStyle]="{'display': selected_fields.length > 0 ? 'block' : 'none'}" style="padding: 10px;">
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <app-view-report-result [selectItems]="selectItems" [events]="eventsSubject.asObservable()" [data]="data" [selected_fields]="selected_fields"></app-view-report-result>
-  </div>
-  <!--<button mat-button (click)="buildSql()">Build SQL</button>-->
-  <!--<b>queryConfig:</b>
-  <pre>{{queryConfig | json}}</pre>-->
+        <mat-form-field>
+          <mat-label>Выбрать поле</mat-label>
+          <mat-select [(value)]="selectedFields['tRoot']">
+            <mat-option>-</mat-option>
+            <ng-container *ngFor="let p of sourceObj.propList">
+              <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+
+        <button [disabled]="!selectedFields['tRoot']" mat-icon-button
+          (click)="addSelectedField({s:sourceObj, alias: 'tRoot'})" matTooltip="Добавить поле из источника">
+          <mat-icon class="material-icons-outlined">add_task</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+    <p *ngIf="availableSources.length">Доступные источники</p>
+    <mat-list *ngIf="availableSources.length">
+      <mat-list-item role="listitem" *ngFor="let sf of availableSources" (click)="selectSource(sf)" class="list-btn">
+        <mat-icon>add_task</mat-icon>
+        <span style="padding-left: 10px;">{{sf.s.classLabel}}</span>
+      </mat-list-item>
+    </mat-list>
+    <p *ngIf="selectedSources.length">Выбранные источники</p>
+    <mat-list *ngIf="selectedSources.length">
+      <mat-list-item role="listitem" *ngFor="let sf of selectedSources">
+        <mat-icon>source</mat-icon>
+        <span style="padding-left: 10px;">{{sf.s.classLabel}}</span>
+        <span class="fill-remaining-space"></span>
+        <button *ngIf="hasSubSources(sf)" mat-raised-button (click)="addSubSource(sf)">
+          Добавить вложенный источник
+        </button>
+        <button mat-raised-button (click)="addSourceCondition(sf)">
+          Добавить условие
+        </button>
+        <mat-form-field>
+          <mat-label>Выбрать поле</mat-label>
+          <mat-select [(value)]="selectedFields[sf.alias]">
+            <mat-option>-</mat-option>
+            <ng-container *ngFor="let p of sf.s.propList">
+              <mat-option *ngIf="!p.dictionaryClassName" [value]="p">{{p.label}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+
+        <button [disabled]="!selectedFields[sf.alias]" mat-icon-button (click)="addSelectedField(sf)"
+          matTooltip="Добавить поле из источника">
+          <mat-icon class="material-icons-outlined">add_task</mat-icon>
+        </button>
+        <button mat-icon-button (click)="removeSource(sf)" matTooltip="Удалить источник">
+          <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+    <p *ngIf="selects.length">Выбранные поля</p>
+    <table *ngIf="selects.length" class="table">
+      <tr>
+        <th>Источник</th>
+        <th>Поле</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let p of selects;">
+        <td>{{p.s.classLabel}}</td>
+        <td>{{p.f.label}}</td>
+        <td>
+          <button mat-icon-button (click)="removeSelectedField(p)" matTooltip="Удалить поле">
+            <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+    <p *ngIf="conditions.length">Условия запроса</p>
+    <table *ngIf="conditions.length" class="table">
+      <tr>
+        <th>Источник</th>
+        <th>Поле</th>
+        <th>Оператор</th>
+        <th>Значение</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let c of conditions;">
+        <td>{{c.s.classLabel}}</td>
+        <td>{{c.fLabel}}</td>
+        <td>{{c.op}}</td>
+        <td>{{c.v.fieldValue}}</td>
+        <td>
+          <button mat-icon-button (click)="removeCondition(c)" matTooltip="Удалить условие">
+            <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+    <button *ngIf="selects.length > 1" mat-raised-button (click)="executeQuery()">
+      Выполнить
+    </button>
+    <span class="fill-remaining-space"></span>
+    <button *ngIf="sqlData.length" color="primary" matTooltip="Скачать в Excel" mat-raised-button (click)="export()">
+      <mat-icon>get_app</mat-icon>
+      <span>Excel</span>
+    </button>
+    <table *ngIf="selects.length" class="mat-table" #table>
+      <tr class="mat-row">
+        <th class="mat-cell" *ngFor="let f of selects">
+          {{f.f.label}}
+        </th>
+      </tr>
+      <tr class="mat-row" *ngFor="let r of sqlData">
+        <td class="mat-cell" *ngFor="let f of r">
+          {{f}}
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="goBack()">Назад</button>
+  </mat-card-actions>
+</mat-card>
+<!--<button mat-button (click)="buildSql()">Build SQL</button>-->
+<b>queryConfig:</b>
+<pre>{{queryConfig | json}}</pre>
 <!--<b>queryString:</b>
   <pre>{{queryString}}</pre>-->
