@@ -89,7 +89,7 @@
   <app-view-report-uploader [entityName]="sourceObj.className"></app-view-report-uploader>
         </mat-expansion-panel>
       </mat-accordion>-->
-    <p>Основной источник</p>
+    <p class="head-section">Основной источник</p>
     <mat-list>
       <mat-list-item role="listitem">
         <mat-icon>source</mat-icon>
@@ -112,16 +112,19 @@
           (click)="addSelectedField({s:sourceObj, alias: 'tRoot'})" matTooltip="Добавить поле из источника">
           <mat-icon class="material-icons-outlined">add_task</mat-icon>
         </button>
+        <button mat-icon-button matTooltip="Удалить источник">
+          <mat-icon class="material-icons-outlined">delete_outline</mat-icon>
+        </button>
       </mat-list-item>
     </mat-list>
-    <p *ngIf="availableSources.length">Доступные источники</p>
+    <p *ngIf="availableSources.length" class="head-section">Доступные источники</p>
     <mat-list *ngIf="availableSources.length">
       <mat-list-item role="listitem" *ngFor="let sf of availableSources" (click)="selectSource(sf)" class="list-btn">
         <mat-icon>add_task</mat-icon>
         <span style="padding-left: 10px;">{{sf.s.classLabel}}</span>
       </mat-list-item>
     </mat-list>
-    <p *ngIf="selectedSources.length">Выбранные источники</p>
+    <p *ngIf="selectedSources.length" class="head-section">Выбранные источники</p>
     <mat-list *ngIf="selectedSources.length">
       <mat-list-item role="listitem" *ngFor="let sf of selectedSources">
         <mat-icon>source</mat-icon>
@@ -152,7 +155,7 @@
         </button>
       </mat-list-item>
     </mat-list>
-    <p *ngIf="selects.length">Выбранные поля</p>
+    <p *ngIf="selects.length" class="head-section">Выбранные поля</p>
     <table *ngIf="selects.length" class="table">
       <tr>
         <th>Источник</th>
@@ -169,7 +172,7 @@
         </td>
       </tr>
     </table>
-    <p *ngIf="conditions.length">Условия запроса</p>
+    <p *ngIf="conditions.length" class="head-section">Условия запроса</p>
     <table *ngIf="conditions.length" class="table">
       <tr>
         <th>Источник</th>
@@ -190,19 +193,22 @@
         </td>
       </tr>
     </table>
-    <button *ngIf="selects.length > 1" mat-raised-button (click)="executeQuery()">
+    <br>
+    <button color="primary" *ngIf="selects.length > 1" mat-raised-button (click)="executeQuery()">
       Выполнить
     </button>
-    <span style="width: 20px;display:inline-block"></span>
-    <button *ngIf="sqlData.length" color="primary" matTooltip="Скачать в Excel" mat-raised-button (click)="export()">
-      <mat-icon>get_app</mat-icon>
-      <span>Excel</span>
-    </button>
-    <span style="width: 20px;display:inline-block"></span>
-    <button mat-stroked-button color="primary" (click)="exportJson()">
+    <ng-container *ngIf="sqlData.length">
+      <span style="width: 20px;display:inline-block"></span>
+      <button color="accent" matTooltip="Скачать в Excel" mat-raised-button (click)="export()">
+        <mat-icon>get_app</mat-icon>
+        <span>Excel</span>
+      </button>
+    </ng-container>
+    <span *ngIf="selects.length > 1" style="width: 20px;display:inline-block"></span>
+    <button *ngIf="selects.length > 1" mat-stroked-button color="primary" (click)="exportJson()">
       <mat-icon class="material-icons-outlined">file_download</mat-icon> Скачать шаблон запроса
     </button>
-    <span style="width: 20px;display:inline-block"></span>
+    <span *ngIf="selects.length > 1" style="width: 20px;display:inline-block"></span>
     <button mat-stroked-button color="primary" (click)="fileInput.click()">
       <mat-icon class="material-icons-outlined">file_upload</mat-icon> Загрузить шаблон запроса
     </button>
