@@ -61,13 +61,7 @@
           </mat-expansion-panel-header>
 
   <app-view-report-conditions [field_vals]="importedVals" [selectItems]="selectItems" [fields]="offline_fields" (updateListEvent)="updateConditions($event)"></app-view-report-conditions>
-  <button [disabled]="conditions.filters.length == 0" mat-stroked-button color="primary" (click)="exportJson()"><mat-icon class="material-icons-outlined">file_download</mat-icon> Скачать шаблон запроса</button>
-  <span style="width: 20px;display:inline-block"></span>
-  <button [disabled]="conditions.filters.length > 0" mat-stroked-button color="primary" (click)="fileInput.click()"><mat-icon class="material-icons-outlined">file_upload</mat-icon> Загрузить шаблон запроса</button>
-  <input
-  style="display: none"
-  type="file" (change)="onFileChanged($event)"
-  #fileInput>
+
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -199,11 +193,20 @@
     <button *ngIf="selects.length > 1" mat-raised-button (click)="executeQuery()">
       Выполнить
     </button>
-    <span class="fill-remaining-space"></span>
+    <span style="width: 20px;display:inline-block"></span>
     <button *ngIf="sqlData.length" color="primary" matTooltip="Скачать в Excel" mat-raised-button (click)="export()">
       <mat-icon>get_app</mat-icon>
       <span>Excel</span>
     </button>
+    <span style="width: 20px;display:inline-block"></span>
+    <button mat-stroked-button color="primary" (click)="exportJson()">
+      <mat-icon class="material-icons-outlined">file_download</mat-icon> Скачать шаблон запроса
+    </button>
+    <span style="width: 20px;display:inline-block"></span>
+    <button mat-stroked-button color="primary" (click)="fileInput.click()">
+      <mat-icon class="material-icons-outlined">file_upload</mat-icon> Загрузить шаблон запроса
+    </button>
+    <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
     <table *ngIf="selects.length" class="mat-table" #table>
       <tr class="mat-row">
         <th class="mat-cell" *ngFor="let f of selects">
@@ -222,7 +225,7 @@
   </mat-card-actions>
 </mat-card>
 <!--<button mat-button (click)="buildSql()">Build SQL</button>-->
-<b>queryConfig:</b>
-<pre>{{queryConfig | json}}</pre>
+<!--<b>queryConfig:</b>
+<pre>{{queryConfig | json}}</pre>-->
 <!--<b>queryString:</b>
   <pre>{{queryString}}</pre>-->

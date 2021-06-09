@@ -47,10 +47,21 @@ export class ViewConstructorComponent implements OnInit {
     }
   }
   exportJson(): void {
-    console.log(this.conditions)
-    const c = JSON.stringify(this.conditions);
+    let totalObj = {
+      className: this.className,
+      sourceObj: this.sourceObj,
+      queryConfig: this.queryConfig,
+      selectItems: this.selectItems,
+      allSources: this.allSources,
+      availableSources: this.availableSources,
+      selectedSources: this.selectedSources,
+      conditions: this.conditions,
+      selectedFields: this.selectedFields,
+      selects: this.selects
+    }
+    const c = JSON.stringify(totalObj);
     const file = new Blob([c], { type: 'text/json' });
-    this.download(file, "fileName.json");
+    this.download(file, "queryTmpl.json");
   }
   fields = []
   offline_fields = []
@@ -97,9 +108,16 @@ export class ViewConstructorComponent implements OnInit {
     fileReader.onload = () => {
       const resStr = fileReader.result;
       let resObj = JSON.parse(fileReader.result.toString());
-      console.log("UPLOADED", resObj);
-      this.conditions = resObj;
-      this.importedVals = resObj.filters;
+      this.className = resObj.className;
+      this.sourceObj = resObj.sourceObj;
+      this.queryConfig = resObj.queryConfig;
+      this.selectItems = resObj.selectItems;
+      this.allSources = resObj.allSources;
+      this.availableSources = resObj.availableSources;
+      this.selectedSources = resObj.selectedSources;
+      this.conditions = resObj.conditions;
+      this.selectedFields = resObj.selectedFields;
+      this.selects = resObj.selects;
     }
     fileReader.onerror = (error) => {
       console.log(error);
