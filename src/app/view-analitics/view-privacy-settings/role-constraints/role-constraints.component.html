@@ -1,0 +1,64 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Настройки видимости ролей
+      </mat-panel-title>
+      <mat-panel-description>
+        <span class="fill-remaining-space"></span>
+        <mat-icon>admin_panel_settings</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div style="max-height:300px;overflow:auto;">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Роль</mat-label>
+            <mat-select [(value)]="selectedRoleId">
+              <mat-option>-</mat-option>
+              <mat-option *ngFor="let s of roles" [value]="s.id">{{s.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Раздел</mat-label>
+            <mat-select [(value)]="selectedSection">
+              <mat-option>-</mat-option>
+              <mat-option *ngFor="let s of app_sections" [value]="s.val">{{s.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4" style="padding: 10px">
+          <span style="width: 20px;display:inline-block"></span>
+          <button mat-raised-button [disabled]="!selectedRoleId || !selectedSection"
+            (click)="createConstraint()">Добавить</button>
+        </div>
+      </div>
+      <table class="table">
+        <tr>
+          <th>
+            Роль
+          </th>
+          <th>
+            Раздел
+          </th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let a of constraints">
+          <td>
+            {{getRoleLabel(a.roleId)}}
+          </td>
+          <td>
+            {{getSectionLabel(a.cardName)}}
+          </td>
+          <td>
+            <button color="warn" mat-icon-button (click)="removeConstraint(a.id)" matTooltip="Удалить ограничение">
+              <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

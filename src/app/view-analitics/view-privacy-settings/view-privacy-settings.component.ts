@@ -13,7 +13,7 @@ export class ViewPrivacySettingsComponent implements OnInit {
   constructor(private _httpClient: HttpClient, private notificationSvc: NotificationService,) { }
   licenseChecked = false;
   licenseChanged(event) {
-    if(event.checked) {
+    if (event.checked) {
       this.grantSource('LICENSE');
     }
     else {
@@ -23,7 +23,7 @@ export class ViewPrivacySettingsComponent implements OnInit {
 
   debtChecked = false;
   debtChanged(event) {
-    if(event.checked) {
+    if (event.checked) {
       this.grantSource('DEBT');
     }
     else {
@@ -34,7 +34,7 @@ export class ViewPrivacySettingsComponent implements OnInit {
     this.getGrantedSources();
   }
 
-  goBack(){
+  goBack() {
     window.history.back();
   }
 
@@ -47,15 +47,15 @@ export class ViewPrivacySettingsComponent implements OnInit {
   getGrantedSources() {
     const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
-    this._httpClient.post(AppConfig.settings.host + requestUrl, {rootName: 'GrantedSource'}).subscribe(_ => {
-      if(_['data'] != null) {
-        let grantedSources:any[] = _['data'];
+    this._httpClient.post(AppConfig.settings.host + requestUrl, { rootName: 'GrantedSource' }).subscribe(_ => {
+      if (_['data'] != null) {
+        let grantedSources: any[] = _['data'];
         for (let index = 0; index < grantedSources.length; index++) {
           const gSource = grantedSources[index];
-          if(gSource.sourceType == 'LICENSE') {
+          if (gSource.sourceType == 'LICENSE') {
             this.licenseChecked = true;
           }
-          if(gSource.sourceType == 'DEBT') {
+          if (gSource.sourceType == 'DEBT') {
             this.debtChecked = true;
           }
         }
@@ -66,16 +66,15 @@ export class ViewPrivacySettingsComponent implements OnInit {
   grantSource(source) {
     const href = 'data-api/query/grant-source';
     const requestUrl = `${href}`;
-    this._httpClient.post(AppConfig.settings.host + requestUrl, {sourceType: source}).subscribe(_ => {
+    this._httpClient.post(AppConfig.settings.host + requestUrl, { sourceType: source }).subscribe(_ => {
       this.notificationSvc.success(_['message']);
     })
   }
   denySource(source) {
     const href = 'data-api/query/deny-source';
     const requestUrl = `${href}`;
-    this._httpClient.post(AppConfig.settings.host + requestUrl, {sourceType: source}).subscribe(_ => {
+    this._httpClient.post(AppConfig.settings.host + requestUrl, { sourceType: source }).subscribe(_ => {
       this.notificationSvc.success(_['message']);
     })
   }
-
 }

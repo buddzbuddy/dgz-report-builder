@@ -119,6 +119,7 @@ import { ServerResponseCode } from './view-analitics/scheduler/response.code.con
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { TestFieldTestComponent } from './components/test-field-test/test-field-test.component';
 import { AddKeycloakUserDialog, KeycloakUserManagerComponent } from './keycloak-user-manager/keycloak-user-manager.component';
+import { RoleConstraintsComponent } from './view-analitics/view-privacy-settings/role-constraints/role-constraints.component';
 
 export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   return () => appConfig.load().then((k_obj) => keycloak.init({
@@ -245,7 +246,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddKeycloakUserDialog,
     TestFieldTestComponent,
     KeycloakUserManagerComponent,
-    LoginRutokenDialog
+    LoginRutokenDialog,
+    RoleConstraintsComponent
   ],
   imports: [
     KeycloakAngularModule,

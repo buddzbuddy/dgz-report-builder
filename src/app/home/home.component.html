@@ -1,78 +1,89 @@
 <mat-card class="mat-elevation-z8 example-card">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Департамент государственных закупок</mat-card-title>
-      <mat-card-subtitle>База данных поставщиков - БДП</mat-card-subtitle>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Департамент государственных закупок</mat-card-title>
+    <mat-card-subtitle>База данных поставщиков - БДП</mat-card-subtitle>
 
-      <button style="float: right;" *ngIf="isLoggedIn" mat-button type="button" (click)="logout()">Выход</button>
-    </mat-card-header>
-    <mat-card-content>
-      <ng-container *ngIf="!isLoggedIn">
-        <h4>Войти в систему через:</h4>
-        <div class="row" style="max-width: 500px;margin: 0px auto;">
-          <div style="color: darkblue;" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="loginK()" matRipple>
-            <mat-icon  class="material-icons-outlined">account_circle</mat-icon><br>
-            <span>Логин пароль</span>
-          </div>
-          <div style="color: #f44336;" class="col-md-offset example-ripple-container mat-elevation-z6" color="accent" (click)="loginEZP()" matRipple>
-            <mat-icon  class="material-icons-outlined">vpn_key</mat-icon><br>
-            <span>ЭЦП</span>
-          </div>
+    <button style="float: right;" *ngIf="isLoggedIn" mat-button type="button" (click)="logout()">Выход</button>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf="!isLoggedIn">
+      <h4>Войти в систему через:</h4>
+      <div class="row" style="max-width: 500px;margin: 0px auto;">
+        <div style="color: darkblue;" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="loginK()"
+          matRipple>
+          <mat-icon class="material-icons-outlined">account_circle</mat-icon><br>
+          <span>Логин пароль</span>
         </div>
-      </ng-container>
-      <div *ngIf="isLoggedIn" class="row">
-        <div style="color: darkblue;" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics')" matRipple>
-          <mat-icon  class="material-icons-outlined">scatter_plot</mat-icon><br>
-          <span>Аналитика</span>
+        <div style="color: #f44336;" class="col-md-offset example-ripple-container mat-elevation-z6" color="accent"
+          (click)="loginEZP()" matRipple>
+          <mat-icon class="material-icons-outlined">vpn_key</mat-icon><br>
+          <span>ЭЦП</span>
         </div>
-        <div style="color: #f44336;" class="col-md-offset example-ripple-container mat-elevation-z6" color="accent" (click)="goto('report-builder/view-source-list')" matRipple>
-          <mat-icon  class="material-icons-outlined">filter_list</mat-icon><br>
-          <span>Конструктор</span>
-        </div>
-        <div style="color: rgb(0 136 61);" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-sod-updater')" matRipple>
-          <mat-icon  class="material-icons-outlined">vpn_lock</mat-icon><br>
-          <span>Интеграция</span>
-        </div>
-        <ng-container *ngIf="userProfile && userProfile.attributes != null && userProfile.attributes.userRole[0] == 'admin'">
-          <div style="color: rgb(182 0 182 / 85%);" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-privacy-settings')" matRipple>
-            <mat-icon  class="material-icons-outlined">lock_open</mat-icon><br>
-            <span style="margin-left: -25px;">Конфиденциальность</span>
-          </div>
-          <div style="color: #ff4081" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-scheduler')" matRipple>
-            <mat-icon  class="material-icons-outlined">event_available</mat-icon><br>
-            <span>Планировщик</span>
-          </div>
-          <div style="color: #0f4440" class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('keycloak-user-manager')" matRipple>
-            <mat-icon  class="material-icons-outlined">account_box</mat-icon><br>
-            <span>Пользователи</span>
-          </div>
-        </ng-container>
       </div>
+    </ng-container>
+    <div *ngIf="isLoggedIn" class="row">
+      <div *ngIf="myRoleObj != null && hasRights('analytics')" style="color: darkblue;"
+        class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics')" matRipple>
+        <mat-icon class="material-icons-outlined">scatter_plot</mat-icon><br>
+        <span>Аналитика</span>
+      </div>
+      <div *ngIf="myRoleObj != null && hasRights('report')" style="color: #f44336;"
+        class="col-md-offset example-ripple-container mat-elevation-z6" color="accent"
+        (click)="goto('report-builder/view-source-list')" matRipple>
+        <mat-icon class="material-icons-outlined">filter_list</mat-icon><br>
+        <span>Конструктор</span>
+      </div>
+      <div *ngIf="myRoleObj != null && hasRights('integration')" style="color: rgb(0 136 61);"
+        class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-sod-updater')"
+        matRipple>
+        <mat-icon class="material-icons-outlined">vpn_lock</mat-icon><br>
+        <span>Интеграция</span>
+      </div>
+      <div *ngIf="myRoleObj != null && hasRights('privacy')" style="color: rgb(182 0 182 / 85%);"
+        class="col-md-offset example-ripple-container mat-elevation-z6"
+        (click)="goto('analitics/view-privacy-settings')" matRipple>
+        <mat-icon class="material-icons-outlined">lock_open</mat-icon><br>
+        <span style="margin-left: -25px;">Конфиденциальность</span>
+      </div>
+      <div *ngIf="myRoleObj != null && hasRights('scheduler')" style="color: #ff4081"
+        class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('analitics/view-scheduler')"
+        matRipple>
+        <mat-icon class="material-icons-outlined">event_available</mat-icon><br>
+        <span>Планировщик</span>
+      </div>
+      <div *ngIf="myRoleObj != null && hasRights('users')" style="color: #0f4440"
+        class="col-md-offset example-ripple-container mat-elevation-z6" (click)="goto('keycloak-user-manager')"
+        matRipple>
+        <mat-icon class="material-icons-outlined">account_box</mat-icon><br>
+        <span>Пользователи</span>
+      </div>
+    </div>
 
-      <ng-container *ngIf="userProfile">
-        <h4>Данные пользователя</h4>
-        <table>
-          <tr *ngIf="userProfile.username">
-            <th scope="row">Логин</th>
-            <td>{{ userProfile.username }}</td>
-          </tr>
-          <tr *ngIf="userProfile.firstName">
-            <th scope="row">Имя</th>
-            <td>{{ userProfile.firstName }}</td>
-          </tr>
-          <tr *ngIf="userProfile.lastName">
-            <th scope="row">Фамилия</th>
-            <td>{{ userProfile.lastName }}</td>
-          </tr>
-          <tr *ngIf="userProfile.email">
-            <th scope="row">E-mail</th>
-            <td>{{ userProfile.email }}</td>
-          </tr>
-          <!--<tr>
+    <ng-container *ngIf="userProfile">
+      <h4>Данные пользователя</h4>
+      <table>
+        <tr *ngIf="userProfile.username">
+          <th scope="row">Логин</th>
+          <td>{{ userProfile.username }}</td>
+        </tr>
+        <tr *ngIf="userProfile.firstName">
+          <th scope="row">Имя</th>
+          <td>{{ userProfile.firstName }}</td>
+        </tr>
+        <tr *ngIf="userProfile.lastName">
+          <th scope="row">Фамилия</th>
+          <td>{{ userProfile.lastName }}</td>
+        </tr>
+        <tr *ngIf="userProfile.email">
+          <th scope="row">E-mail</th>
+          <td>{{ userProfile.email }}</td>
+        </tr>
+        <!--<tr>
             <th scope="row">JSON</th>
             <td>{{ userProfile | json }}</td>
           </tr>-->
-        </table>
-      </ng-container>
-    </mat-card-content>
-  </mat-card>
+      </table>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

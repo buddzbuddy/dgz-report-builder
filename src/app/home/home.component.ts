@@ -14,61 +14,89 @@ import { LocalStorageService } from '../local-storage.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  constructor(private router: Router,private readonly keycloak: KeycloakService,  public dialog: MatDialog, private localStorageSvc: LocalStorageService,) { }
+  constructor(private _httpClient: HttpClient, private router: Router, private readonly keycloak: KeycloakService, public dialog: MatDialog, private localStorageSvc: LocalStorageService,) { }
   public isLoggedIn = false;
   public userProfile: any//: KeycloakProfile | null = null;
 
 
-public loginK() {
-  this.keycloak.login();
-}
+  public loginK() {
+    this.keycloak.login();
+  }
 
-public loginEZP() {
-  const dialogRef = this.dialog.open(LoginRutokenDialog);
-  dialogRef.afterClosed().subscribe(_ => {
-    if(_ != null) {
-      console.log(_);
-      this.userProfile = _;
-      this.isLoggedIn = true;
-      this.localStorageSvc.save('ezpInfo', _);
-    }
-  });
-}
+  public loginEZP() {
+    const dialogRef = this.dialog.open(LoginRutokenDialog);
+    dialogRef.afterClosed().subscribe(_ => {
+      if (_ != null) {
+        console.log(_);
+        this.userProfile = _;
+        this.isLoggedIn = true;
+        this.localStorageSvc.save('ezpInfo', _);
+      }
+    });
+  }
 
-public logout() {
-  this.isLoggedIn = false;
-  this.keycloak.isLoggedIn().then(_ => {
-    if(_) {
-      this.keycloak.logout();
-    }
+  public logout() {
+    this.isLoggedIn = false;
+    this.keycloak.isLoggedIn().then(_ => {
+      if (_) {
+        this.keycloak.logout();
+      }
+      else if (this.localStorageSvc.has('ezpInfo')) {
+        this.localStorageSvc.remove('ezpInfo');
+        this.userProfile = null;
+      }
+    });
 
-    if(this.localStorageSvc.has('ezpInfo')) {
-      this.localStorageSvc.remove('ezpInfo');
-      this.userProfile = null;
-    }
-  });
-
-}
+  }
   public async ngOnInit() {
+    this.loadRoles();
     this.isLoggedIn = await this.keycloak.isLoggedIn();
 
     if (this.isLoggedIn) {
       this.userProfile = await this.keycloak.loadUserProfile();
     }
     else {
-      if(this.localStorageSvc.has('ezpInfo')) {
+      if (this.localStorageSvc.has('ezpInfo')) {
         this.userProfile = this.localStorageSvc.get('ezpInfo');
         this.isLoggedIn = true;
       }
     }
   }
 
-  goto(url){
+  goto(url) {
     setTimeout(() => {
       this.router.navigate([url]);
     }, 1000);
   }
 
+  hasRights(secName): boolean {
+    let res = false;
+
+
+    for (let index = 0; index < this.myRoleObj.userConstraints.length; index++) {
+      const cnstr = this.myRoleObj.userConstraints[index];
+      if (cnstr.cardName == secName) {
+        res = true;
+        break;
+      }
+    }
+
+    return res;
+  }
+
+  myRoleObj
+  loadRoles() {
+    const href = 'data-api/user-constraint/role/getAll';
+    const requestUrl = `${href}`;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      let myRole = this.userProfile && this.userProfile.attributes != null && this.userProfile.attributes.userRole[0];
+      _.map(r => {
+        if (myRole == r.name) {
+          this.myRoleObj = r;
+        }
+      })
+    });
+  }
 }
 
 
@@ -79,46 +107,46 @@ public logout() {
 })
 export class LoginRutokenDialog implements OnInit {
 
-plugin: any
+  plugin: any
 
   constructor(
-    public dialogRef: MatDialogRef<LoginRutokenDialog>, private _httpClient: HttpClient,) {}
+    public dialogRef: MatDialogRef<LoginRutokenDialog>, private _httpClient: HttpClient,) { }
 
-    ngOnInit() {
-      rutoken.ready
+  ngOnInit() {
+    rutoken.ready
       // Проверка установки расширение 'Адаптера Рутокен Плагина' в Google Chrome
       .then(() => {
         console.log('rutoken.ready')
         rutoken.isExtensionInstalled()
-        // Проверка установки Рутокен Плагина
-      .then((result) => {
-        if (result) {
-          rutoken.isPluginInstalled()
-          // Загрузка плагина
-      .then((result) => {
-        if (result) {
-          rutoken.loadPlugin()
+          // Проверка установки Рутокен Плагина
+          .then((result) => {
+            if (result) {
+              rutoken.isPluginInstalled()
+                // Загрузка плагина
+                .then((result) => {
+                  if (result) {
+                    rutoken.loadPlugin()
 
-      // Можно начинать работать с плагином
-      .then((result) => {
-        if (!result) {
-          return alert("Не удаётся загрузить Плагин");
-        } else {
-          this.plugin = result;
-          console.log('plugin loaded');
-          this.getEZPInfo();
-        }
+                      // Можно начинать работать с плагином
+                      .then((result) => {
+                        if (!result) {
+                          return alert("Не удаётся загрузить Плагин");
+                        } else {
+                          this.plugin = result;
+                          console.log('plugin loaded');
+                          this.getEZPInfo();
+                        }
+                      });
+                  } else {
+                    alert("Не удаётся найти Плагин");
+                  }
+                });
+            } else {
+              alert("Не удаётся найти расширение 'Адаптер Рутокен Плагина'");
+            }
+          });
       });
-        } else {
-          alert("Не удаётся найти Плагин");
-        }
-      });
-        } else {
-          alert("Не удаётся найти расширение 'Адаптер Рутокен Плагина'");
-        }
-      });
-      });
-    }
+  }
   onLoginClick(): void {
     this.pr = this.plugin.login(this.rutokenHandle, this.pin /*"240699"*/);
     this.fetchDataFromEZP();
@@ -131,151 +159,150 @@ plugin: any
   }
   progress = 'Загрузка ЭЦП...'
 
-rutokenHandle
-certHandle
-certData
-cmsData
-/////////////////////////////////////////
-pinEnabled = false;
-pin = ''
-pr: Promise<void>
-getEZPInfo()
-{
-  // Перебор подключенных Рутокенов
-  this.plugin.enumerateDevices()
-  .then((devices) => {
-    if (devices.length > 0) {
-      let firstDevice = devices[0];
-      // Проверка залогиненности
-      this.rutokenHandle = firstDevice;
-      this.plugin.getDeviceInfo(this.rutokenHandle, this.plugin.TOKEN_INFO_IS_LOGGED_IN)
-  // Логин на первый токен в списке устройств PIN-кодом по умолчанию
-  .then((isLoggedIn) => {
-    console.log('isLoggedIn', isLoggedIn);
-    if (isLoggedIn) {
-      this.pr = Promise.resolve();
-      this.fetchDataFromEZP();
-    } else {
-      this.pinEnabled = true;
-    }
+  rutokenHandle
+  certHandle
+  certData
+  cmsData
+  /////////////////////////////////////////
+  pinEnabled = false;
+  pin = ''
+  pr: Promise<void>
+  getEZPInfo() {
+    // Перебор подключенных Рутокенов
+    this.plugin.enumerateDevices()
+      .then((devices) => {
+        if (devices.length > 0) {
+          let firstDevice = devices[0];
+          // Проверка залогиненности
+          this.rutokenHandle = firstDevice;
+          this.plugin.getDeviceInfo(this.rutokenHandle, this.plugin.TOKEN_INFO_IS_LOGGED_IN)
+            // Логин на первый токен в списке устройств PIN-кодом по умолчанию
+            .then((isLoggedIn) => {
+              console.log('isLoggedIn', isLoggedIn);
+              if (isLoggedIn) {
+                this.pr = Promise.resolve();
+                this.fetchDataFromEZP();
+              } else {
+                this.pinEnabled = true;
+              }
 
-  })
-    } else {
-      //swal("Рутокен не обнаружен");
-      alert("Рутокен не подключен!")
-    }
-  })
+            })
+        } else {
+          //swal("Рутокен не обнаружен");
+          alert("Рутокен не подключен!")
+        }
+      })
 
-}
-handleError(reason) {
-  if (isNaN(reason.message)) {
-    console.log(reason);
-  } else {
-    var errorCodes = this.plugin.errorCodes;
-    switch (parseInt(reason.message)) {
-      case errorCodes.PIN_INCORRECT:
-        alert("Неверный PIN");
-        break;
-      case errorCodes.ALREADY_LOGGED_IN:
-        alert("Уже вошли! Обновите страницу!");
-      default:
-        console.log("RUTOKEN", { codes: this.plugin.errorCodes, reason});
+  }
+  handleError(reason) {
+    if (isNaN(reason.message)) {
+      console.log(reason);
+    } else {
+      var errorCodes = this.plugin.errorCodes;
+      switch (parseInt(reason.message)) {
+        case errorCodes.PIN_INCORRECT:
+          alert("Неверный PIN");
+          break;
+        case errorCodes.ALREADY_LOGGED_IN:
+          alert("Уже вошли! Обновите страницу!");
+        default:
+          console.log("RUTOKEN", { codes: this.plugin.errorCodes, reason });
+      }
     }
   }
-}
-fetchDataFromEZP() {
-  this.progress = 'Считывание данных с ЭЦП...'
-  // Перебор пользовательских сертификатов на токене
-  this.pr.then(() => {
-    this.plugin.enumerateCertificates(this.rutokenHandle, this.plugin.CERT_CATEGORY_UNSPEC)
-    .then((certs) => {
-      if (certs.length > 0) {
-        this.certHandle = certs[0];
-        this.plugin.parseCertificate(this.rutokenHandle, certs[0])
-  // Подписание данных из текстового поля на первом найденом сертификате
-  .then((cert) => {
-    this.certData = cert
-    if (this.certHandle.length > 0) {
-      let inn = ""
-      for(let i=0; i<this.certData.subject.length; i++){
-        if(this.certData.subject[i].rdn === "serialNumber"){
-          inn = this.certData.subject[i].value
-        }
-      }
+  fetchDataFromEZP() {
+    this.progress = 'Считывание данных с ЭЦП...'
+    // Перебор пользовательских сертификатов на токене
+    this.pr.then(() => {
+      this.plugin.enumerateCertificates(this.rutokenHandle, this.plugin.CERT_CATEGORY_UNSPEC)
+        .then((certs) => {
+          if (certs.length > 0) {
+            this.certHandle = certs[0];
+            this.plugin.parseCertificate(this.rutokenHandle, certs[0])
+              // Подписание данных из текстового поля на первом найденом сертификате
+              .then((cert) => {
+                this.certData = cert
+                if (this.certHandle.length > 0) {
+                  let inn = ""
+                  for (let i = 0; i < this.certData.subject.length; i++) {
+                    if (this.certData.subject[i].rdn === "serialNumber") {
+                      inn = this.certData.subject[i].value
+                    }
+                  }
 
-      console.log("EZP", inn);
-      this.progress = 'Данные найдены, авторизация на сервере...'
-      this.checkPinInSSO(inn, this.certData);
-      console.log('pin', this.pin);
-      this.plugin.logout(this.rutokenHandle).then(() => {
-        console.log('logged out');
-      })
-    } else {
-      alert("Сертификат на Рутокен не обнаружен")
-    }
-  });
-      }  else {
-        alert("Сертификат на Рутокен не обнаружен");
+                  console.log("EZP", inn);
+                  this.progress = 'Данные найдены, авторизация на сервере...'
+                  this.checkPinInSSO(inn, this.certData);
+                  console.log('pin', this.pin);
+                  this.plugin.logout(this.rutokenHandle).then(() => {
+                    console.log('logged out');
+                  })
+                } else {
+                  alert("Сертификат на Рутокен не обнаружен")
+                }
+              });
+          } else {
+            alert("Сертификат на Рутокен не обнаружен");
+          }
+        });
+    },
+      err => this.handleError(err));
+  }
+
+
+  checkPinInSSO(inn: string, ezpInfo: any) {
+    const params = new HttpParams({
+      fromObject: {
+        grant_type: 'password',
+        username: AppConfig.settings.t_username,
+        password: AppConfig.settings.t_password,
+        client_id: AppConfig.settings.temp_clientId,
+        client_secret: AppConfig.settings.client_secret,
+        scope: 'openid'
       }
     });
-  },
-  err => this.handleError(err));
-}
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        //'Authorization': 'Basic ' + btoa('yourClientId' + ':' + 'yourClientSecret')
+      })
+    };
 
-checkPinInSSO(inn: string, ezpInfo: any) {
-  const params = new HttpParams({
-    fromObject: {
-      grant_type: 'password',
-      username: AppConfig.settings.t_username,
-      password: AppConfig.settings.t_password,
-      client_id: AppConfig.settings.temp_clientId,
-      client_secret: AppConfig.settings.client_secret,
-      scope: 'openid'
-    }
-  });
+    this._httpClient.post(/*AppConfig.settings.host_keycloak + */'/auth/realms/dgz/protocol/openid-connect/token', params, httpOptions)
+      .subscribe(
+        (res: any) => {
+          this.findInUsers(res.access_token, inn, ezpInfo);
+        },
+        err => console.log(err)
+      );
+  }
+  findInUsers(token: string, inn: string, expInfo: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      })
+    };
 
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      //'Authorization': 'Basic ' + btoa('yourClientId' + ':' + 'yourClientSecret')
-    })
-  };
-
-  this._httpClient.post(/*AppConfig.settings.host_keycloak + */'/auth/realms/dgz/protocol/openid-connect/token', params, httpOptions)
-    .subscribe(
-      (res: any) => {
-        this.findInUsers(res.access_token, inn, ezpInfo);
-      },
-      err => console.log(err)
-    );
-}
-findInUsers(token: string, inn: string, expInfo: any) {
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    })
-  };
-
-  this._httpClient.get(/*AppConfig.settings.host_keycloak + */'/auth/admin/realms/dgz/users/?20000', httpOptions)
-    .subscribe(
-      (res: any) => {
-        console.log(res);
-        for (let i = 0; i < res.length; i++) {
-          const u = res[i];
-          if(u.attributes['userPin'] != null && u.attributes['userPin'][0] == inn) {
-            this.foundObj = u;
-            this.progress = 'Пользователь успешно авторизован!'
-            break;
+    this._httpClient.get(/*AppConfig.settings.host_keycloak + */'/auth/admin/realms/dgz/users/?20000', httpOptions)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          for (let i = 0; i < res.length; i++) {
+            const u = res[i];
+            if (u.attributes['userPin'] != null && u.attributes['userPin'][0] == inn) {
+              this.foundObj = u;
+              this.progress = 'Пользователь успешно авторизован!'
+              break;
+            }
           }
-        }
-        if(this.foundObj == null) {
-          this.progress = 'Для данного пользователя доступ отсутствует! Обратитесь к администратору за доступом.'
-        }
-      },
-      err => console.log(err)
-    );
-}
-foundObj = null;
+          if (this.foundObj == null) {
+            this.progress = 'Для данного пользователя доступ отсутствует! Обратитесь к администратору за доступом.'
+          }
+        },
+        err => console.log(err)
+      );
+  }
+  foundObj = null;
 }
