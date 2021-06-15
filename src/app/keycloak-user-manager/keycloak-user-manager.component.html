@@ -3,67 +3,61 @@
 <div style="max-height:500px;overflow:auto;">
   <div class="row">
     <div class="col-md-4">
-      <mat-form-field >
-        <mat-label>ИНН</mat-label>
-        <input matInput [(ngModel)]="pin">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
       <button mat-raised-button (click)="addUser()">Добавить пользователя</button>
     </div>
   </div>
   <table class="table">
-      <tr>
-          <th>
-              Дата
-          </th>
-          <th>
-              Логин
-          </th>
-          <th>
-              Имя
-          </th>
-          <th>
-              Фамилия
-          </th>
-          <th>
-              Email
-          </th>
-          <th>
-              ПИН
-          </th>
-          <th>
-              Роль
-          </th>
-          <th></th>
-      </tr>
-      <tr *ngFor="let a of users">
-          <td>
-              {{a.createdTimestamp | date:'dd.MM.yyyy'}}
-          </td>
-          <td>
-              {{a.username}}
-          </td>
-          <td>
-              {{a.firstName}}
-          </td>
-          <td>
-              {{a.lastName}}
-          </td>
-          <td>
-              {{a.email}}
-          </td>
-          <td>
-              {{a.attributes?.userPin[0]}}
-          </td>
-          <td>
-            {{a.attributes?.userRole[0]}}
-          </td>
-          <td>
-            <!--<button color="warn" mat-icon-button (click)="denySource(a.sourceType, a.supplier?.inn)" matTooltip="Удалить ограничение">
+    <tr>
+      <th>
+        Дата
+      </th>
+      <th>
+        Логин
+      </th>
+      <th>
+        Имя
+      </th>
+      <th>
+        Фамилия
+      </th>
+      <th>
+        Email
+      </th>
+      <th>
+        ПИН
+      </th>
+      <th>
+        Роль
+      </th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let a of users">
+      <td>
+        {{a.createdTimestamp | date:'dd.MM.yyyy'}}
+      </td>
+      <td>
+        {{a.username}}
+      </td>
+      <td>
+        {{a.firstName}}
+      </td>
+      <td>
+        {{a.lastName}}
+      </td>
+      <td>
+        {{a.email}}
+      </td>
+      <td>
+        {{a.attributes?.userPin[0]}}
+      </td>
+      <td>
+        {{a.attributes?.userRole[0]}}
+      </td>
+      <td>
+        <!--<button color="warn" mat-icon-button (click)="denySource(a.sourceType, a.supplier?.inn)" matTooltip="Удалить ограничение">
               <mat-icon>remove_circle_outline</mat-icon>
             </button>-->
-          </td>
-      </tr>
-    </table>
- </div>
+      </td>
+    </tr>
+  </table>
+</div>

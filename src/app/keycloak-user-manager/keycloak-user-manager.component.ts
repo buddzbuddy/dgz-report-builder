@@ -63,7 +63,9 @@ export class AddKeycloakUserDialog implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', [Validators.required]],
       email: ['', Validators.required],
+      password: ['123456789', Validators.required],
     });
+    this.loadRoles();
   }
   conditions: any = {
 
@@ -74,6 +76,15 @@ export class AddKeycloakUserDialog implements OnInit {
   onCloseClick(): void {
     this.dialogRef.close();
   }
+  selectedRoleName = ''
+  roles = []
+  loadRoles() {
+    const href = 'data-api/user-constraint/role/getAll';
+    const requestUrl = `${href}`;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.roles = _;
+    });
+  }
 
   errorMessage = ''
   reqStatus = 0
@@ -83,7 +94,9 @@ export class AddKeycloakUserDialog implements OnInit {
     const requestUrl = `${href}`;
     let obj = this.formGroup.value;
     let userPin = obj['userPin'];
+    let userPass = obj['password'];
     delete obj['userPin'];
+    delete obj['password'];
     let data =
     {
       ...obj,
@@ -93,12 +106,12 @@ export class AddKeycloakUserDialog implements OnInit {
       attributes:
       {
         userPin: [userPin],
-        userRole: ["operator"]
+        userRole: [this.selectedRoleName]
       },
       credentials: [
         {
           type: "password",
-          value: "123456789"
+          value: userPass
         }
       ]
     }

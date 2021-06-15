@@ -1,0 +1,57 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Справочник ролей
+      </mat-panel-title>
+      <mat-panel-description>
+        <span class="fill-remaining-space"></span>
+        <mat-icon>settings_suggest</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div style="max-height:300px;overflow:auto;">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Идентификатор</mat-label>
+            <input matInput [(ngModel)]="name">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Название (рус.)</mat-label>
+            <input matInput [(ngModel)]="label">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4" style="padding: 10px">
+          <span style="width: 20px;display:inline-block"></span>
+          <button mat-raised-button [disabled]="!label || !name" (click)="createRole()">Создать</button>
+        </div>
+      </div>
+      <table class="table">
+        <tr>
+          <th>
+            Идентификатор
+          </th>
+          <th>
+            Название (рус.)
+          </th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let r of roles">
+          <td>
+            {{r.name}}
+          </td>
+          <td>
+            {{r.label}}
+          </td>
+          <td>
+            <button color="warn" mat-icon-button (click)="removeRole(r.id)" matTooltip="Удалить роль">
+              <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

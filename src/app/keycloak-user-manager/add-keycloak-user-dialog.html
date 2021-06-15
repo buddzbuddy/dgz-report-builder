@@ -1,14 +1,11 @@
-<h1 mat-dialog-title><mat-icon>add_box</mat-icon> Заполните данные пользователя</h1>
+<h1 mat-dialog-title>
+  <mat-icon>add_box</mat-icon> Заполните данные пользователя
+</h1>
 <div mat-dialog-content>
   <form [formGroup]="formGroup">
     <mat-form-field appearance="outline">
       <mat-label>ПИН (ИНН)</mat-label>
       <input matInput placeholder="20101199012345" formControlName="userPin">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Логин</mat-label>
-      <input matInput formControlName="username">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -22,13 +19,31 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
+      <mat-label>Логин</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Пароль</mat-label>
+      <input matInput formControlName="password">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
       <mat-label>Почта Email</mat-label>
       <input matInput formControlName="email">
     </mat-form-field>
   </form>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Роль</mat-label>
+    <mat-select [(value)]="selectedRoleName" required>
+      <mat-option>-</mat-option>
+      <mat-option *ngFor="let s of roles" [value]="s.name">{{s.label}}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <p style="color: red;" *ngIf="errorMessage != ''">{{errorMessage}}</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onSaveClick()" [disabled]="formGroup.invalid">Сохранить</button>
+  <button mat-button (click)="onSaveClick()" [disabled]="formGroup.invalid || !selectedRoleName">Сохранить</button>
   <button mat-button (click)="onCloseClick()">Отмена</button>
 </div>
