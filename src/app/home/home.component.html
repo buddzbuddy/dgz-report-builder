@@ -1,4 +1,5 @@
-<mat-card class="mat-elevation-z8 example-card">
+<mat-card class="mat-elevation-z8 example-card" [class.thin_card]="!isLoggedIn || myRoleObj != null"
+  [class.bold_card]="isLoggedIn && userProfile?.attributes.orgType != null">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>Департамент государственных закупок</mat-card-title>
@@ -60,6 +61,11 @@
       </div>
     </div>
 
+    <ng-container *ngIf="isLoggedIn && userProfile?.attributes.orgType">
+      <app-supplier-account *ngIf="userProfile.attributes.orgType[0] == 'supplier'"></app-supplier-account>
+      <app-buyer-account *ngIf="userProfile.attributes.orgType[0] == 'buyer'"></app-buyer-account>
+    </ng-container>
+
     <ng-container *ngIf="userProfile">
       <h4>Данные пользователя</h4>
       <table>
@@ -79,10 +85,10 @@
           <th scope="row">E-mail</th>
           <td>{{ userProfile.email }}</td>
         </tr>
-        <!--<tr>
-            <th scope="row">JSON</th>
-            <td>{{ userProfile | json }}</td>
-          </tr>-->
+        <tr>
+          <th scope="row">JSON</th>
+          <td>{{ userProfile | json }}</td>
+        </tr>
       </table>
     </ng-container>
   </mat-card-content>

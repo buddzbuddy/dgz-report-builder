@@ -6,7 +6,7 @@
     "logLevel": "debug"
   },
   "/auth/*": {
-    "target": "http://192.168.2.114:8080",
+    "target": "http://localhost:8080",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
@@ -23,7 +23,7 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
-  "/dgz-kong-api/*":{
+  "/dgz-kong-api/*": {
     "target": "http://158.181.176.170:8000",
     "secure": false,
     "changeOrigin": true,

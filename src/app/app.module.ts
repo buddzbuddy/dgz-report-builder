@@ -121,6 +121,8 @@ import { TestFieldTestComponent } from './components/test-field-test/test-field-
 import { AddKeycloakUserDialog, KeycloakUserManagerComponent } from './keycloak-user-manager/keycloak-user-manager.component';
 import { RoleConstraintsComponent } from './view-analitics/view-privacy-settings/role-constraints/role-constraints.component';
 import { ViewRolesComponent } from './view-analitics/view-privacy-settings/view-roles/view-roles.component';
+import { SupplierAccountComponent } from './user-cabinets/supplier-account/supplier-account.component';
+import { BuyerAccountComponent } from './user-cabinets/buyer-account/buyer-account.component';
 
 export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   return () => appConfig.load().then((k_obj) => keycloak.init({
@@ -249,7 +251,9 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     KeycloakUserManagerComponent,
     LoginRutokenDialog,
     RoleConstraintsComponent,
-    ViewRolesComponent
+    ViewRolesComponent,
+    SupplierAccountComponent,
+    BuyerAccountComponent
   ],
   imports: [
     KeycloakAngularModule,

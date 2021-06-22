@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppConfig } from 'src/app/app.config';
 
@@ -11,20 +11,25 @@ import { AppConfig } from 'src/app/app.config';
 export class ViewSupplierComponent implements OnInit {
 
   constructor(private _httpClient: HttpClient, private route: ActivatedRoute) { }
-  supplier: any = {licenses:[],ip_items:[]}
-  supplierId: number = 0;
+  @Input() supplier: any = { licenses: [], ip_items: [] }
+  @Input() supplierId: number = 0;
+  hasRoute = false
   ngOnInit() {
-    if (this.route.params != null){
+    if (this.supplierId > 0) {
+      this.get_supplier_details(this.supplierId);
+    }
+    else if (this.route.params != null) {
       this.route.params.subscribe(params => {
         if (params['supplierId'] != null) {
           this.supplierId = params['supplierId'];
           this.get_supplier_details(this.supplierId);
+          this.hasRoute = true;
         }
       });
     }
     this.getGlobalGrantedSources();
   }
-  get_supplier_details(supplierId){
+  get_supplier_details(supplierId) {
     const href = 'data-api/supplier-requests/getDetails/' + supplierId;
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
@@ -36,7 +41,7 @@ export class ViewSupplierComponent implements OnInit {
   contractInfo: any = {}
   isLoadingResults: boolean = true;
   hasContractData: boolean = true;
-  getContractData(){
+  getContractData() {
     const href = '/api/tendering?&size=1000';
     const requestUrl = `${href}`;
     this._httpClient.get<any>(AppConfig.settings.host_tendering + requestUrl).subscribe(_ => {
@@ -47,20 +52,20 @@ export class ViewSupplierComponent implements OnInit {
         let r = _.releases[i];
         for (let j = 0; j < r.parties.length; j++) {
           let p = r.parties[j];
-          if(p.identifier.id == this.supplier.inn && p.roles.indexOf('supplier') > -1) {
+          if (p.identifier.id == this.supplier.inn && p.roles.indexOf('supplier') > -1) {
             c = r.contracts[0];
             this.contractInfo = c;
             console.log(c);
             break;
           }
         }
-        if(c !== null) break;
+        if (c !== null) break;
       }
       this.isLoadingResults = false;
       this.hasContractData = c !== null;
     });
   }
-  goBack(){
+  goBack() {
     window.history.back();
   }
 
@@ -69,15 +74,15 @@ export class ViewSupplierComponent implements OnInit {
   getGlobalGrantedSources() {
     const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
-    this._httpClient.post(AppConfig.settings.host + requestUrl, {rootName: 'GrantedSource'}).subscribe(_ => {
-      if(_['data'] != null) {
-        let grantedSources:any[] = _['data'];
+    this._httpClient.post(AppConfig.settings.host + requestUrl, { rootName: 'GrantedSource' }).subscribe(_ => {
+      if (_['data'] != null) {
+        let grantedSources: any[] = _['data'];
         for (let index = 0; index < grantedSources.length; index++) {
           const gSource = grantedSources[index];
-          if(gSource.sourceType == 'LICENSE') {
+          if (gSource.sourceType == 'LICENSE') {
             this.licenseChecked = true;
           }
-          if(gSource.sourceType == 'DEBT') {
+          if (gSource.sourceType == 'DEBT') {
             this.debtChecked = true;
           }
         }
@@ -88,24 +93,25 @@ export class ViewSupplierComponent implements OnInit {
   getLocalGrantedSources() {
     const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
-    let obj = {rootName: 'LocalGrantedSource',
-    searchFitler: [
-      {
-        property: 'supplierId',
-        operator: '=',
-        value: this.supplierId
-      }
-    ]
-  };
+    let obj = {
+      rootName: 'LocalGrantedSource',
+      searchFitler: [
+        {
+          property: 'supplierId',
+          operator: '=',
+          value: this.supplierId
+        }
+      ]
+    };
     this._httpClient.post(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
-      if(_['data'] != null) {
-        let grantedSources:any[] = _['data'];
+      if (_['data'] != null) {
+        let grantedSources: any[] = _['data'];
         for (let index = 0; index < grantedSources.length; index++) {
           const gSource = grantedSources[index];
-          if(gSource.sourceType == 'LICENSE') {
+          if (gSource.sourceType == 'LICENSE') {
             this.licenseChecked = false;
           }
-          if(gSource.sourceType == 'DEBT') {
+          if (gSource.sourceType == 'DEBT') {
             this.debtChecked = false;
           }
         }

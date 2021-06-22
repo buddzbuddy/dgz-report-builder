@@ -1,18 +1,18 @@
 {
-    "appConfig":{
+    "appConfig": {
         "dbPrefix": "dgz",
         "host": "http://localhost:46142/",
-        "host_keycloak": "http://192.168.2.114:8080/",
+        "host_keycloak": "/",
         "realm": "dgz",
         "clientId": "dgz",
         "temp_clientId": "clientid-03",
-        "t_username":"dgz",
-        "t_password":"12345",
-        "client_secret":"a610fe47-03f6-4b7f-8446-c84d38ad6cf0",
+        "t_username": "dgz",
+        "t_password": "12345",
+        "client_secret": "a610fe47-03f6-4b7f-8446-c84d38ad6cf0",
         "host_logs": "",
         "host_kong": "",
-        "host_analitics":"",
-        "host_tendering":"",
+        "host_analitics": "",
+        "host_tendering": "",
         "file_port": "3333",
         "dashboardUrl": ""
     }

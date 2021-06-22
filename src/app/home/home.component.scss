@@ -1,6 +1,12 @@
 .example-card {
-    max-width: 725px;
+    //max-width: 725px;
     margin: 0px auto;
+  }
+  .thin_card {
+    max-width: 725px;
+  }
+  .bold_card {
+    max-width: 1200px;
   }
   .example-button-row {
     display: flex;

@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
     const href = 'data-api/user-constraint/role/getAll';
     const requestUrl = `${href}`;
     this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
-      let myRole = this.userProfile && this.userProfile.attributes != null && this.userProfile.attributes.userRole[0];
+      let myRole = this.userProfile && this.userProfile.attributes != null && this.userProfile.attributes.userRole && this.userProfile.attributes.userRole[0];
       _.map(r => {
         if (myRole == r.name) {
           this.myRoleObj = r;

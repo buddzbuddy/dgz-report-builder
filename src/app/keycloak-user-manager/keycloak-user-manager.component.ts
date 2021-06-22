@@ -20,7 +20,7 @@ export class KeycloakUserManagerComponent implements OnInit {
   }
 
   loadUsers() {
-    this._httpClient.get<any>(/*AppConfig.settings.host_keycloak + */'/auth/admin/realms/dgz/users/?20000').subscribe(_ => {
+    this._httpClient.get<any>(AppConfig.settings.host_keycloak + 'auth/admin/realms/dgz/users/?20000').subscribe(_ => {
       this.users = _;
     });
   }
@@ -90,7 +90,7 @@ export class AddKeycloakUserDialog implements OnInit {
   reqStatus = 0
   selectItemsForSrc: any = {}
   saveUser() {
-    const href = `/auth/admin/realms/dgz/users`;
+    const href = `auth/admin/realms/dgz/users`;
     const requestUrl = `${href}`;
     let obj = this.formGroup.value;
     let userPin = obj['userPin'];
@@ -117,7 +117,7 @@ export class AddKeycloakUserDialog implements OnInit {
     }
     this.errorMessage = '';
     this.reqStatus = 0;
-    this._httpClient.post<any>(/*AppConfig.settings.host_keycloak + */requestUrl, data).subscribe(_ => {
+    this._httpClient.post<any>(AppConfig.settings.host_keycloak + requestUrl, data).subscribe(_ => {
       this.dialogRef.close(true);
     },
       err => {
