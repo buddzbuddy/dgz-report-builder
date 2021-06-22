@@ -1,1 +1,4 @@
-<app-view-supplier *ngIf="supplier != null" [supplierId]="supplierId" [supplier]="supplier"></app-view-supplier>
+<app-view-supplier *ngIf="supplier?.legalAddress != null" [supplierId]="supplierId" [supplier]="supplier">
+</app-view-supplier>
+<app-supplier-initial-form *ngIf="hasInit && supplier.legalAddress == null" [supplier]="supplier">
+</app-supplier-initial-form>

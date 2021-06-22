@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { KeycloakProfile } from 'keycloak-js';
 import { AppConfig } from 'src/app/app.config';
 import jwt_decode from 'jwt-decode';
 
@@ -26,6 +25,7 @@ export class SupplierAccountComponent implements OnInit {
       this.getSupplierByUserId();
     }
   }
+  hasInit = false
   getSupplierByUserId() {
     let uObj = this.getDecodedAccessToken(this.userToken);
     const href = 'data-api/supplier-requests/getSupplierByUserId/' + uObj.sub;
@@ -33,6 +33,7 @@ export class SupplierAccountComponent implements OnInit {
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       console.log(_);
       this.supplier = _;
+      this.hasInit = true;
       this.supplierId = _.id
     });
   }

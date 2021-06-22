@@ -4,7 +4,7 @@
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>Департамент государственных закупок</mat-card-title>
     <mat-card-subtitle>База данных поставщиков - БДП</mat-card-subtitle>
-
+    <span class="fill-remaining-space"></span>
     <button style="float: right;" *ngIf="isLoggedIn" mat-button type="button" (click)="logout()">Выход</button>
   </mat-card-header>
   <mat-card-content>
@@ -67,6 +67,7 @@
     </ng-container>
 
     <ng-container *ngIf="userProfile">
+      <br>
       <h4>Данные пользователя</h4>
       <table>
         <tr *ngIf="userProfile.username">

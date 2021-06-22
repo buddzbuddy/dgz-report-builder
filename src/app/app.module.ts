@@ -123,6 +123,7 @@ import { RoleConstraintsComponent } from './view-analitics/view-privacy-settings
 import { ViewRolesComponent } from './view-analitics/view-privacy-settings/view-roles/view-roles.component';
 import { SupplierAccountComponent } from './user-cabinets/supplier-account/supplier-account.component';
 import { BuyerAccountComponent } from './user-cabinets/buyer-account/buyer-account.component';
+import { SupplierInitialFormComponent } from './user-cabinets/supplier-account/supplier-initial-form/supplier-initial-form.component';
 
 export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   return () => appConfig.load().then((k_obj) => keycloak.init({
@@ -253,7 +254,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     RoleConstraintsComponent,
     ViewRolesComponent,
     SupplierAccountComponent,
-    BuyerAccountComponent
+    BuyerAccountComponent,
+    SupplierInitialFormComponent
   ],
   imports: [
     KeycloakAngularModule,
