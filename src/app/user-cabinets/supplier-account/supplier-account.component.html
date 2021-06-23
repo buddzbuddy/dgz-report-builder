@@ -1,4 +1,7 @@
-<app-view-supplier *ngIf="supplier?.legalAddress != null" [supplierId]="supplierId" [supplier]="supplier">
+<button *ngIf="!editing" mat-raised-button (click)="edit()">редактировать</button>
+<button *ngIf="editing" mat-raised-button (click)="cancel()">отмена</button>
+<app-view-supplier *ngIf="supplier?.hasInit && !editing" [supplierId]="supplierId" [supplier]="supplier">
 </app-view-supplier>
-<app-supplier-initial-form *ngIf="hasInit && supplier.legalAddress == null" [supplier]="supplier">
+<app-supplier-initial-form *ngIf="(supplier != null && !supplier.hasInit) || editing" [supplier]="supplier"
+  [edit]="editObj">
 </app-supplier-initial-form>

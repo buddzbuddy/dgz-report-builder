@@ -25,7 +25,6 @@ export class SupplierAccountComponent implements OnInit {
       this.getSupplierByUserId();
     }
   }
-  hasInit = false
   getSupplierByUserId() {
     let uObj = this.getDecodedAccessToken(this.userToken);
     const href = 'data-api/supplier-requests/getSupplierByUserId/' + uObj.sub;
@@ -33,7 +32,6 @@ export class SupplierAccountComponent implements OnInit {
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       console.log(_);
       this.supplier = _;
-      this.hasInit = true;
       this.supplierId = _.id
     });
   }
@@ -44,5 +42,16 @@ export class SupplierAccountComponent implements OnInit {
     catch (Error) {
       return null;
     }
+  }
+  editing = false;
+  editObj
+  edit() {
+    this.editObj = {
+      ...this.supplier
+    }
+    this.editing = true;
+  }
+  cancel() {
+    this.editing = false;
   }
 }

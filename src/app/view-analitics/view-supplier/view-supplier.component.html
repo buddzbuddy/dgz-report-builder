@@ -7,7 +7,7 @@
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{supplier.name}}</mat-card-title>
-    <mat-card-subtitle>последний раз обновлено от {{supplier.updatedAt | date:'dd.MM.yyyy'}}</mat-card-subtitle>
+    <mat-card-subtitle>последний раз обновлено от {{supplier.updatedAt | date:'dd.MM.yyyy HH:mm'}}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
@@ -36,6 +36,12 @@
         <td>Факт. адрес</td>
         <td>{{supplier.factAddress}}</td>
       </tr>
+      <tr>
+        <td>
+          Резидент
+        </td>
+        <td>{{supplier.resident ? 'да' : 'нет'}}</td>
+      </tr>
       <tr [class.blackList]="supplier.isBlack">
         <td>
           Черный список
@@ -43,15 +49,9 @@
         <td>{{supplier.isBlack ? 'да' : 'нет'}}</td>
       </tr>
       <tr>
-        <td>
-          Резидент
-        </td>
-        <td>{{supplier.isResident ? 'да' : 'нет'}}</td>
-      </tr>
-      <tr>
         <td>Руководитель</td>
         <td>
-          <view-supplier-members [supplier_members]="supplier.supplierMembers" [supplierId]="supplierId">
+          <view-supplier-members [supplier_members]="supplier.supplierMembers">
           </view-supplier-members>
         </td>
       </tr>

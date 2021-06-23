@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppConfig } from 'src/app/app.config';
+import { NotificationService } from 'src/app/notification.service';
 
 @Component({
   selector: 'app-supplier-initial-form',
@@ -9,10 +10,10 @@ import { AppConfig } from 'src/app/app.config';
   styleUrls: ['./supplier-initial-form.component.scss']
 })
 export class SupplierInitialFormComponent implements OnInit {
-  constructor(private _formBuilder: FormBuilder, private _httpClient: HttpClient,) { }
+  constructor(private _formBuilder: FormBuilder, private _httpClient: HttpClient, private notificationSvc: NotificationService) { }
 
   @Input() supplier = null;
-
+  @Input() edit = null;
   formGroup: FormGroup;
   ngOnInit(): void {
 
@@ -23,16 +24,49 @@ export class SupplierInitialFormComponent implements OnInit {
       ownershipTypeId: ['', Validators.required],
       industryId: ['', Validators.required],
       telephone: ['', Validators.required],
-      bank_name: ['', Validators.required],
-      bank_account: ['', Validators.required],
+      bankName: ['', Validators.required],
+      bankAccount: ['', Validators.required],
       bic: ['', Validators.required],
-      is_resident: ['', Validators.required],
+      resident: [true, Validators.required],
+      /*managerPin: ['', Validators.required],
+      managerLastname: ['', Validators.required],
+      managerFirstname: ['', Validators.required],
+      managerMiddlename: ['', Validators.required],*/
     });
+
+    if (this.edit != null) {
+      this.formGroup.patchValue(this.edit);
+    }
+    else {
+      const control = this._formBuilder.control(null);
+      this.formGroup.addControl('managerPin', control);
+      this.formGroup.addControl('managerLastname', control);
+      this.formGroup.addControl('managerFirstname', control);
+      this.formGroup.addControl('managerMiddlename', control);
+    }
 
     this.getOwnershipTypes();
     this.getIndustries();
   }
 
+  save() {
+    const href = 'data-api/supplier-requests/saveInitialSupplier';
+    const requestUrl = `${href}`;
+    let obj = {
+      ...this.formGroup.value,
+      supplierId: this.supplier.id
+    }
+    this._httpClient.post<boolean>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      console.log(_);
+      if (_) {
+        this.notificationSvc.success('Анкета успешно сохранена!');
+        window.location.reload();
+      }
+      else {
+        this.notificationSvc.warn('Что-то пошло не так!');
+      }
+    });
+  }
 
   ownershipTypes: any[] = [];
   getOwnershipTypes() {

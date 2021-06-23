@@ -2,7 +2,7 @@
     "appConfig": {
         "dbPrefix": "dgz",
         "host": "http://localhost:46142/",
-        "host_keycloak": "/",
+        "host_keycloak": "http://192.168.2.150:8099/",
         "realm": "dgz",
         "clientId": "dgz",
         "temp_clientId": "clientid-03",

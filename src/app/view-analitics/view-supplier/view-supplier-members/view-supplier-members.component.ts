@@ -10,17 +10,16 @@ export class ViewSupplierMembersComponent implements OnInit {
 
   constructor(public dialog: MatDialog,) { }
 
-  @Input() supplierId: number = 0;
   ngOnInit() {
   }
 
   @Input() supplier_members: any[] = [];
-  getDirectorName() : string {
+  getDirectorName(): string {
     let managerName = '-';
-    if(this.supplier_members){
+    if (this.supplier_members) {
       for (let index = 0; index < this.supplier_members.length; index++) {
         const m = this.supplier_members[index];
-        if(m.memberType.name == 'Руководитель') {
+        if (m.memberType.name == 'Руководитель') {
           managerName = m.surname + ' ' + m.name + ' ' + (m.patronymic || '');
         }
       }
@@ -42,7 +41,7 @@ export class ViewSupplierMembersComponent implements OnInit {
 export class ViewMsecDetailsDialog {
   constructor(
     public dialogRef: MatDialogRef<ViewMsecDetailsDialog>,
-    @Inject(MAT_DIALOG_DATA) public data) {}
+    @Inject(MAT_DIALOG_DATA) public data) { }
   onCloseClick(): void {
     this.dialogRef.close();
   }
