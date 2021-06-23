@@ -86,10 +86,10 @@ import { MapItemComponent } from './view-map-history/map-item/map-item.component
 import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListViewDialog, NewPageDialog, NewTextDialog } from './customs/flutter/list-view-widget/list-view-widget.component';
 import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AddSourceConditionDialog, AddSubSourceDialog, ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
-import { ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
+import { AddSupplierMemberDialog, ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewMsecDetailsDialog, ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
 import { ViewSuppliersComponent } from './view-analitics/view-suppliers/view-suppliers.component';
 import { ViewProcurementsComponent } from './view-analitics/view-procurements/view-procurements.component';
@@ -255,7 +255,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     ViewRolesComponent,
     SupplierAccountComponent,
     BuyerAccountComponent,
-    SupplierInitialFormComponent
+    SupplierInitialFormComponent,
+    AddSupplierMemberDialog
   ],
   imports: [
     KeycloakAngularModule,
@@ -275,15 +276,17 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   ],
   providers: [
     AppConfig,
-    { provide: APP_INITIALIZER,
+    {
+      provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [AppConfig, KeycloakService], multi: true },
-      /*{
-        provide: APP_INITIALIZER,
-        useFactory: initializeKeycloak,
-        multi: true,
-        deps: [KeycloakService, AppConfig],
-      },*/
+      deps: [AppConfig, KeycloakService], multi: true
+    },
+    /*{
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService, AppConfig],
+    },*/
     CamundaRestService,
     DataService,
     ServerResponseCode,
@@ -293,7 +296,7 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     LocalStorageService,
   ],
   bootstrap: [AppComponent],
-  entryComponents:[
+  entryComponents: [
     EntityformComponent,
     TaskFormComponent,
     InputComponent,
@@ -325,8 +328,9 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddSubSourceDialog,
     AddSourceConditionDialog,
     AddKeycloakUserDialog,
-    LoginRutokenDialog
+    LoginRutokenDialog,
+    AddSupplierMemberDialog
   ]
 })
 export class AppModule {
- }
+}

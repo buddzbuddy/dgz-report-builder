@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>
+  <mat-icon>add_box</mat-icon> Добавление сотрудника
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Позиция</mat-label>
+      <mat-select formControlName="memberTypeId">
+        <mat-option>-</mat-option>
+        <mat-option *ngFor="let item of memberTypes" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>ПИН</mat-label>
+      <input matInput formControlName="pin">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Фамилия</mat-label>
+      <input matInput formControlName="surname">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Имя</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Отчество</mat-label>
+      <input matInput formControlName="patronymic">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSaveClick()" [disabled]="formGroup.invalid">Сохранить</button>
+  <button mat-button (click)="onCloseClick()">Отмена</button>
+</div>
