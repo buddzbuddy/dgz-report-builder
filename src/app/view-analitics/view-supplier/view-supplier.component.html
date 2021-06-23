@@ -51,7 +51,8 @@
       <tr>
         <td>Руководитель</td>
         <td>
-          <view-supplier-members [supplier_members]="supplier.supplierMembers">
+          <button  *ngIf="isCabinet" mat-raised-button (click)="addSupplierMember()">Добавить</button>
+          <view-supplier-members [supplier_members]="supplier.supplierMembers" (removeEvent)="remove('SupplierMember', $event)">
           </view-supplier-members>
         </td>
       </tr>

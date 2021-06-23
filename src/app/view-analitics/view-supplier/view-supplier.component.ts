@@ -13,7 +13,8 @@ import { NotificationService } from 'src/app/notification.service';
 })
 export class ViewSupplierComponent implements OnInit {
 
-  constructor(private _httpClient: HttpClient, private route: ActivatedRoute, private dialog: MatDialog,) { }
+  constructor(private _httpClient: HttpClient, private route: ActivatedRoute,
+     private dialog: MatDialog, private notificationSvc: NotificationService,) { }
   @Input() supplier: any = { licenses: [], ip_items: [] }
   @Input() supplierId: number = 0;
   hasRoute = false
@@ -24,6 +25,7 @@ export class ViewSupplierComponent implements OnInit {
     else if (this.route.params != null) {
       this.route.params.subscribe(params => {
         if (params['supplierId'] != null) {
+          this.isCabinet = false;
           this.supplierId = params['supplierId'];
           this.get_supplier_details();
           this.hasRoute = true;
@@ -122,10 +124,11 @@ export class ViewSupplierComponent implements OnInit {
     })
   }
 
+  isCabinet = true;
   addSupplierMember() {
     const dialogRef = this.dialog.open(AddSupplierMemberDialog, {
       data: {
-        pin: ''
+        supplierId: this.supplierId
       }
     });
     dialogRef.afterClosed().subscribe(_ => {
@@ -133,6 +136,21 @@ export class ViewSupplierComponent implements OnInit {
         this.get_supplier_details();
       }
     });
+  }
+  remove(name, id) {
+    if(confirm('Вы уверены что хотите удалить запись?')) {
+      const href = `data-api/query/delete/${name}/${id}`;
+      const requestUrl = `${href}`;
+      this._httpClient.get<boolean>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+        if (_) {
+          this.notificationSvc.success('Запись успешно удалена!');
+          this.get_supplier_details();
+        }
+        else {
+          this.notificationSvc.warn('Что-то пошло не так!');
+        }
+      });
+    }
   }
 }
 
@@ -145,16 +163,16 @@ export class AddSupplierMemberDialog implements OnInit {
   formGroup: FormGroup;
   constructor(
     public dialogRef: MatDialogRef<AddSupplierMemberDialog>,
-    @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient, private _formBuilder: FormBuilder, private notificationSvc: NotificationService) { }
+    @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient,
+     private _formBuilder: FormBuilder, private notificationSvc: NotificationService) { }
 
   ngOnInit() {
     this.formGroup = this._formBuilder.group({
-      username: ['', Validators.required],
-      userPin: ['', [Validators.required]],
-      firstName: ['', Validators.required],
-      lastName: ['', [Validators.required]],
-      email: ['', Validators.required],
-      password: ['123456789', Validators.required],
+      memberTypeId: ['', Validators.required],
+      pin: ['', [Validators.required]],
+      surname: ['', Validators.required],
+      name: ['', [Validators.required]],
+      patronymic: ['', Validators.required],
     });
     this.loadMemberTypes();
   }
@@ -186,10 +204,14 @@ export class AddSupplierMemberDialog implements OnInit {
       fObj.push({
         name: fName,
         val: this.formGroup.value[fName]
-      })
+      });
     }
+    fObj.push({
+      name: 'supplierId',
+      val: this.data.supplierId
+    });
     let obj = {
-      entityName: 'MemberType',
+      entityName: 'SupplierMember',
       fields: fObj
     };
     this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {

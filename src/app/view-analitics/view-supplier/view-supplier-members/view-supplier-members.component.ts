@@ -1,5 +1,6 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'view-supplier-members',
@@ -8,9 +9,16 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class ViewSupplierMembersComponent implements OnInit {
 
-  constructor(public dialog: MatDialog,) { }
+  constructor(public dialog: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    if (this.route.params != null) {
+      this.route.params.subscribe(params => {
+        if (params['supplierId'] != null) {
+          this.isCabinet = false;
+        }
+      });
+    }
   }
 
   @Input() supplier_members: any[] = [];
@@ -31,6 +39,12 @@ export class ViewSupplierMembersComponent implements OnInit {
     const dialogRef = this.dialog.open(ViewMsecDetailsDialog, {
       data: mem
     });
+  }
+
+  isCabinet = true;
+  @Output() removeEvent = new EventEmitter<number>();
+  remove(id: number) {
+    this.removeEvent.emit(id);
   }
 }
 

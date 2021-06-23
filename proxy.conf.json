@@ -6,7 +6,7 @@
     "logLevel": "debug"
   },
   "/auth/*": {
-    "target": "http://192.168.2.150:8099",
+    "target": "http://158.181.176.170:8099",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
