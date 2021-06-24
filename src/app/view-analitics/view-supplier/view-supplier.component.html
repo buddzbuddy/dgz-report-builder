@@ -51,7 +51,8 @@
       <tr>
         <td>Руководитель</td>
         <td>
-          <button *ngIf="isCabinet" mat-raised-button (click)="addSupplierMember()">Добавить</button>
+          <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button
+            (click)="addSupplierMember()">Добавить</button>
           <view-supplier-members [supplier_members]="supplier.supplierMembers"
             (removeEvent)="remove('SupplierMember', $event)">
           </view-supplier-members>
@@ -60,7 +61,8 @@
       <tr>
         <td>Лицензии</td>
         <td>
-          <button *ngIf="isCabinet" mat-raised-button (click)="addLicense()">Добавить</button>
+          <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button
+            (click)="addLicense()">Добавить</button>
           <app-view-supplier-licenses *ngIf="licenseChecked" [licenses]="supplier.licenses"
             (removeEvent)="remove('License', $event)">
           </app-view-supplier-licenses>
@@ -71,6 +73,8 @@
       <tr>
         <td>Данные о задолженности по налогам</td>
         <td>
+          <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button>Запросить через
+            Тундук</button>
           <app-view-supplier-debts *ngIf="debtChecked" [items]="supplier.debts"></app-view-supplier-debts>
           <span style="font-style: italic; color: darkred;" *ngIf="!debtChecked">Данная информация скрыта</span>
         </td>

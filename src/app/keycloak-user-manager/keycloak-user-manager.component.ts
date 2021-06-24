@@ -13,17 +13,32 @@ import { AppConfig } from '../app.config';
 export class KeycloakUserManagerComponent implements OnInit {
 
   constructor(private _httpClient: HttpClient, public dialog: MatDialog, private router: Router) { }
-  users = []
+
   pin = ''
   ngOnInit(): void {
     this.loadUsers();
   }
 
   loadUsers() {
-    this._httpClient.get<any>(AppConfig.settings.host_keycloak + 'auth/admin/realms/dgz/users/?20000').subscribe(_ => {
-      this.users = _;
+    this._httpClient.get<any[]>(AppConfig.settings.host_keycloak + 'auth/admin/realms/dgz/users/?20000').subscribe(_ => {
+      _.map(u => {
+        if (u.attributes.userRole != null) {
+          this.dgzUsers.push(u);
+        }
+        else if (u.attributes.orgType != null) {
+          if (u.attributes.orgType[0] == 'buyer') {
+            this.buyerUsers.push(u);
+          }
+          else if (u.attributes.orgType[0] == 'supplier') {
+            this.supplierUsers.push(u);
+          }
+        }
+      })
     });
   }
+  dgzUsers = []
+  buyerUsers = []
+  supplierUsers = []
 
   goMain() {
     this.router.navigate(['/']);

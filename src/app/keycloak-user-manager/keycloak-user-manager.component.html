@@ -1,63 +1,229 @@
-<p>Управление пользователями</p>
-<button mat-button (click)="goMain()" matTooltip="Вернуться на главную">ГЛАВНАЯ</button>
-<div style="max-height:500px;overflow:auto;">
-  <div class="row">
-    <div class="col-md-4">
-      <button mat-raised-button (click)="addUser()">Добавить пользователя</button>
+<div style="padding: 10px;">
+  <button mat-stroked-button (click)="goMain()" matTooltip="Вернуться на главную">ГЛАВНАЯ</button>
+  <div class="mat-elevation-z4" style="max-height: 300px;overflow: auto;padding: 15px;background-color: white;">
+    <div class="row">
+      <div class="col-md-12">
+        <button style="float: right;" color="primary" mat-stroked-button (click)="addUser()">Добавить
+          пользователя</button>
+      </div>
     </div>
+    <table class="table">
+      <tr>
+        <th style="text-align: center;" colspan="100%">
+          Сотрудники ДГЗ
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Дата
+        </th>
+        <th>
+          Логин
+        </th>
+        <th>
+          Имя
+        </th>
+        <th>
+          Фамилия
+        </th>
+        <th>
+          Email
+        </th>
+        <th>
+          ПИН
+        </th>
+        <th>
+          Роль
+        </th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let a of dgzUsers">
+        <td>
+          {{a.createdTimestamp | date:'dd.MM.yyyy'}}
+        </td>
+        <td>
+          {{a.username}}
+        </td>
+        <td>
+          {{a.firstName}}
+        </td>
+        <td>
+          {{a.lastName}}
+        </td>
+        <td>
+          {{a.email}}
+        </td>
+        <td>
+          {{a.attributes.userPin != null ? a.attributes.userPin[0] : '-'}}
+        </td>
+        <td>
+          {{a.attributes.userRole != null ? a.attributes.userRole[0] : '-'}}
+        </td>
+        <td>
+          <!--<button color="warn" mat-icon-button (click)="denySource(a.sourceType, a.supplier?.inn)" matTooltip="Удалить ограничение">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>-->
+        </td>
+      </tr>
+    </table>
   </div>
-  <table class="table">
-    <tr>
-      <th>
-        Дата
-      </th>
-      <th>
-        Логин
-      </th>
-      <th>
-        Имя
-      </th>
-      <th>
-        Фамилия
-      </th>
-      <th>
-        Email
-      </th>
-      <th>
-        ПИН
-      </th>
-      <th>
-        Роль
-      </th>
-      <th></th>
-    </tr>
-    <tr *ngFor="let a of users">
-      <td>
-        {{a.createdTimestamp | date:'dd.MM.yyyy'}}
-      </td>
-      <td>
-        {{a.username}}
-      </td>
-      <td>
-        {{a.firstName}}
-      </td>
-      <td>
-        {{a.lastName}}
-      </td>
-      <td>
-        {{a.email}}
-      </td>
-      <td>
-        {{a.attributes?.userPin[0]}}
-      </td>
-      <td>
-        {{a.attributes?.userRole[0]}}
-      </td>
-      <td>
-        <!--<button color="warn" mat-icon-button (click)="denySource(a.sourceType, a.supplier?.inn)" matTooltip="Удалить ограничение">
-              <mat-icon>remove_circle_outline</mat-icon>
-            </button>-->
-      </td>
-    </tr>
-  </table>
+  <br>
+  <div class="mat-elevation-z4" style="max-height: 300px;overflow: auto;padding: 15px;background-color: white;">
+    <!--<div class="row">
+      <div class="col-md-4">
+        <button mat-raised-button (click)="addUser()">Добавить пользователя</button>
+      </div>
+    </div>-->
+    <table class="table">
+      <tr>
+        <th style="text-align: center;" colspan="100%">
+          Закупающие организации
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Дата
+        </th>
+        <th>
+          ИНН организации
+        </th>
+        <th>
+          Наименование организации
+        </th>
+        <th>
+          Логин
+        </th>
+        <th>
+          Имя
+        </th>
+        <th>
+          Фамилия
+        </th>
+        <th>
+          Должность
+        </th>
+        <th>
+          Телефон
+        </th>
+        <th>
+          Email
+        </th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let a of buyerUsers">
+        <td>
+          {{a.createdTimestamp | date:'dd.MM.yyyy'}}
+        </td>
+        <td>
+          {{a.attributes.orgPin != null ? a.attributes.orgPin[0] : '-'}}
+        </td>
+        <td>
+          {{a.attributes.orgName != null ? a.attributes.orgName[0] : '-'}}
+        </td>
+        <td>
+          {{a.username}}
+        </td>
+        <td>
+          {{a.firstName}}
+        </td>
+        <td>
+          {{a.lastName}}
+        </td>
+        <td>
+          {{a.attributes.position != null ? a.attributes.position[0] : '-'}}
+        </td>
+        <td>
+          {{a.attributes.telephone != null ? a.attributes.telephone[0] : '-'}}
+        </td>
+        <td>
+          {{a.email}}
+        </td>
+        <td>
+          <!--<button color="warn" mat-icon-button (click)="denySource(a.sourceType, a.supplier?.inn)" matTooltip="Удалить ограничение">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>-->
+        </td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  <div class="mat-elevation-z4" style="max-height: 300px;overflow: auto;padding: 15px;background-color: white;">
+    <!--<div class="row">
+      <div class="col-md-4">
+        <button mat-raised-button (click)="addUser()">Добавить пользователя</button>
+      </div>
+    </div>-->
+    <table class="table">
+      <tr>
+        <th style="text-align: center;" colspan="100%">
+          Поставщики
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Дата
+        </th>
+        <th>
+          ИНН организации
+        </th>
+        <th>
+          Наименование организации
+        </th>
+        <th>
+          Логин
+        </th>
+        <th>
+          Имя
+        </th>
+        <th>
+          Фамилия
+        </th>
+        <th>
+          Должность
+        </th>
+        <th>
+          Телефон
+        </th>
+        <th>
+          Email
+        </th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let a of supplierUsers">
+        <td>
+          {{a.createdTimestamp | date:'dd.MM.yyyy'}}
+        </td>
+        <td>
+          {{a.attributes.orgPin != null ? a.attributes.orgPin[0] : '-'}}
+        </td>
+        <td>
+          {{a.attributes.orgName != null ? a.attributes.orgName[0] : '-'}}
+        </td>
+        <td>
+          {{a.username}}
+        </td>
+        <td>
+          {{a.firstName}}
+        </td>
+        <td>
+          {{a.lastName}}
+        </td>
+        <td>
+          {{a.attributes.position != null ? a.attributes.position[0] : '-'}}
+        </td>
+        <td>
+          {{a.attributes.telephone != null ? a.attributes.telephone[0] : '-'}}
+        </td>
+        <td>
+          {{a.email}}
+        </td>
+        <td>
+          <!--<button color="warn" mat-icon-button (click)="denySource(a.sourceType, a.supplier?.inn)" matTooltip="Удалить ограничение">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>-->
+        </td>
+      </tr>
+    </table>
+  </div>
+
 </div>
