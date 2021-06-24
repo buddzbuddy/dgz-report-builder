@@ -51,17 +51,21 @@
       <tr>
         <td>Руководитель</td>
         <td>
-          <button  *ngIf="isCabinet" mat-raised-button (click)="addSupplierMember()">Добавить</button>
-          <view-supplier-members [supplier_members]="supplier.supplierMembers" (removeEvent)="remove('SupplierMember', $event)">
+          <button *ngIf="isCabinet" mat-raised-button (click)="addSupplierMember()">Добавить</button>
+          <view-supplier-members [supplier_members]="supplier.supplierMembers"
+            (removeEvent)="remove('SupplierMember', $event)">
           </view-supplier-members>
         </td>
       </tr>
       <tr>
         <td>Лицензии</td>
         <td>
-          <app-view-supplier-licenses *ngIf="licenseChecked" [licenses]="supplier.licenses">
+          <button *ngIf="isCabinet" mat-raised-button (click)="addLicense()">Добавить</button>
+          <app-view-supplier-licenses *ngIf="licenseChecked" [licenses]="supplier.licenses"
+            (removeEvent)="remove('License', $event)">
           </app-view-supplier-licenses>
-          <span style="font-style: italic; color: darkred;" *ngIf="!licenseChecked">Данная информация скрыта</span>
+          <span style="font-style: italic; color: darkred;" *ngIf="!isCabinet && !licenseChecked">Данная информация
+            скрыта</span>
         </td>
       </tr>
       <tr>

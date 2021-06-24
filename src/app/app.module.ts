@@ -89,7 +89,7 @@ import { ViewSourceListComponent } from './report-builder/view-source-list/view-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AddSourceConditionDialog, AddSubSourceDialog, ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
-import { AddSupplierMemberDialog, ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
+import { AddLicenseDialog, AddSupplierMemberDialog, ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewMsecDetailsDialog, ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
 import { ViewSuppliersComponent } from './view-analitics/view-suppliers/view-suppliers.component';
 import { ViewProcurementsComponent } from './view-analitics/view-procurements/view-procurements.component';
@@ -256,7 +256,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     SupplierAccountComponent,
     BuyerAccountComponent,
     SupplierInitialFormComponent,
-    AddSupplierMemberDialog
+    AddSupplierMemberDialog,
+    AddLicenseDialog
   ],
   imports: [
     KeycloakAngularModule,
@@ -329,7 +330,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddSourceConditionDialog,
     AddKeycloakUserDialog,
     LoginRutokenDialog,
-    AddSupplierMemberDialog
+    AddSupplierMemberDialog,
+    AddLicenseDialog
   ]
 })
 export class AppModule {

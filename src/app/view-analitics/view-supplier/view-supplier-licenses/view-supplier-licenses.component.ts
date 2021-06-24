@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-supplier-licenses',
@@ -7,9 +8,22 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ViewSupplierLicensesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
   @Input() licenses: any[] = []
   ngOnInit() {
+    if (this.route.params != null) {
+      this.route.params.subscribe(params => {
+        if (params['supplierId'] != null) {
+          this.isCabinet = false;
+        }
+      });
+    }
   }
 
+
+  isCabinet = true;
+  @Output() removeEvent = new EventEmitter<number>();
+  remove(id: number) {
+    this.removeEvent.emit(id);
+  }
 }

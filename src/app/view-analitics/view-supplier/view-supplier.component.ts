@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ActivatedRoute } from '@angular/router';
 import { AppConfig } from 'src/app/app.config';
 import { NotificationService } from 'src/app/notification.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-view-supplier',
@@ -14,7 +15,7 @@ import { NotificationService } from 'src/app/notification.service';
 export class ViewSupplierComponent implements OnInit {
 
   constructor(private _httpClient: HttpClient, private route: ActivatedRoute,
-     private dialog: MatDialog, private notificationSvc: NotificationService,) { }
+    private dialog: MatDialog, private notificationSvc: NotificationService,) { }
   @Input() supplier: any = { licenses: [], ip_items: [] }
   @Input() supplierId: number = 0;
   hasRoute = false
@@ -137,8 +138,20 @@ export class ViewSupplierComponent implements OnInit {
       }
     });
   }
+  addLicense() {
+    const dialogRef = this.dialog.open(AddLicenseDialog, {
+      data: {
+        supplierId: this.supplierId
+      }
+    });
+    dialogRef.afterClosed().subscribe(_ => {
+      if (_) {
+        this.get_supplier_details();
+      }
+    });
+  }
   remove(name, id) {
-    if(confirm('Вы уверены что хотите удалить запись?')) {
+    if (confirm('Вы уверены что хотите удалить запись?')) {
       const href = `data-api/query/delete/${name}/${id}`;
       const requestUrl = `${href}`;
       this._httpClient.get<boolean>(AppConfig.settings.host + requestUrl).subscribe(_ => {
@@ -164,7 +177,7 @@ export class AddSupplierMemberDialog implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddSupplierMemberDialog>,
     @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient,
-     private _formBuilder: FormBuilder, private notificationSvc: NotificationService) { }
+    private _formBuilder: FormBuilder, private notificationSvc: NotificationService) { }
 
   ngOnInit() {
     this.formGroup = this._formBuilder.group({
@@ -172,7 +185,7 @@ export class AddSupplierMemberDialog implements OnInit {
       pin: ['', [Validators.required]],
       surname: ['', Validators.required],
       name: ['', [Validators.required]],
-      patronymic: ['', Validators.required],
+      patronymic: ''//['', Validators.required],
     });
     this.loadMemberTypes();
   }
@@ -217,6 +230,88 @@ export class AddSupplierMemberDialog implements OnInit {
     this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
       if (_) {
         this.notificationSvc.success('Успешно добавлен!');
+        this.dialogRef.close(_);
+      }
+      else {
+        this.notificationSvc.warn('Что-то пошло не так!');
+      }
+    });
+  }
+}
+
+@Component({
+  selector: 'add-license-dialog',
+  templateUrl: 'add-license-dialog.html',
+})
+export class AddLicenseDialog implements OnInit {
+  formGroup: FormGroup;
+  constructor(
+    public dialogRef: MatDialogRef<AddLicenseDialog>,
+    @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient,
+    private _formBuilder: FormBuilder, private notificationSvc: NotificationService) { }
+
+  ngOnInit() {
+    this.formGroup = this._formBuilder.group({
+      issuer: ['', Validators.required],
+      no: ['', [Validators.required]],
+      issueDate: ['', Validators.required],
+      licenseTypeId: ['', [Validators.required]],
+      expiryDate: ['', Validators.required],
+    });
+    this.loadLicenseTypes();
+  }
+  conditions: any = {
+
+  }
+  onSaveClick(): void {
+    this.save();
+  }
+  onCloseClick(): void {
+    this.dialogRef.close();
+  }
+  licenseTypes: any[] = [];
+  loadLicenseTypes() {
+    const href = 'data-api/query/exec';
+    const requestUrl = `${href}`;
+    let obj = {
+      rootName: "LicenseType"
+    }
+    this._httpClient.post(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      this.licenseTypes = _['data'];
+    });
+  }
+  save() {
+    const href = `data-api/query/insert`;
+    const requestUrl = `${href}`;
+    let fObj = []
+    for (let fName of Object.keys(this.formGroup.value)) {
+      if (fName == 'issueDate' || fName == 'expiryDate') {
+
+        let o = moment(this.formGroup.value[fName]).format('YYYY-MM-DD')
+
+        fObj.push({
+          name: fName,
+          val: o
+        });
+      }
+      else {
+        fObj.push({
+          name: fName,
+          val: this.formGroup.value[fName]
+        });
+      }
+    }
+    fObj.push({
+      name: 'supplierId',
+      val: this.data.supplierId
+    });
+    let obj = {
+      entityName: 'License',
+      fields: fObj
+    };
+    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      if (_) {
+        this.notificationSvc.success('Запись успешно добавлена!');
         this.dialogRef.close(_);
       }
       else {
