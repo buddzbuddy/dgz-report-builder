@@ -89,7 +89,7 @@ import { ViewSourceListComponent } from './report-builder/view-source-list/view-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AddSourceConditionDialog, AddSubSourceDialog, ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
 import { ViewAnaliticsComponent } from './view-analitics/view-analitics.component';
-import { AddLicenseDialog, AddSupplierMemberDialog, ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
+import { AddDealDialog, AddLicenseDialog, AddSupplierMemberDialog, ViewSupplierComponent } from './view-analitics/view-supplier/view-supplier.component';
 import { ViewMsecDetailsDialog, ViewSupplierMembersComponent } from './view-analitics/view-supplier/view-supplier-members/view-supplier-members.component';
 import { ViewSuppliersComponent } from './view-analitics/view-suppliers/view-suppliers.component';
 import { ViewProcurementsComponent } from './view-analitics/view-procurements/view-procurements.component';
@@ -124,6 +124,7 @@ import { ViewRolesComponent } from './view-analitics/view-privacy-settings/view-
 import { SupplierAccountComponent } from './user-cabinets/supplier-account/supplier-account.component';
 import { BuyerAccountComponent } from './user-cabinets/buyer-account/buyer-account.component';
 import { SupplierInitialFormComponent } from './user-cabinets/supplier-account/supplier-initial-form/supplier-initial-form.component';
+import { ViewSupplierDealsComponent } from './view-analitics/view-supplier/view-supplier-deals/view-supplier-deals.component';
 
 export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   return () => appConfig.load().then((k_obj) => keycloak.init({
@@ -257,7 +258,9 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     BuyerAccountComponent,
     SupplierInitialFormComponent,
     AddSupplierMemberDialog,
-    AddLicenseDialog
+    AddLicenseDialog,
+    ViewSupplierDealsComponent,
+    AddDealDialog
   ],
   imports: [
     KeycloakAngularModule,
@@ -331,7 +334,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddKeycloakUserDialog,
     LoginRutokenDialog,
     AddSupplierMemberDialog,
-    AddLicenseDialog
+    AddLicenseDialog,
+    AddDealDialog
   ]
 })
 export class AppModule {

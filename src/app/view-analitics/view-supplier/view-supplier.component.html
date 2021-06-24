@@ -80,17 +80,26 @@
         </td>
       </tr>
       <tr>
+        <td>Данные по договоров поставщика</td>
+        <td>
+          <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button
+            (click)="addDeal()">Добавить</button>
+          <app-view-supplier-deals [deals]="supplier.dealContracts" (removeEvent)="remove('DealContract', $event)">
+          </app-view-supplier-deals>
+        </td>
+      </tr>
+      <tr>
         <td>Жалобы</td>
         <td>
           <app-view-supplier-appeals [appeals]="supplier.appeals" [supplierId]="supplierId"></app-view-supplier-appeals>
         </td>
       </tr>
-      <tr>
+      <!--<tr>
         <td>Данные о налоговой регистрации</td>
         <td>
           <app-view-supplier-ips [items]="[]"></app-view-supplier-ips>
         </td>
-      </tr>
+      </tr>-->
       <tr>
         <td>Данные о заведенных уголовных делах</td>
         <td>
@@ -104,42 +113,8 @@
         </td>
       </tr>
       <tr>
-        <td>Данные по договорам поставщика (суммы)</td>
-        <td>
-          данные не найдены в OCDS-базе (http://ocds.zakupki.gov.kg/api/)
-          <!--
-            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-            <ng-container *ngIf="!isLoadingResults && hasContractData">
-              {{contractInfo.value?.amount}} KGS (№ договора {{contractInfo.contractNumber}} от {{contractInfo.dateSigned | date:'dd.MM.yyyy'}})
-            </ng-container>
-            <ng-container *ngIf="!hasContractData">
-              данные не найдены в OCDS-базе (http://ocds.zakupki.gov.kg/api/)
-            </ng-container>-->
-        </td>
-      </tr>
-      <tr>
-        <td>Соблюдение сроков исполнения договоров</td>
-        <td>Исполнение договоров госзакупок</td>
-      </tr>
-      <tr>
-        <td>Наличие претензий по качеству</td>
-        <td>Исполнение договоров госзакупок</td>
-      </tr>
-      <tr>
         <td>
           Наличие судебных тяжб по экономическим вопросам
-        </td>
-        <td>данные отсутствуют</td>
-      </tr>
-      <tr>
-        <td>
-          Наличие уголовных дел в отношении поставщика
-        </td>
-        <td>данные отсутствуют</td>
-      </tr>
-      <tr>
-        <td>
-          Наличие судебных приговоров в отношении поставщика
         </td>
         <td>данные отсутствуют</td>
       </tr>

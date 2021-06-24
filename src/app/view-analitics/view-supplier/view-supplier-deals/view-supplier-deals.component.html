@@ -1,0 +1,49 @@
+<p>-</p>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Всего {{deals.length}} шт.
+      </mat-panel-title>
+      <mat-panel-description>
+
+        <span class="fill-remaining-space"></span>
+        <mat-icon>grading</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div style="max-height:300px;overflow:auto;">
+      <table class="table">
+        <tr>
+          <th>
+            Заказчик
+          </th>
+          <th>
+            Предмет договора
+          </th>
+          <th>
+            Сроки исполнения договора
+          </th>
+          <th>Сумма договора (в сомах)</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let a of deals">
+          <td>
+            {{a.customer}}
+          </td>
+          <td>
+            {{a.dealSubject}}
+          </td>
+          <td>{{a.dealPeriod}}</td>
+          <td>
+            {{a.dealPrice | number }}
+          </td>
+          <td>
+            <button *ngIf="isCabinet" color="warn" mat-icon-button (click)="remove(a.id)" matTooltip="Удалить запись?">
+              <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
