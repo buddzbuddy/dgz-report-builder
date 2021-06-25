@@ -162,6 +162,19 @@ export class ViewSupplierComponent implements OnInit {
       }
     });
   }
+  addCertificate() {
+    const dialogRef = this.dialog.open(AddCertificateDialog, {
+      data: {
+        supplierId: this.supplierId,
+        supplierMembers: this.supplier.supplierMembers
+      }
+    });
+    dialogRef.afterClosed().subscribe(_ => {
+      if (_) {
+        this.get_supplier_details();
+      }
+    });
+  }
   remove(name, id) {
     if (confirm('Вы уверены что хотите удалить запись?')) {
       const href = `data-api/query/delete/${name}/${id}`;
@@ -374,6 +387,70 @@ export class AddDealDialog implements OnInit {
     });
     let obj = {
       entityName: 'DealContract',
+      fields: fObj
+    };
+    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      if (_) {
+        this.notificationSvc.success('Запись успешно добавлена!');
+        this.dialogRef.close(_);
+      }
+      else {
+        this.notificationSvc.warn('Что-то пошло не так!');
+      }
+    });
+  }
+}
+
+@Component({
+  selector: 'add-certificate-dialog',
+  templateUrl: 'add-certificate-dialog.html',
+})
+export class AddCertificateDialog implements OnInit {
+  formGroup: FormGroup;
+  constructor(
+    public dialogRef: MatDialogRef<AddCertificateDialog>,
+    @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient,
+    private _formBuilder: FormBuilder, private notificationSvc: NotificationService) { }
+
+  ngOnInit() {
+    this.formGroup = this._formBuilder.group({
+      supplierMemberId: ['', Validators.required],
+      name: ['', [Validators.required]],
+      issueDate: ['', Validators.required],
+      issuer: ['', [Validators.required]],
+    });
+  }
+  onSaveClick(): void {
+    this.save();
+  }
+  onCloseClick(): void {
+    this.dialogRef.close();
+  }
+  save() {
+    const href = `data-api/query/insert`;
+    const requestUrl = `${href}`;
+    let fObj = []
+    for (let fName of Object.keys(this.formGroup.value)) {
+      if (fName == 'issueDate') {
+        let o = moment(this.formGroup.value[fName]).format('YYYY-MM-DD');
+        fObj.push({
+          name: fName,
+          val: o
+        });
+      }
+      else {
+        fObj.push({
+          name: fName,
+          val: this.formGroup.value[fName]
+        });
+      }
+    }
+    fObj.push({
+      name: 'supplierId',
+      val: this.data.supplierId
+    });
+    let obj = {
+      entityName: 'Certificate',
       fields: fObj
     };
     this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {

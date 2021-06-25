@@ -3,10 +3,9 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Всего {{deals?.length}} шт.
+        Всего {{certificates?.length}} шт.
       </mat-panel-title>
       <mat-panel-description>
-
         <span class="fill-remaining-space"></span>
         <mat-icon>grading</mat-icon>
       </mat-panel-description>
@@ -15,27 +14,27 @@
       <table class="table">
         <tr>
           <th>
-            Заказчик
+            Сотрудник
           </th>
           <th>
-            Предмет договора
+            Специальность
           </th>
           <th>
-            Сроки исполнения договора
+            Дата выдачи
           </th>
-          <th>Сумма договора (в сомах)</th>
+          <th>Выдан кем</th>
           <th></th>
         </tr>
-        <tr *ngFor="let a of deals">
+        <tr *ngFor="let a of certificates">
           <td>
-            {{a.customer}}
+            {{a.supplierMember?.surname + ' ' + a.supplierMember?.name}}
           </td>
           <td>
-            {{a.dealSubject}}
+            {{a.name}}
           </td>
-          <td>{{a.dealPeriod}}</td>
+          <td>{{a.issueDate | date:'dd.MM.yyyy'}}</td>
           <td>
-            {{a.dealPrice | number }}
+            {{a.issuer }}
           </td>
           <td>
             <button *ngIf="isCabinet" color="warn" mat-icon-button (click)="remove(a.id)" matTooltip="Удалить запись?">

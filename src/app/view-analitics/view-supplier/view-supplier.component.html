@@ -71,6 +71,16 @@
         </td>
       </tr>
       <tr>
+        <td>Сертификаты</td>
+        <td>
+          <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button
+            (click)="addCertificate()">Добавить</button>
+          <app-view-supplier-certificates [certificates]="supplier.certificates"
+            (removeEvent)="remove('Certificate', $event)">
+          </app-view-supplier-certificates>
+        </td>
+      </tr>
+      <tr>
         <td>Данные о задолженности по налогам</td>
         <td>
           <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button>Запросить через
@@ -123,7 +133,7 @@
           Список файлов
         </td>
         <td>
-          <app-view-supplier-uploads [supplierId]="supplier?.id"></app-view-supplier-uploads>
+          <app-view-supplier-uploads *ngIf="supplier.id" [supplierid]="supplier.id"></app-view-supplier-uploads>
         </td>
       </tr>
     </table>
