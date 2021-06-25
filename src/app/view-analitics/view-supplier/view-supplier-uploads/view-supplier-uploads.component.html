@@ -1,0 +1,25 @@
+<div class="row" style="margin-bottom:15px;">
+  <div class="col-md-3">
+    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+    <button style="background-color: #004080;
+      border: 2px solid #000080;
+      border-radius: 10px;" type="button" class="btn btn-success" (click)="file.click()">Выберите файл</button>
+  </div>
+  <div class="col-md-4">
+    <span class="upload" *ngIf="progress > 0">
+      {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+      {{message}}
+    </span>
+  </div>
+</div>
+<div class="row" style="margin-bottom:15px;">
+  <div class="col-md-offset f-item" *ngFor="let f of files">
+    <span> {{getFileName(f.name)}} </span>
+    <a href="{{f.url}}">скачать</a>
+    <button color="warn" mat-icon-button (click)="remove(f)" matTooltip="Удалить файл?">
+      <mat-icon>remove_circle_outline</mat-icon>
+    </button>
+  </div>
+</div>
