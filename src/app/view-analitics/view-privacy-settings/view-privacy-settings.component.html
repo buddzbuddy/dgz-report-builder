@@ -28,6 +28,17 @@
         </td>
       </tr>
       <tr style="border-top: 1px solid #7472728c;">
+        <td style="text-align: right;padding-right: 20px;">Закупающие организации</td>
+        <td style="text-align: right; padding: 20px;">
+          <mat-slide-toggle [labelPosition]="'before'" [checked]="complaintChecked" (change)="complaintChanged($event)">
+            Данные о жалобах на поставщика
+          </mat-slide-toggle>
+          <mat-slide-toggle [labelPosition]="'before'" [checked]="buyerSupplierRegistryChecked"
+            (change)="buyerSupplierRegistryChanged($event)">Доступ к реестру поставщиков
+          </mat-slide-toggle>
+        </td>
+      </tr>
+      <tr style="border-top: 1px solid #7472728c;">
         <td style="text-align: right;padding-right: 20px;">МВД</td>
         <td style="text-align: right; padding: 20px;">
           <mat-slide-toggle [labelPosition]="'before'" (change)="unknownChanged($event)">Данные об уголовных делах
@@ -38,13 +49,6 @@
         <td style="text-align: right;padding-right: 20px;">Судебный департамент</td>
         <td style="text-align: right; padding: 20px;">
           <mat-slide-toggle [labelPosition]="'before'" (change)="unknownChanged($event)">Данные о судебных тяжбах
-          </mat-slide-toggle>
-        </td>
-      </tr>
-      <tr style="border-top: 1px solid #7472728c;">
-        <td style="text-align: right;padding-right: 20px;">Госпортал</td>
-        <td style="text-align: right; padding: 20px;">
-          <mat-slide-toggle [labelPosition]="'before'" (change)="unknownChanged($event)">Данные о жалобах на поставщика
           </mat-slide-toggle>
         </td>
       </tr>

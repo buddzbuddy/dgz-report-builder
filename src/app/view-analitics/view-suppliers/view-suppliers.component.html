@@ -1,267 +1,272 @@
-<mat-toolbar><span>Список поставщиков</span>
+<mat-toolbar><span>Реестр поставщиков</span>
   <span class="fill-remaining-space"></span>
-  <a mat-button color="primary" routerLink="view-audit-section" matTooltip="Просмотреть запросы">Аудит запросов</a>
-  <!--<button mat-button color="secondary" (click)="goBack()">Назад</button>-->
+  <!--<a mat-button color="primary" routerLink="view-audit-section" matTooltip="Просмотреть запросы">Аудит запросов</a>
+  <button mat-button color="secondary" (click)="goBack()">Назад</button>-->
 </mat-toolbar>
-  <div class="example-container mat-elevation-z8">
-    <div class="example-loading-shade"
-         *ngIf="isLoadingResults || isRateLimitReached">
-      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-      <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
-        API rate limit has been reached. It will be reset in one minute.
-      </div>
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+      API rate limit has been reached. It will be reset in one minute.
     </div>
-    <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Фильтр
-            </mat-panel-title>
-            <mat-panel-description>
-              Сделайте выборку
-              <span class="fill-remaining-space"></span>
-              <mat-icon>filter_alt</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div style="width: 90%;border: 1px solid gray;border-radius: 5px;padding: 5px;margin: 5px;">
-            <div class="row">
-              <form [formGroup]="formGroup" class="col-md-4">
-                <table>
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>ИНН</mat-label>
-                        <input matInput formControlName="inn">
-                      </mat-form-field>
-                      <mat-form-field>
-                        <mat-label>Отрасль</mat-label>
-                        <mat-select formControlName="industryId">
-                          <mat-option>-</mat-option>
-                          <mat-option *ngFor="let item of industries" [value]="item.id">
-                            {{item.name}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="100%">
-                      <mat-form-field style="width: 370px;">
-                        <mat-label>Форма собственности</mat-label>
-                        <mat-select formControlName="ownershipTypeId">
-                          <mat-option>-</mat-option>
-                          <mat-option *ngFor="let item of ownership_types" [value]="item.id">
-                            {{item.name}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-              </form>
-              <table class="col-md-4">
-                <tr>
-                  <td style="text-align: right; padding: 20px;">
-                    Черный список
-                  </td>
-                  <td>
-                    <mat-radio-group [(ngModel)]="isBlack">
-                      <mat-radio-button [value]="true">Да</mat-radio-button>
-                      <mat-radio-button [value]="false">Нет</mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="text-align: right; padding: 20px;">
-                    Резидент
-                  </td>
-                  <td>
-                    <mat-radio-group [(ngModel)]="isResident">
-                      <mat-radio-button [value]="true">Да</mat-radio-button>
-                      <mat-radio-button [value]="false">Нет</mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                </tr>
-              </table>
-            </div>
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Фильтр
+        </mat-panel-title>
+        <mat-panel-description>
+          Сделайте выборку
+          <span class="fill-remaining-space"></span>
+          <mat-icon>filter_alt</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div style="width: 90%;border: 1px solid gray;border-radius: 5px;padding: 5px;margin: 5px;">
+        <div class="row">
+          <form [formGroup]="formGroup" class="col-md-4">
             <table>
-              <tr *ngIf="licenseChecked">
-                <td style="text-align: right; width: 250px; padding: 20px;">
-                  <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked1">Наличие лицензии</mat-slide-toggle>
-
-                </td>
+              <tr>
                 <td>
-                  <mat-form-field *ngIf="isChecked1">
-                    <mat-label>Тип лицензии</mat-label>
-                    <mat-select [(value)]="spec1['licenseTypeId']">
+                  <mat-form-field>
+                    <mat-label>ИНН</mat-label>
+                    <input matInput formControlName="inn">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Отрасль</mat-label>
+                    <mat-select formControlName="industryId">
                       <mat-option>-</mat-option>
-                    <mat-option *ngFor="let i of license_types" [value]="i.id">
-                      {{i.name}}
-                    </mat-option>
+                      <mat-option *ngFor="let item of industries" [value]="item.id">
+                        {{item.name}}
+                      </mat-option>
                     </mat-select>
-                    </mat-form-field>
-                </td>
-              </tr>
-              <tr *ngIf="licenseChecked">
-                <td style="text-align: right; width: 250px; padding: 20px;">
-                  <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked2">Просроченные лицензии за период</mat-slide-toggle>
-                </td>
-                <td>
-                  <ng-container *ngIf="isChecked2">
-                    <mat-form-field>
-                      <mat-label>С</mat-label>
-                      <input matInput [matDatepicker]="picker" [(ngModel)]="spec2.dateFrom" required>
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>По</mat-label>
-                      <input matInput [matDatepicker]="picker1" [(ngModel)]="spec2.dateTo" required>
-                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                      <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field>
-                  </ng-container>
-
-                </td>
-              </tr>
-              <tr *ngIf="debtChecked">
-                <td style="text-align: right; width: 250px; padding: 20px;">
-                  <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked3">Наличие задолженности за период</mat-slide-toggle>
-                </td>
-                <td>
-                  <ng-container *ngIf="isChecked3">
-                    <mat-form-field>
-                      <mat-label>С</mat-label>
-                      <input matInput [matDatepicker]="pickerspecfrom3" [(ngModel)]="spec3.dateFrom" required>
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecfrom3"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecfrom3></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>По</mat-label>
-                      <input matInput [matDatepicker]="pickerspecto3" [(ngModel)]="spec3.dateTo" required>
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecto3"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecto3></mat-datepicker>
-                    </mat-form-field>
-                  </ng-container>
+                  </mat-form-field>
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;">
-                  <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked4">Наличие уголовных дел за период</mat-slide-toggle>
-                </td>
-                <td>
-                  <ng-container *ngIf="isChecked4">
-                    <mat-form-field>
-                      <mat-label>С</mat-label>
-                      <input matInput [matDatepicker]="pickerspecfrom4" [(ngModel)]="spec4.dateFrom" required>
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecfrom4"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecfrom4></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>По</mat-label>
-                      <input matInput [matDatepicker]="pickerspecto4" [(ngModel)]="spec4.dateTo" required>
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecto4"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecto4></mat-datepicker>
-                    </mat-form-field>
-                  </ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;">
-                  <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked5">Наличие судебных тяжб за период</mat-slide-toggle>
-                </td>
-                <td>
-                  <ng-container *ngIf="isChecked5">
-                    <mat-form-field>
-                      <mat-label>С</mat-label>
-                      <input matInput [matDatepicker]="pickerspecfrom5" [(ngModel)]="spec5.dateFrom" required>
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecfrom5"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecfrom5></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>По</mat-label>
-                      <input matInput [matDatepicker]="pickerspecto5" [(ngModel)]="spec5.dateTo" required>
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecto5"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecto5></mat-datepicker>
-                    </mat-form-field>
-                  </ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td style="text-align: right; width: 250px; padding: 20px;">
-                  <mat-slide-toggle  [labelPosition]="'before'" [(ngModel)]="isChecked6">Наличие жалоб и претензий на поставщика</mat-slide-toggle>
-                </td>
-                <td>
-                  <ng-container *ngIf="isChecked6">
-                    <mat-form-field>
-                      <mat-label>С</mat-label>
-                      <input matInput [matDatepicker]="pickerspecfrom6" [(ngModel)]="spec6.dateFrom">
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecfrom6"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecfrom6></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>По</mat-label>
-                      <input matInput [matDatepicker]="pickerspecto6" [(ngModel)]="spec6.dateTo">
-                      <mat-datepicker-toggle matSuffix [for]="pickerspecto6"></mat-datepicker-toggle>
-                      <mat-datepicker #pickerspecto6></mat-datepicker>
-                    </mat-form-field>
-                  </ng-container>
+                <td colspan="100%">
+                  <mat-form-field style="width: 370px;">
+                    <mat-label>Форма собственности</mat-label>
+                    <mat-select formControlName="ownershipTypeId">
+                      <mat-option>-</mat-option>
+                      <mat-option *ngFor="let item of ownership_types" [value]="item.id">
+                        {{item.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </td>
               </tr>
             </table>
-          </div>
-          <button mat-raised-button (click)="applyFilter()" class="custom-btn-color">Применить</button>
-          <button mat-raised-button color="secondary" (click)="clearFilter()">Сбросить</button>
-        </mat-expansion-panel>
-      </mat-accordion>
-    <div class="example-table-container">
-      <button color="primary" matTooltip="Скачать в Excel" mat-button (click)="exporter.exportTable('xlsx', {fileName:'export-file', sheet: 'sheet_name', Props: {Author: 'Talha'}})">
-        <mat-icon>get_app</mat-icon> скачать Excel
-      </button>
-      <table matTableExporter #exporter="matTableExporter" mat-table [dataSource]="suppliersData" class="example-table"
-             matSort>
-        <!-- name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Название</th>
-          <td mat-cell *matCellDef="let row">{{row.name}}</td>
-        </ng-container>
+          </form>
+          <table class="col-md-4">
+            <tr>
+              <td style="text-align: right; padding: 20px;">
+                Черный список
+              </td>
+              <td>
+                <mat-radio-group [(ngModel)]="isBlack">
+                  <mat-radio-button [value]="true">Да</mat-radio-button>
+                  <mat-radio-button [value]="false">Нет</mat-radio-button>
+                </mat-radio-group>
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: right; padding: 20px;">
+                Резидент
+              </td>
+              <td>
+                <mat-radio-group [(ngModel)]="isResident">
+                  <mat-radio-button [value]="true">Да</mat-radio-button>
+                  <mat-radio-button [value]="false">Нет</mat-radio-button>
+                </mat-radio-group>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <table>
+          <tr *ngIf="licenseChecked">
+            <td style="text-align: right; width: 250px; padding: 20px;">
+              <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked1">Наличие лицензии</mat-slide-toggle>
+            </td>
+            <td>
+              <mat-form-field *ngIf="isChecked1">
+                <mat-label>Тип лицензии</mat-label>
+                <mat-select [(value)]="spec1['licenseTypeId']">
+                  <mat-option>-</mat-option>
+                  <mat-option *ngFor="let i of license_types" [value]="i.id">
+                    {{i.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr *ngIf="licenseChecked">
+            <td style="text-align: right; width: 250px; padding: 20px;">
+              <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked2">Просроченные лицензии за период
+              </mat-slide-toggle>
+            </td>
+            <td>
+              <ng-container *ngIf="isChecked2">
+                <mat-form-field>
+                  <mat-label>С</mat-label>
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="spec2.dateFrom" required>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>По</mat-label>
+                  <input matInput [matDatepicker]="picker1" [(ngModel)]="spec2.dateTo" required>
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </ng-container>
 
-        <!-- inn Column -->
-        <ng-container matColumnDef="inn">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>ИНН</th>
-          <td mat-cell *matCellDef="let row">{{row.inn}}</td>
-        </ng-container>
+            </td>
+          </tr>
+          <tr *ngIf="debtChecked">
+            <td style="text-align: right; width: 250px; padding: 20px;">
+              <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked3">Наличие задолженности за период
+              </mat-slide-toggle>
+            </td>
+            <td>
+              <ng-container *ngIf="isChecked3">
+                <mat-form-field>
+                  <mat-label>С</mat-label>
+                  <input matInput [matDatepicker]="pickerspecfrom3" [(ngModel)]="spec3.dateFrom" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecfrom3"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecfrom3></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>По</mat-label>
+                  <input matInput [matDatepicker]="pickerspecto3" [(ngModel)]="spec3.dateTo" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecto3"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecto3></mat-datepicker>
+                </mat-form-field>
+              </ng-container>
+            </td>
+          </tr>
+          <tr *ngIf="complaintChecked">
+            <td style="text-align: right; width: 250px; padding: 20px;">
+              <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked6">Наличие жалоб и претензий на
+                поставщика</mat-slide-toggle>
+            </td>
+            <td>
+              <ng-container *ngIf="isChecked6">
+                <mat-form-field>
+                  <mat-label>С</mat-label>
+                  <input matInput [matDatepicker]="pickerspecfrom6" [(ngModel)]="spec6.dateFrom">
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecfrom6"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecfrom6></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>По</mat-label>
+                  <input matInput [matDatepicker]="pickerspecto6" [(ngModel)]="spec6.dateTo">
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecto6"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecto6></mat-datepicker>
+                </mat-form-field>
+              </ng-container>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: right; width: 250px; padding: 20px;">
+              <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked4">Наличие уголовных дел за период
+              </mat-slide-toggle>
+            </td>
+            <td>
+              <ng-container *ngIf="isChecked4">
+                <mat-form-field>
+                  <mat-label>С</mat-label>
+                  <input matInput [matDatepicker]="pickerspecfrom4" [(ngModel)]="spec4.dateFrom" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecfrom4"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecfrom4></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>По</mat-label>
+                  <input matInput [matDatepicker]="pickerspecto4" [(ngModel)]="spec4.dateTo" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecto4"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecto4></mat-datepicker>
+                </mat-form-field>
+              </ng-container>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: right; width: 250px; padding: 20px;">
+              <mat-slide-toggle [labelPosition]="'before'" [(ngModel)]="isChecked5">Наличие судебных тяжб за период
+              </mat-slide-toggle>
+            </td>
+            <td>
+              <ng-container *ngIf="isChecked5">
+                <mat-form-field>
+                  <mat-label>С</mat-label>
+                  <input matInput [matDatepicker]="pickerspecfrom5" [(ngModel)]="spec5.dateFrom" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecfrom5"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecfrom5></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>По</mat-label>
+                  <input matInput [matDatepicker]="pickerspecto5" [(ngModel)]="spec5.dateTo" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerspecto5"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerspecto5></mat-datepicker>
+                </mat-form-field>
+              </ng-container>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <button mat-raised-button (click)="applyFilter()" class="custom-btn-color">Применить</button>
+      <button mat-raised-button color="secondary" (click)="clearFilter()">Сбросить</button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="example-table-container">
+    <button color="primary" matTooltip="Скачать в Excel" mat-button
+      (click)="exporter.exportTable('xlsx', {fileName:'export-file', sheet: 'sheet_name', Props: {Author: 'Talha'}})">
+      <mat-icon>get_app</mat-icon> скачать Excel
+    </button>
+    <table matTableExporter #exporter="matTableExporter" mat-table [dataSource]="suppliersData" class="example-table"
+      matSort>
+      <!-- name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Название</th>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
 
-        <!-- legalAddress Column -->
-        <ng-container matColumnDef="legalAddress">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Адрес (юрид)</th>
-          <td mat-cell *matCellDef="let row">{{row.legalAddress}}</td>
-        </ng-container>
+      <!-- inn Column -->
+      <ng-container matColumnDef="inn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ИНН</th>
+        <td mat-cell *matCellDef="let row">{{row.inn}}</td>
+      </ng-container>
 
-        <!-- legalAddress Column -->
-        <ng-container matColumnDef="ownershipTypeId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Форма собственности</th>
-          <td mat-cell *matCellDef="let row">{{parseSelect('ownershipTypeId', row.ownershipTypeId)}}</td>
-        </ng-container>
+      <!-- legalAddress Column -->
+      <ng-container matColumnDef="legalAddress">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Адрес (юрид)</th>
+        <td mat-cell *matCellDef="let row">{{row.legalAddress}}</td>
+      </ng-container>
 
-        <!-- legalAddress Column -->
-        <ng-container matColumnDef="industryId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Отрасль</th>
-          <td mat-cell *matCellDef="let row">{{parseSelect('industryId', row.industryId)}}</td>
-        </ng-container>
+      <!-- legalAddress Column -->
+      <ng-container matColumnDef="ownershipTypeId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Форма собственности</th>
+        <td mat-cell *matCellDef="let row">{{parseSelect('ownershipTypeId', row.ownershipTypeId)}}</td>
+      </ng-container>
 
-        <!-- Created Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            id
-          </th>
-          <td mat-cell *matCellDef="let row">{{row.id}}</td>
-        </ng-container>
+      <!-- legalAddress Column -->
+      <ng-container matColumnDef="industryId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Отрасль</th>
+        <td mat-cell *matCellDef="let row">{{parseSelect('industryId', row.industryId)}}</td>
+      </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="suppliersDisplayedColumns"></tr>
-        <tr [class.blackList]="row.isBlack" mat-row *matRowDef="let row; columns: suppliersDisplayedColumns;" (click)="navigateTo(row)"></tr>
-      </table>
-    </div>
+      <!-- Created Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          id
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      </ng-container>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="suppliersDisplayedColumns"></tr>
+      <tr [class.blackList]="row.isBlack" mat-row *matRowDef="let row; columns: suppliersDisplayedColumns;"
+        (click)="navigateTo(row)"></tr>
+    </table>
   </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

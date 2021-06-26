@@ -26,6 +26,7 @@ export class BuyerAccountComponent implements OnInit {
       //this.userProfile = await this.keycloak.loadUserProfile();
       this.userToken = await this.keycloak.getToken();
       this.getBuyerByUserId();
+      this.getGrantedSources();
     }
   }
   getBuyerByUserId() {
@@ -47,6 +48,22 @@ export class BuyerAccountComponent implements OnInit {
     this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.complaints = _;
     });
+  }
+  buyerSupplierRegistryChecked = false
+  getGrantedSources() {
+    const href = 'data-api/query/exec';
+    const requestUrl = `${href}`;
+    this._httpClient.post(AppConfig.settings.host + requestUrl, { rootName: 'GrantedSource' }).subscribe(_ => {
+      if (_['data'] != null) {
+        let grantedSources: any[] = _['data'];
+        for (let index = 0; index < grantedSources.length; index++) {
+          const gSource = grantedSources[index];
+          if (gSource.sourceType == 'BUYER_SUPPLIER_REGISTRY') {
+            this.buyerSupplierRegistryChecked = true;
+          }
+        }
+      }
+    })
   }
 
   getDecodedAccessToken(token: string): any {

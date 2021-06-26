@@ -90,7 +90,7 @@
         </td>
       </tr>
       <tr>
-        <td>Данные по договоров поставщика</td>
+        <td>Данные договоров поставщика</td>
         <td>
           <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button
             (click)="addDeal()">Добавить</button>
@@ -101,7 +101,8 @@
       <tr>
         <td>Жалобы</td>
         <td>
-          <mat-accordion>
+          <span style="font-style: italic; color: darkred;" *ngIf="!complaintChecked">Данная информация скрыта</span>
+          <mat-accordion *ngIf="complaintChecked">
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>

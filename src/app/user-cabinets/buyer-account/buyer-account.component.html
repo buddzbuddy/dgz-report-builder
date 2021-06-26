@@ -89,7 +89,7 @@
         <button mat-button>SHARE</button>
       </mat-card-actions>-->
   </mat-card>
-
+  <app-view-suppliers *ngIf="buyerSupplierRegistryChecked"></app-view-suppliers>
 </ng-container>
 <app-buyer-initial-form *ngIf="(buyer != null && !buyer.hasInit) || editing" [buyer]="buyer" [edit]="editObj">
 </app-buyer-initial-form>

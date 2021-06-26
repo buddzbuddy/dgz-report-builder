@@ -30,6 +30,25 @@ export class ViewPrivacySettingsComponent implements OnInit {
       this.denySource('DEBT');
     }
   }
+
+  complaintChecked = false;
+  complaintChanged(event) {
+    if (event.checked) {
+      this.grantSource('COMPLAINT');
+    }
+    else {
+      this.denySource('COMPLAINT');
+    }
+  }
+  buyerSupplierRegistryChecked = false;
+  buyerSupplierRegistryChanged(event) {
+    if (event.checked) {
+      this.grantSource('BUYER_SUPPLIER_REGISTRY');
+    }
+    else {
+      this.denySource('BUYER_SUPPLIER_REGISTRY');
+    }
+  }
   ngOnInit() {
     this.getGrantedSources();
   }
@@ -57,6 +76,12 @@ export class ViewPrivacySettingsComponent implements OnInit {
           }
           if (gSource.sourceType == 'DEBT') {
             this.debtChecked = true;
+          }
+          if (gSource.sourceType == 'COMPLAINT') {
+            this.complaintChecked = true;
+          }
+          if (gSource.sourceType == 'BUYER_SUPPLIER_REGISTRY') {
+            this.buyerSupplierRegistryChecked = true;
           }
         }
       }

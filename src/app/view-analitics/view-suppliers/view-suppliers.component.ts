@@ -1,19 +1,19 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import {merge, Observable, of as observableOf} from 'rxjs';
-import {catchError, debounceTime, finalize, map, startWith, switchMap, tap} from 'rxjs/operators';
+import { merge, Observable, of as observableOf } from 'rxjs';
+import { catchError, debounceTime, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AppConfig } from 'src/app/app.config';
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD.MM.YYYY',
@@ -30,9 +30,9 @@ export const MY_FORMATS = {
   selector: 'app-view-suppliers',
   templateUrl: './view-suppliers.component.html',
   styleUrls: ['./view-suppliers.component.scss'],
-  providers:[
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -43,7 +43,7 @@ export const MY_FORMATS = {
 })
 export class ViewSuppliersComponent implements OnInit {
 
-  constructor(private _httpClient: HttpClient, private router: Router, private _formBuilder: FormBuilder, ) { }
+  constructor(private _httpClient: HttpClient, private router: Router, private _formBuilder: FormBuilder,) { }
   suppliersDisplayedColumns: string[] = ['id', 'name', 'inn', 'legalAddress', 'ownershipTypeId', 'industryId'];
   httpDatabase: HttpDatabase | null;
   suppliersData: MatTableDataSource<any> = new MatTableDataSource();
@@ -52,28 +52,28 @@ export class ViewSuppliersComponent implements OnInit {
   isLoadingResults = false;
   isRateLimitReached = false;
 
-  @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   formGroup: FormGroup;
-  ngOnInit(){
+  ngOnInit() {
     this.formGroup = this._formBuilder.group({
       ownershipTypeId: '',
       inn: '',
-      industryId:''
+      industryId: ''
     });
     this.httpDatabase = new HttpDatabase(this._httpClient);
 
     this.getOwnership_types();
     this.getIndustries();
     this.getLicense_types();
-    this.fetchSuppliers({searchQuery:{}});
+    this.fetchSuppliers({ searchQuery: {} });
     this.getGrantedSources();
   }
   filteredNames: any;
   isLoading = false;
 
-  fetchSuppliers(filterObj: any){
+  fetchSuppliers(filterObj: any) {
     this.isLoadingResults = true;
     this.httpDatabase.getSuppliers(filterObj).subscribe(_ => {
       this.suppliersData = new MatTableDataSource(_.data);
@@ -83,11 +83,11 @@ export class ViewSuppliersComponent implements OnInit {
     });
   }
   navigateTo(row: any) {
-    this.router.navigate(['/analitics/view-supplier/'+row.id]);
+    this.router.navigate(['/analitics/view-supplier/' + row.id]);
   }
 
   ownership_types: any[] = [];
-  getOwnership_types(){
+  getOwnership_types() {
     const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
     let obj = {
@@ -99,7 +99,7 @@ export class ViewSuppliersComponent implements OnInit {
   }
 
   industries: any[] = [];
-  getIndustries(){
+  getIndustries() {
     let obj = {
       rootName: "Industry"
     }
@@ -110,7 +110,7 @@ export class ViewSuppliersComponent implements OnInit {
     });
   }
   license_types: any[] = [];
-  getLicense_types(){
+  getLicense_types() {
     let obj = {
       rootName: "LicenseType"
     }
@@ -122,21 +122,21 @@ export class ViewSuppliersComponent implements OnInit {
   }
 
 
-  parseSelect(fieldName: string, valId: number) : string {
+  parseSelect(fieldName: string, valId: number): string {
     let valName = ""
 
-    if(fieldName == 'ownershipTypeId') {
+    if (fieldName == 'ownershipTypeId') {
       for (let index = 0; index < this.ownership_types.length; index++) {
         const e = this.ownership_types[index];
-        if(e.id == valId) {
+        if (e.id == valId) {
           return e.name;
         }
       }
     }
-    if(fieldName == 'industryId') {
+    if (fieldName == 'industryId') {
       for (let index = 0; index < this.industries.length; index++) {
         const e = this.industries[index];
-        if(e.id == valId) {
+        if (e.id == valId) {
           return e.name;
         }
       }
@@ -171,19 +171,19 @@ export class ViewSuppliersComponent implements OnInit {
   }
   isBlack: boolean;
   isResident: boolean;
-  applyFilter(){
+  applyFilter() {
     let filterObj: any[] = [];
-    for(let f of Object.keys(this.formGroup.value)){
+    for (let f of Object.keys(this.formGroup.value)) {
       let val = this.formGroup.value[f];
-      if(val != null && val != ''){
+      if (val != null && val != '') {
         filterObj.push({ property: f, operator: '=', value: val });
       }
     }
-    if(this.isBlack != null) {
+    if (this.isBlack != null) {
       filterObj.push({ property: 'isBlack', operator: '=', value: this.isBlack });
     }
 
-    if(this.isResident != null) {
+    if (this.isResident != null) {
       filterObj.push({ property: 'isResident', operator: '=', value: this.isResident });
     }
 
@@ -192,22 +192,22 @@ export class ViewSuppliersComponent implements OnInit {
         searchFitler: filterObj
       }
     };
-    if(this.isChecked1) {
+    if (this.isChecked1) {
       obj['spec1'] = this.spec1;
     }
-    if(this.isChecked2) {
+    if (this.isChecked2) {
       obj['spec2'] = this.spec2;
     }
-    if(this.isChecked3) {
+    if (this.isChecked3) {
       obj['spec3'] = this.spec3;
     }
-    if(this.isChecked4) {
+    if (this.isChecked4) {
       obj['spec4'] = this.spec4;
     }
-    if(this.isChecked5) {
+    if (this.isChecked5) {
       obj['spec5'] = this.spec5;
     }
-    if(this.isChecked6) {
+    if (this.isChecked6) {
       obj['spec6'] = this.spec6;
     }
     console.log(JSON.stringify(obj));
@@ -224,26 +224,30 @@ export class ViewSuppliersComponent implements OnInit {
     this.isChecked6 = false;
     this.isBlack = null;
     this.isResident = null;
-    this.fetchSuppliers({searchQuery:{}});
+    this.fetchSuppliers({ searchQuery: {} });
   }
-  goBack(){
+  goBack() {
     window.history.back();
   }
   licenseChecked = false
   debtChecked = false
+  complaintChecked = false
   getGrantedSources() {
     const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
-    this._httpClient.post(AppConfig.settings.host + requestUrl, {rootName: 'GrantedSource'}).subscribe(_ => {
-      if(_['data'] != null) {
-        let grantedSources:any[] = _['data'];
+    this._httpClient.post(AppConfig.settings.host + requestUrl, { rootName: 'GrantedSource' }).subscribe(_ => {
+      if (_['data'] != null) {
+        let grantedSources: any[] = _['data'];
         for (let index = 0; index < grantedSources.length; index++) {
           const gSource = grantedSources[index];
-          if(gSource.sourceType == 'LICENSE') {
+          if (gSource.sourceType == 'LICENSE') {
             this.licenseChecked = true;
           }
-          if(gSource.sourceType == 'DEBT') {
+          if (gSource.sourceType == 'DEBT') {
             this.debtChecked = true;
+          }
+          if (gSource.sourceType == 'COMPLAINT') {
+            this.complaintChecked = true;
           }
         }
       }
@@ -253,7 +257,7 @@ export class ViewSuppliersComponent implements OnInit {
 }
 /** An example database that the data source uses to retrieve data for the table. */
 export class HttpDatabase {
-  constructor(private _httpClient: HttpClient) {}
+  constructor(private _httpClient: HttpClient) { }
 
   getSuppliers(filterObj: any): Observable<any> {
     const href = 'data-api/supplier-requests/exec';

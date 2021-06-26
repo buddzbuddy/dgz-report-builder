@@ -88,6 +88,7 @@ export class ViewSupplierComponent implements OnInit {
 
   licenseChecked = false
   debtChecked = false
+  complaintChecked = false
   getGlobalGrantedSources() {
     const href = 'data-api/query/exec';
     const requestUrl = `${href}`;
@@ -101,6 +102,9 @@ export class ViewSupplierComponent implements OnInit {
           }
           if (gSource.sourceType == 'DEBT') {
             this.debtChecked = true;
+          }
+          if (gSource.sourceType == 'COMPLAINT') {
+            this.complaintChecked = true;
           }
         }
       }
