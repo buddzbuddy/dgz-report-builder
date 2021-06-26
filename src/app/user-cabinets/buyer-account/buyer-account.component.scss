@@ -7,3 +7,6 @@
   background-image: url('../../../assets/images/buyer.png');
   background-size: cover;
 }
+.table-with-col > tr > td:nth-child(1) {
+  min-width: 200px;
+}

@@ -26,7 +26,60 @@
         <tr>
           <td>Мои жалобы</td>
           <td>
-            <!--<app-view-supplier-appeals [appeals]="supplier.appeals" [supplierId]="supplierId"></app-view-supplier-appeals>-->
+            <button color="primary" style="float: right;" mat-stroked-button (click)="addComplaint()">Добавить</button>
+            <p>-</p>
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Всего {{complaints.length}} шт.
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                    <span class="fill-remaining-space"></span>
+                    <mat-icon>thumb_down_alt</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div style="max-height:200px;overflow:auto;">
+                  <table class="table">
+                    <tr>
+                      <th>
+                        Дата жалобы
+                      </th>
+                      <th>
+                        ИНН поставщика
+                      </th>
+                      <th>
+                        Наименование
+                      </th>
+                      <th>
+                        Тип жалобы
+                      </th>
+                      <th>
+                        Описание жалобы
+                      </th>
+                    </tr>
+                    <tr *ngFor="let a of complaints">
+                      <td>
+                        {{a.createdAt | date:'dd.MM.yyyy'}}
+                      </td>
+                      <td>
+                        {{a.supplier?.inn}}
+                      </td>
+                      <td>
+                        {{a.supplier?.name}}
+                      </td>
+                      <td>
+                        {{a.complaintType?.name}}
+                      </td>
+                      <td>
+                        {{a.description}}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
           </td>
         </tr>
       </table>

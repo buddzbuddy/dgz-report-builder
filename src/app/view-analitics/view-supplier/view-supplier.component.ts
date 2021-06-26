@@ -41,9 +41,20 @@ export class ViewSupplierComponent implements OnInit {
     this._httpClient.get<any>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.supplier = _;
       console.log(_);
-      //this.getContractData();
+      this.getComplaintsBySupplierId();
     });
   }
+
+
+  complaints = [];
+  getComplaintsBySupplierId() {
+    const href = 'data-api/supplier-requests/getComplaintsBySupplierId/' + this.supplierId;
+    const requestUrl = `${href}`;
+    this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
+      this.complaints = _;
+    });
+  }
+
   contractInfo: any = {}
   isLoadingResults: boolean = true;
   hasContractData: boolean = true;

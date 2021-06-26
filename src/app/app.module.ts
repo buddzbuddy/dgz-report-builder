@@ -122,7 +122,7 @@ import { AddKeycloakUserDialog, KeycloakUserManagerComponent } from './keycloak-
 import { RoleConstraintsComponent } from './view-analitics/view-privacy-settings/role-constraints/role-constraints.component';
 import { ViewRolesComponent } from './view-analitics/view-privacy-settings/view-roles/view-roles.component';
 import { SupplierAccountComponent } from './user-cabinets/supplier-account/supplier-account.component';
-import { BuyerAccountComponent } from './user-cabinets/buyer-account/buyer-account.component';
+import { AddComplaintDialog, BuyerAccountComponent } from './user-cabinets/buyer-account/buyer-account.component';
 import { SupplierInitialFormComponent } from './user-cabinets/supplier-account/supplier-initial-form/supplier-initial-form.component';
 import { ViewSupplierDealsComponent } from './view-analitics/view-supplier/view-supplier-deals/view-supplier-deals.component';
 import { ViewSupplierUploadsComponent } from './view-analitics/view-supplier/view-supplier-uploads/view-supplier-uploads.component';
@@ -267,7 +267,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     ViewSupplierUploadsComponent,
     ViewSupplierCertificatesComponent,
     AddCertificateDialog,
-    BuyerInitialFormComponent
+    BuyerInitialFormComponent,
+    AddComplaintDialog
   ],
   imports: [
     KeycloakAngularModule,
@@ -343,7 +344,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddSupplierMemberDialog,
     AddLicenseDialog,
     AddDealDialog,
-    AddCertificateDialog
+    AddCertificateDialog,
+    AddComplaintDialog
   ]
 })
 export class AppModule {
