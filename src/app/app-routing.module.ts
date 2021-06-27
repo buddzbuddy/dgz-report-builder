@@ -27,7 +27,6 @@ import { CreateCommunityRegistrationComponent } from './customs/community-regist
 import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
 import { KoykaComponent } from './customs/koyka/koyka.component';
 import { GeoreportComponent } from './reports/georeport/georeport.component';
-import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
 import { ListViewWidgetComponent } from './customs/flutter/list-view-widget/list-view-widget.component';
 import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 import { ViewConstructorComponent } from './report-builder/view-constructor/view-constructor.component';
@@ -40,11 +39,12 @@ import { ViewPrivacySettingsComponent } from './view-analitics/view-privacy-sett
 import { ViewSchedulerComponent } from './view-analitics/view-scheduler/view-scheduler.component';
 import { AuthGuard } from './guard/auth.guard';
 import { KeycloakUserManagerComponent } from './keycloak-user-manager/keycloak-user-manager.component';
+import { ViewReferencesComponent } from './references/view-references/view-references.component';
 
 const routes: Routes = [
-{ path: '', component: HomeComponent, /*canActivate:[AuthGuard]*/ },
-  { path: 'home', component: HomeComponent, canActivate:[AuthGuard] },
-  { path: 'keycloak-user-manager', component: KeycloakUserManagerComponent, canActivate:[AuthGuard] },
+  { path: '', component: HomeComponent, /*canActivate:[AuthGuard]*/ },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'keycloak-user-manager', component: KeycloakUserManagerComponent, canActivate: [AuthGuard] },
   { path: 'persons', component: LivingPersonsComponent },
   { path: 'persons/view/:appId', component: ViewComponent },
   { path: 'persons/setstatus/:appId', component: SetstatusComponent },
@@ -75,7 +75,6 @@ const routes: Routes = [
   { path: 'view-user-card', component: ViewUserCardComponent },
   { path: 'koyka', component: KoykaComponent },
   { path: 'reports/georeport', component: GeoreportComponent },
-  { path: 'view-map-history/:appUserId', component: ViewMapHistoryComponent },
   { path: 'flutter/list-view-widget/:routeData', component: ListViewWidgetComponent },
   { path: 'report-builder/view-source-list', component: ViewSourceListComponent },
   { path: 'report-builder/view-constructor/:className', component: ViewConstructorComponent },
@@ -86,6 +85,7 @@ const routes: Routes = [
   { path: 'analitics/view-audit-section', component: ViewAuditSectionComponent },
   { path: 'analitics/view-privacy-settings', component: ViewPrivacySettingsComponent },
   { path: 'analitics/view-scheduler', component: ViewSchedulerComponent },
+  { path: 'references/view-references', component: ViewReferencesComponent },
 
 ];
 

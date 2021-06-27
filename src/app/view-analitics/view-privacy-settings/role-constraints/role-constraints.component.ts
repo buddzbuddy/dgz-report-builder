@@ -43,6 +43,10 @@ export class RoleConstraintsComponent implements OnInit {
     {
       val: SECTION_USERS,
       label: 'Пользователи'
+    },
+    {
+      val: SECTION_REFERENCES,
+      label: 'Справочники'
     }
   ];
   roles = []
@@ -113,3 +117,4 @@ const SECTION_INTEGRATION = 'integration'
 const SECTION_PRIVACY = 'privacy'
 const SECTION_SCHEDULER = 'scheduler'
 const SECTION_USERS = 'users'
+const SECTION_REFERENCES = 'references'

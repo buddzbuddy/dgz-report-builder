@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
@@ -17,10 +17,9 @@ export class ViewConstructorComponent implements OnInit {
   @ViewChild('table') table: ElementRef;
   constructor(private route: ActivatedRoute,
     private _httpClient: HttpClient, public dialog: MatDialog,) { }
-  className: string
+  @Input('entity-name') className: string = ''
   ngOnInit() {
-
-    if (this.route.params != null) {
+    if (this.className == '' && this.route.params != null) {
       this.route.params.subscribe(params => {
         if (params['className'] != null) {
           this.className = params['className'];

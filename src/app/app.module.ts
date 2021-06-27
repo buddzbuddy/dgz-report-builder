@@ -81,8 +81,6 @@ import { ViewIdentityCardComponent } from './customs/identity-card/view-identity
 import { CreateIdentityCardComponent } from './customs/identity-card/create-identity-card/create-identity-card.component';
 import { KoykaComponent, NewPatientDialog, OutPatientDialog, DeadPatientDialog } from './customs/koyka/koyka.component';
 import { GeoreportComponent } from './reports/georeport/georeport.component';
-import { ViewMapHistoryComponent } from './view-map-history/view-map-history.component';
-import { MapItemComponent } from './view-map-history/map-item/map-item.component';
 import { EditListTileDialog, EditTextDialog, ListViewWidgetComponent, NewListViewDialog, NewPageDialog, NewTextDialog } from './customs/flutter/list-view-widget/list-view-widget.component';
 import { ViewSourceListComponent } from './report-builder/view-source-list/view-source-list.component';
 
@@ -102,11 +100,9 @@ import { ViewSupplierLicensesComponent } from './view-analitics/view-supplier/vi
 import { ViewSupplierIpsComponent } from './view-analitics/view-supplier/view-supplier-ips/view-supplier-ips.component';
 import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
 import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
-import { AddCheckboxConditionDialog, AddDateConditionDialog, AddSelectConditionDialog, AddTextConditionDialog, ViewReportConditionsComponent } from './report-builder/view-constructor/view-report-conditions/view-report-conditions.component';
-import { ViewReportResultComponent } from './report-builder/view-constructor/view-report-result/view-report-result.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import { ViewReportItemFillerComponent } from './report-builder/view-constructor/view-report-item-filler/view-report-item-filler.component';
-import { ViewReportUploaderComponent } from './report-builder/view-constructor/view-report-uploader/view-report-uploader.component';
+import { ViewReportItemFillerComponent } from './references/view-references/view-report-item-filler/view-report-item-filler.component';
+import { ViewReportUploaderComponent } from './references/view-references/view-report-uploader/view-report-uploader.component';
 import { ViewSupplierDebtsComponent } from './view-analitics/view-supplier/view-supplier-debts/view-supplier-debts.component';
 import { ViewSupplierCrimesComponent } from './view-analitics/view-supplier/view-supplier-crimes/view-supplier-crimes.component';
 import { ViewSupplierLitigationsComponent } from './view-analitics/view-supplier/view-supplier-litigations/view-supplier-litigations.component';
@@ -128,6 +124,7 @@ import { ViewSupplierDealsComponent } from './view-analitics/view-supplier/view-
 import { ViewSupplierUploadsComponent } from './view-analitics/view-supplier/view-supplier-uploads/view-supplier-uploads.component';
 import { ViewSupplierCertificatesComponent } from './view-analitics/view-supplier/view-supplier-certificates/view-supplier-certificates.component';
 import { BuyerInitialFormComponent } from './user-cabinets/buyer-account/buyer-initial-form/buyer-initial-form.component';
+import { ViewReferencesComponent } from './references/view-references/view-references.component';
 
 export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   return () => appConfig.load().then((k_obj) => keycloak.init({
@@ -210,13 +207,7 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     CreateIdentityCardComponent,
     KoykaComponent,
     GeoreportComponent,
-    ViewMapHistoryComponent,
-    MapItemComponent,
     ListViewWidgetComponent,
-    AddTextConditionDialog,
-    AddDateConditionDialog,
-    AddCheckboxConditionDialog,
-    AddSelectConditionDialog,
     NewListViewDialog,
     NewPageDialog,
     NewTextDialog,
@@ -239,8 +230,6 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     ViewSupplierIpsComponent,
     ViewSodUpdaterComponent,
     ViewAuditSectionComponent,
-    ViewReportConditionsComponent,
-    ViewReportResultComponent,
     ViewReportItemFillerComponent,
     ViewReportUploaderComponent,
     ViewSupplierDebtsComponent,
@@ -268,7 +257,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     ViewSupplierCertificatesComponent,
     AddCertificateDialog,
     BuyerInitialFormComponent,
-    AddComplaintDialog
+    AddComplaintDialog,
+    ViewReferencesComponent
   ],
   imports: [
     KeycloakAngularModule,
@@ -327,10 +317,6 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     NewPatientDialog,
     OutPatientDialog,
     DeadPatientDialog,
-    AddTextConditionDialog,
-    AddDateConditionDialog,
-    AddCheckboxConditionDialog,
-    AddSelectConditionDialog,
     NewListViewDialog,
     NewPageDialog,
     NewTextDialog,

@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { AppConfig } from 'src/app/app.config';
-import { ELEMENTS } from '../view-report-conditions/view-report-conditions.component';
 
 @Component({
   selector: 'app-view-report-item-filler',
@@ -13,20 +12,20 @@ import { ELEMENTS } from '../view-report-conditions/view-report-conditions.compo
 })
 export class ViewReportItemFillerComponent implements OnInit {
   private _fields = new BehaviorSubject<any>({});
-  @Input() set fields(value: any) { 
-    this._fields.next(value); 
-}
-get fields() {
-  return this._fields.getValue();
-}
-  constructor(public dialog: MatDialog,private _httpClient: HttpClient, ) { }
+  @Input() set fields(value: any) {
+    this._fields.next(value);
+  }
+  get fields() {
+    return this._fields.getValue();
+  }
+  constructor(public dialog: MatDialog, private _httpClient: HttpClient,) { }
   field_vals = {}
   entityName = ''
-  ngOnInit(){
+  ngOnInit() {
     this._fields.subscribe(x => {
       //this.loadSelectItems(x.fields);
       this.entityName = x.entityName
-   })
+    })
   }
   @Input() selectItems = {}
   addCondition(f) {
@@ -39,14 +38,14 @@ get fields() {
       d['items'] = this.selectItems[f.name];
       d['item_field_name'] = f.dictionaryFieldName
     }
-    const dialogRef = this.dialog.open(ELEMENTS[f.dataType], {
+    const dialogRef = this.dialog.open(null, {
       data: d
     });
     dialogRef.afterClosed().subscribe(_ => {
-      if(_ != null) {
+      if (_ != null) {
         console.log('filter set')
         this.field_vals[_.field_name] = _.field_val
-    //this.updateListEvent.emit(this.field_vals);
+        //this.updateListEvent.emit(this.field_vals);
       }
       else {
         //console.log('filter not set')
@@ -60,10 +59,10 @@ get fields() {
     //this.updateListEvent.emit(this.field_vals);
   }
 
-  saveEntry(){
+  saveEntry() {
     const href = `data-api/query/insert`;
-const requestUrl = `${href}`;
-let fObj = []
+    const requestUrl = `${href}`;
+    let fObj = []
     for (let fName of Object.keys(this.field_vals)) {
       fObj.push({
         name: fName,
@@ -75,7 +74,7 @@ let fObj = []
       fields: fObj
     };
     this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
-      if(_) {
+      if (_) {
         console.log(_);
         //this.selectItems[f.name] = _.data;
       }
