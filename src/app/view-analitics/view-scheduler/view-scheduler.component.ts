@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router }                       from "@angular/router";
+import { Router } from "@angular/router";
 import { Observable, Subscription, timer } from "rxjs";
 import { NotificationService } from "src/app/notification.service";
 import { ServerResponseCode } from "../scheduler/response.code.constants";
@@ -13,7 +13,7 @@ import { SchedulerService } from "../scheduler/scheduler.service";
 })
 export class ViewSchedulerComponent implements OnInit, OnDestroy {
   schedulerForm: FormGroup;
-  jobNameStatus : String;
+  jobNameStatus: String;
   jobRecords = [];
   jobRefreshTimerSubscription: Subscription;
 
@@ -21,9 +21,9 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
 
   constructor(private _router: Router,
     private _fb: FormBuilder,
-    private _schedulerService : SchedulerService,
-    private _responseCode : ServerResponseCode,
-    private notificationSvc: NotificationService) {}
+    private _schedulerService: SchedulerService,
+    private _responseCode: ServerResponseCode,
+    private notificationSvc: NotificationService) { }
 
   ngOnInit() {
     this.jobNameStatus = "";
@@ -40,55 +40,58 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
     this.setDate();
     this.getJobs();
 
-    let t = timer(2000,3000);
-    this.jobRefreshTimerSubscription = t.subscribe(t=>{
+    let t = timer(2000, 3000);
+    this.jobRefreshTimerSubscription = t.subscribe(t => {
       this.getJobs();
     });
   }
 
+  goBack() {
+    window.history.back();
+  }
   ngOnDestroy() {
     this.jobRefreshTimerSubscription.unsubscribe();
   }
 
   setDate(): void {
-      let date = new Date();
-      this.schedulerForm.patchValue({
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate(),
-          hour: date.getHours(),
-          minute: date.getMinutes()
-        });
+    let date = new Date();
+    this.schedulerForm.patchValue({
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      hour: date.getHours(),
+      minute: date.getMinutes()
+    });
   }
 
-  resetForm(){
+  resetForm() {
     var dateNow = new Date();
     this.schedulerForm.patchValue({
-        jobName: "",
-        year: dateNow.getFullYear(),
-        month: dateNow.getMonth() + 1,
-        day: dateNow.getDate(),
-        hour: dateNow.getHours(),
-        minute: dateNow.getMinutes()
-      });
+      jobName: "",
+      year: dateNow.getFullYear(),
+      month: dateNow.getMonth() + 1,
+      day: dateNow.getDate(),
+      hour: dateNow.getHours(),
+      minute: dateNow.getMinutes()
+    });
     this.jobNameStatus = "";
   }
 
-  getJobs(){
+  getJobs() {
     this._schedulerService.getJobs().subscribe(
       success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS){
-            this.jobRecords = success.data;
-          }else{
-            this.notificationSvc.warn("Some error while fetching jobs");
-          }
+        if (success.statusCode == ServerResponseCode.SUCCESS) {
+          this.jobRecords = success.data;
+        } else {
+          this.notificationSvc.warn("Some error while fetching jobs");
+        }
 
-          /*
-          let dateToShow = new Date(success.scheduleTime);
-          this.jobRecords.scheduleTime = this.getFormattedDate(dateToShow.getFullYear(),
-            dateToShow.getMonth(),dateToShow.getHours(), dateToShow.getHours(),
-            dateToShow.getMinutes());
-          */
+        /*
+        let dateToShow = new Date(success.scheduleTime);
+        this.jobRecords.scheduleTime = this.getFormattedDate(dateToShow.getFullYear(),
+          dateToShow.getMonth(),dateToShow.getHours(), dateToShow.getHours(),
+          dateToShow.getMinutes());
+        */
       },
       err => {
         this.notificationSvc.warn("Error while getting all jobs");
@@ -96,35 +99,35 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
   }
 
   getFormattedDate(year, month, day, hour, minute) {
-    return year + "/" + month + "/" + day + " " + hour+":"+minute;
+    return year + "/" + month + "/" + day + " " + hour + ":" + minute;
   }
 
-  checkJobExistWith(jobName){
-      var data = {
-        "jobName": jobName
-      }
-      this._schedulerService.isJobWithNamePresent(data).subscribe(
+  checkJobExistWith(jobName) {
+    var data = {
+      "jobName": jobName
+    }
+    this._schedulerService.isJobWithNamePresent(data).subscribe(
       success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS){
-            if(success.data == true){
-              this.jobNameStatus = "Bad :(";
-            }else{
-              this.jobNameStatus = "Good :)";
-            }
-          }else if(success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT){
-            this.notificationSvc.warn("Job name is mandatory.");
-            this.schedulerForm.patchValue({
-              jobName: "",
-            });
+        if (success.statusCode == ServerResponseCode.SUCCESS) {
+          if (success.data == true) {
+            this.jobNameStatus = "Bad :(";
+          } else {
+            this.jobNameStatus = "Good :)";
           }
+        } else if (success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT) {
+          this.notificationSvc.warn("Job name is mandatory.");
+          this.schedulerForm.patchValue({
+            jobName: "",
+          });
+        }
       },
       err => {
         this.notificationSvc.warn("Error while checkinh job with name exist.");
       });
-      this.jobNameStatus = "";
+    this.jobNameStatus = "";
   }
 
-  scheduleJob(){
+  scheduleJob() {
     var jobName = this.schedulerForm.value.jobName;
     var year = this.schedulerForm.value.year;
     var month = this.schedulerForm.value.month;
@@ -140,24 +143,24 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
 
     this._schedulerService.scheduleJob(data).subscribe(
       success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS){
-            this.notificationSvc.success("Задача успешно создана");
-            this.resetForm();
+        if (success.statusCode == ServerResponseCode.SUCCESS) {
+          this.notificationSvc.success("Задача успешно создана");
+          this.resetForm();
 
-          }else if(success.statusCode == ServerResponseCode.JOB_WITH_SAME_NAME_EXIST){
-            this.notificationSvc.warn("Эта задача уже запланирована");
+        } else if (success.statusCode == ServerResponseCode.JOB_WITH_SAME_NAME_EXIST) {
+          this.notificationSvc.warn("Эта задача уже запланирована");
 
-          }else if(success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT){
-            this.notificationSvc.warn("Наиманование задачи не указана");
-          }
-          this.jobRecords = success.data;
+        } else if (success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT) {
+          this.notificationSvc.warn("Наиманование задачи не указана");
+        }
+        this.jobRecords = success.data;
       },
       err => {
         this.notificationSvc.warn("Error while getting all jobs");
       });
   }
 
-  updateJob(){
+  updateJob() {
     var jobName = this.schedulerForm.value.jobName;
     var year = this.schedulerForm.value.year;
     var month = this.schedulerForm.value.month;
@@ -173,217 +176,217 @@ export class ViewSchedulerComponent implements OnInit, OnDestroy {
 
     this._schedulerService.updateJob(data).subscribe(
       success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS){
-            this.notificationSvc.success("Задача успешно обновлена.");
-            this.resetForm();
+        if (success.statusCode == ServerResponseCode.SUCCESS) {
+          this.notificationSvc.success("Задача успешно обновлена.");
+          this.resetForm();
 
-          }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-            this.notificationSvc.warn("Данная задача уже не существует");
+        } else if (success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST) {
+          this.notificationSvc.warn("Данная задача уже не существует");
 
-          }else if(success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT){
-            this.notificationSvc.warn("Please provide job name.");
-          }
-          this.jobRecords = success.data;
+        } else if (success.statusCode == ServerResponseCode.JOB_NAME_NOT_PRESENT) {
+          this.notificationSvc.warn("Please provide job name.");
+        }
+        this.jobRecords = success.data;
       },
       err => {
         this.notificationSvc.warn("Неизвестная ошибка при обновлении");
       });
   }
 
-  editJob(selectedJobRow){
+  editJob(selectedJobRow) {
     this.isEditMode = true;
 
     var d = Date.parse(selectedJobRow.scheduleTime);
     let date = new Date(selectedJobRow.scheduleTime);
     this.schedulerForm.patchValue({
-        jobName: selectedJobRow.jobName,
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        day: date.getDate(),
-        hour: date.getHours(),
-        minute: date.getMinutes()
-      });
+      jobName: selectedJobRow.jobName,
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      hour: date.getHours(),
+      minute: date.getMinutes()
+    });
   }
 
-  cancelEdit(){
+  cancelEdit() {
     this.resetForm();
     this.isEditMode = false;
   }
 
-  pauseJob(jobName){
-      var data = {
-        "jobName": jobName
-      }
-      this._schedulerService.pauseJob(data).subscribe(
-        success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            this.notificationSvc.success("Задача успешно приостановлена")
+  pauseJob(jobName) {
+    var data = {
+      "jobName": jobName
+    }
+    this._schedulerService.pauseJob(data).subscribe(
+      success => {
+        if (success.statusCode == ServerResponseCode.SUCCESS && success.data == true) {
+          this.notificationSvc.success("Задача успешно приостановлена")
 
-          }else if(success.data == false){
-            if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-              this.notificationSvc.warn("Задача уже запущена/завершена, поэтому ПАУЗА недопустима (пауза действует для запланированных задач)");
-            }
+        } else if (success.data == false) {
+          if (success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE) {
+            this.notificationSvc.warn("Задача уже запущена/завершена, поэтому ПАУЗА недопустима (пауза действует для запланированных задач)");
           }
-          this.getJobs();
-        },
-        err => {
-          this.notificationSvc.warn("Ошибка при ПАУЗЕ задачи");
-        });
+        }
+        this.getJobs();
+      },
+      err => {
+        this.notificationSvc.warn("Ошибка при ПАУЗЕ задачи");
+      });
 
-      //For updating fresh status of all jobs
-      this.getJobs();
+    //For updating fresh status of all jobs
+    this.getJobs();
   }
 
-  resumeJob(jobName){
-      var data = {
-        "jobName": jobName
-      }
-     this._schedulerService.resumeJob(data).subscribe(
+  resumeJob(jobName) {
+    var data = {
+      "jobName": jobName
+    }
+    this._schedulerService.resumeJob(data).subscribe(
       success => {
-        if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
+        if (success.statusCode == ServerResponseCode.SUCCESS && success.data == true) {
           this.notificationSvc.success("Задача успешно продолжена")
 
-          }else if(success.data == false){
-            if(success.statusCode == ServerResponseCode.JOB_NOT_IN_PAUSED_STATE){
-              this.notificationSvc.warn("Job is not in paused state, so cannot be resumed.");
-            }
+        } else if (success.data == false) {
+          if (success.statusCode == ServerResponseCode.JOB_NOT_IN_PAUSED_STATE) {
+            this.notificationSvc.warn("Job is not in paused state, so cannot be resumed.");
           }
+        }
 
-          //For updating fresh status of all jobs
-          this.getJobs();
+        //For updating fresh status of all jobs
+        this.getJobs();
       },
       err => {
         this.notificationSvc.warn("Error while resuming job");
       });
 
-      //For updating fresh status of all jobs
-      this.getJobs();
+    //For updating fresh status of all jobs
+    this.getJobs();
   }
 
-  stopJob(jobName){
-      var data = {
-        "jobName": jobName
-      }
-      this._schedulerService.stopJob(data).subscribe(
-        success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            this.notificationSvc.success("Задача остановлена успешно")
+  stopJob(jobName) {
+    var data = {
+      "jobName": jobName
+    }
+    this._schedulerService.stopJob(data).subscribe(
+      success => {
+        if (success.statusCode == ServerResponseCode.SUCCESS && success.data == true) {
+          this.notificationSvc.success("Задача остановлена успешно")
 
-          }else if(success.data == false){
-            if(success.statusCode == ServerResponseCode.JOB_NOT_IN_RUNNING_STATE){
-              this.notificationSvc.warn("Job not started, so cannot be stopped.");
+        } else if (success.data == false) {
+          if (success.statusCode == ServerResponseCode.JOB_NOT_IN_RUNNING_STATE) {
+            this.notificationSvc.warn("Job not started, so cannot be stopped.");
 
-            }else if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-              this.notificationSvc.warn("Job already started.");
+          } else if (success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE) {
+            this.notificationSvc.warn("Job already started.");
 
-            }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-              this.notificationSvc.warn("Job no longer exist.");
-            }
+          } else if (success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST) {
+            this.notificationSvc.warn("Job no longer exist.");
           }
+        }
 
-          //For updating fresh status of all jobs
-          this.getJobs();
-        },
-        err => {
-          this.notificationSvc.warn("Error while pausing job");
-        });
+        //For updating fresh status of all jobs
+        this.getJobs();
+      },
+      err => {
+        this.notificationSvc.warn("Error while pausing job");
+      });
   }
 
-  startJobNow(jobName){
-      var data = {
-        "jobName": jobName
-      }
-      this._schedulerService.startJobNow(data).subscribe(
-        success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            this.notificationSvc.success("Задача успешно запущена.")
+  startJobNow(jobName) {
+    var data = {
+      "jobName": jobName
+    }
+    this._schedulerService.startJobNow(data).subscribe(
+      success => {
+        if (success.statusCode == ServerResponseCode.SUCCESS && success.data == true) {
+          this.notificationSvc.success("Задача успешно запущена.")
 
-          }else if(success.data == false){
-            if(success.statusCode == ServerResponseCode.ERROR){
-              this.notificationSvc.warn("Server error while starting job.");
+        } else if (success.data == false) {
+          if (success.statusCode == ServerResponseCode.ERROR) {
+            this.notificationSvc.warn("Server error while starting job.");
 
-            }else if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-              this.notificationSvc.warn("Job is already started.");
+          } else if (success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE) {
+            this.notificationSvc.warn("Job is already started.");
 
-            }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-              this.notificationSvc.warn("Job no longer exist.");
-            }
+          } else if (success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST) {
+            this.notificationSvc.warn("Job no longer exist.");
           }
+        }
 
-          //For updating fresh status of all jobs
-          this.getJobs();
-        },
-        err => {
-          this.notificationSvc.warn("Error while starting job now.");
-        });
+        //For updating fresh status of all jobs
+        this.getJobs();
+      },
+      err => {
+        this.notificationSvc.warn("Error while starting job now.");
+      });
 
-      //For updating fresh status of all jobs
-      this.getJobs();
+    //For updating fresh status of all jobs
+    this.getJobs();
   }
 
-  deleteJob(jobName){
+  deleteJob(jobName) {
     var data = {
       "jobName": jobName
     }
     this._schedulerService.deleteJob(data).subscribe(
       success => {
-          if(success.statusCode == ServerResponseCode.SUCCESS && success.data == true){
-            this.notificationSvc.success("Задача успешно удалена");
+        if (success.statusCode == ServerResponseCode.SUCCESS && success.data == true) {
+          this.notificationSvc.success("Задача успешно удалена");
 
-          }else if(success.data == false){
-            if(success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE){
-              this.notificationSvc.warn("Job is already started/completed, so cannot be deleted.");
+        } else if (success.data == false) {
+          if (success.statusCode == ServerResponseCode.JOB_ALREADY_IN_RUNNING_STATE) {
+            this.notificationSvc.warn("Job is already started/completed, so cannot be deleted.");
 
-            }else if(success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST){
-              this.notificationSvc.warn("Job no longer exist.");
-            }
+          } else if (success.statusCode == ServerResponseCode.JOB_DOESNT_EXIST) {
+            this.notificationSvc.warn("Job no longer exist.");
           }
+        }
 
-          //For updating fresh status of all jobs
-          this.getJobs();
+        //For updating fresh status of all jobs
+        this.getJobs();
       },
       err => {
         this.notificationSvc.warn("Error while deleting job");
       });
   }
 
-  refreshJob(){
-      //For updating fresh status of all jobs
-      this.getJobs();
+  refreshJob() {
+    //For updating fresh status of all jobs
+    this.getJobs();
   }
 
-  cronChange(cronExp){
+  cronChange(cronExp) {
     this.schedulerForm.patchValue({
-        cronExpression: cronExp
-      });
+      cronExpression: cronExp
+    });
   }
-  jobNameChange(name){
+  jobNameChange(name) {
     this.schedulerForm.patchValue({
       jobName: name
-      });
+    });
   }
 
   getJobCaption(jobState: string): string {
     let jobCaption = jobState;
-    if(jobState == 'RUNNING') {
+    if (jobState == 'RUNNING') {
       jobCaption = 'ВЫПОЛНЯЕТСЯ';
     }
-    else if(jobState == 'PAUSED') {
+    else if (jobState == 'PAUSED') {
       jobCaption = 'ПРИОСТАНОВЛЕН';
     }
-    else if(jobState == 'BLOCKED') {
+    else if (jobState == 'BLOCKED') {
       jobCaption = 'ЗАБЛОКИРОВАН';
     }
-    else if(jobState == 'COMPLETE') {
+    else if (jobState == 'COMPLETE') {
       jobCaption = 'ЗАВЕРШЕН';
     }
-    else if(jobState == 'ERROR') {
+    else if (jobState == 'ERROR') {
       jobCaption = 'ОШИБКА';
     }
-    else if(jobState == 'NONE') {
+    else if (jobState == 'NONE') {
       jobCaption = 'ПУСТО';
     }
-    else if(jobState == 'SCHEDULED') {
+    else if (jobState == 'SCHEDULED') {
       jobCaption = 'ЗАПЛАНИРОВАН';
     }
 

@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>
+    <mat-icon>add_box</mat-icon> {{data.actionType == 'edit' ? 'Изменить' : 'Добавить'}} "{{data.data.label}}"
+  </h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Значение</mat-label>
+        <input matInput [(ngModel)]="data.value">
+      </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onSaveClick()" [disabled]="!data.value.length">Сохранить</button>
+    <button mat-button (click)="onCloseClick()">Отмена</button>
+  </div>
+  

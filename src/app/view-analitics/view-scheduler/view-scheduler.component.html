@@ -1,222 +1,178 @@
-<h4>Планировщик задач</h4>
-<br><br>
-<form [formGroup]="schedulerForm" novalidate autocomplete="off">
-    <table>
-        <tr>
-            <td>Выберите задачу:</td>
-            <td>
-                <!--<input style="display: none;" type="text"
+<br>
+<div class="mat-elevation-z8 view-scheduler">
+    <mat-toolbar>Планировщик задач
+        <span class="fill-remaining-space"></span>
+        <button mat-button (click)="goBack()">НАЗАД</button>
+    </mat-toolbar>
+
+    <form [formGroup]="schedulerForm" novalidate autocomplete="off">
+        <table>
+            <tr>
+                <td>Выберите задачу:</td>
+                <td>
+                    <!--<input style="display: none;" type="text"
                     formControlName="jobName"
                     style="width:100px"
                     [readonly]="isEditMode"/>-->
 
-                    <select
-                        [class.disabled]="isEditMode"
-                        formControlName="jobName"
-                        class="form-control"
-                        required
-                        >
-                    <option value="">-</option>
-                    <option value="Обновление данных МТСР - МСЭК">МТСР - МСЭК</option>
-                    <option value="Обновление данных Госархстрой - Лицензии">Госархстрой - Лицензии</option>
-                    <option value="Обновление данных ГНС - Задолженность">ГНС - Задолженность</option>
-                </select>
-            </td>
-            <!--<td>
+                    <select [class.disabled]="isEditMode" formControlName="jobName" class="form-control" required>
+                        <option value="">-</option>
+                        <option value="Обновление данных МТСР - МСЭК">МТСР - МСЭК</option>
+                        <option value="Обновление данных Госархстрой - Лицензии">Госархстрой - Лицензии</option>
+                        <option value="Обновление данных ГНС - Задолженность">ГНС - Задолженность</option>
+                    </select>
+                </td>
+                <!--<td>
                 <a class="btn btn-primary" (click)="checkJobExistWith(schedulerForm.value.jobName)">Check Job with Name exist</a>
             </td>-->
-        </tr>
-        <!--<tr>
+            </tr>
+            <!--<tr>
             <td></td>
             <td>
                 Status: <b><i>{{jobNameStatus}}</i></b>
             </td>
         </tr>-->
-    </table>
-        <br/>
-    <table>
-        <tr>
-            <td>Задайте дату и время выполнения:</td>
-            <td>
-                Год:
-                <input type="text"
-                    name="year"
-                    id="year"
-                    class="form-control"
-                    formControlName="year"
-                    style="width:100px"/>
-            </td>
-            <td>
-                Месяц:
-                <input type="text"
-                    name="month"
-                    id="month"
-                    class="form-control"
-                    formControlName="month"
-                    style="width:100px"/>
-            </td>
-            <td>
-                День:
-                <input type="text"
-                    name="day"
-                    id="day"
-                    class="form-control"
-                    formControlName="day"
-                    style="width:100px"/>
-            </td>
-            <td>
-                Час (от 0 до 24 часов):
-                <input type="text"
-                    name="hour"
-                    id="hour"
-                    class="form-control"
-                    formControlName="hour"
-                    style="width:100px"/>
-            </td>
-            <td>
-                Минут (от 0 до 59 минут):
-                <input type="text"
-                    name="minute"
-                    id="minute"
-                    class="form-control"
-                    formControlName="minute"
-                    style="width:100px"/>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td style="padding: 5px;" colspan="5">
-                <b>Если заданные дата/время некорректны то задача не будет запланирована.<br>
-                Если дата/время будет меньше текущего даты/времени то задача будет запущена немедленно</b>
-            </td>
-        </tr>
-    </table>
-    <br/><br/>
-    <table>
-        <tr>
-            <td style="padding: 5px;">Выберите готовый интервал:</td>
-            <td>
-                <select (change)="cronChange($event.target.value)"
-                    class="form-control">
-                    <option value=""></option>
-                    <option value="0 0/1 * 1/1 * ? *">Каждую 1 минуту</option>
-                    <option value="0 0 10 1/1 * ? *">Каждый день в 10 утра</option>
-                    <option value="0 0 0 1/10 * ? *">Каждые 10 дней</option>
-                    <option value="0 0 0 1/31 * ? *">Каждый месяц 1-го числа</option>
-                    <option value="0 0 10 ? * TUE,THU *">Каждую неделю во ВТ и ЧТ в 10 утра</option>
-                </select>
-            </td>
-            <td style="padding: 5px;">
-                Введите Крон выражение (Cron expression)
-            </td>
-            <td>
-                <input type="text"
-                    name="cronExpression"
-                    id="cronExpression"
-                    class="form-control"
-                    formControlName="cronExpression"
-                    style="width:200px"/>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td colspan="2">
-                <b>Если крон выражение оставите пустым то будет означать как одноразовая задача</b><br>
-                <b>Генератор КРОН-выражений <a href="https://www.freeformatter.com/cron-expression-generator-quartz.html" target="_blank">здесь</a></b>
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td style="padding: 5px;" colspan="2">
+        </table>
+        <br />
+        <table>
+            <tr>
+                <td>Задайте дату и время выполнения:</td>
+                <td>
+                    Год:
+                    <input type="text" name="year" id="year" class="form-control" formControlName="year"
+                        style="width:100px" />
+                </td>
+                <td>
+                    Месяц:
+                    <input type="text" name="month" id="month" class="form-control" formControlName="month"
+                        style="width:100px" />
+                </td>
+                <td>
+                    День:
+                    <input type="text" name="day" id="day" class="form-control" formControlName="day"
+                        style="width:100px" />
+                </td>
+                <td>
+                    Час (от 0 до 24 часов):
+                    <input type="text" name="hour" id="hour" class="form-control" formControlName="hour"
+                        style="width:100px" />
+                </td>
+                <td>
+                    Минут (от 0 до 59 минут):
+                    <input type="text" name="minute" id="minute" class="form-control" formControlName="minute"
+                        style="width:100px" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="padding: 5px;" colspan="5">
+                    <b>Если заданные дата/время некорректны то задача не будет запланирована.<br>
+                        Если дата/время будет меньше текущего даты/времени то задача будет запущена немедленно</b>
+                </td>
+            </tr>
+        </table>
+        <br /><br />
+        <table>
+            <tr>
+                <td style="padding: 5px;">Выберите готовый интервал:</td>
+                <td>
+                    <select (change)="cronChange($event.target.value)" class="form-control">
+                        <option value=""></option>
+                        <option value="0 0/1 * 1/1 * ? *">Каждую 1 минуту</option>
+                        <option value="0 0 10 1/1 * ? *">Каждый день в 10 утра</option>
+                        <option value="0 0 0 1/10 * ? *">Каждые 10 дней</option>
+                        <option value="0 0 0 1/31 * ? *">Каждый месяц 1-го числа</option>
+                        <option value="0 0 10 ? * TUE,THU *">Каждую неделю во ВТ и ЧТ в 10 утра</option>
+                    </select>
+                </td>
+                <td style="padding: 5px;">
+                    Введите Крон выражение (Cron expression)
+                </td>
+                <td>
+                    <input type="text" name="cronExpression" id="cronExpression" class="form-control"
+                        formControlName="cronExpression" style="width:200px" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2">
+                    <b>Если крон выражение оставите пустым то будет означать как одноразовая задача</b><br>
+                    <b>Генератор КРОН-выражений <a
+                            href="https://www.freeformatter.com/cron-expression-generator-quartz.html"
+                            target="_blank">здесь</a></b>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td style="padding: 5px;" colspan="2">
 
-                <!-- Used only in case of Adding New Job -->
-                <input type="button"
-                    name="submit"
-                    id="submit"
-                    class="btn btn-primary"
-                    (click)="scheduleJob()"
-                    *ngIf="!isEditMode"
-                    value="Создать"
-                    [disabled]="schedulerForm.invalid"
-                    />
+                    <!-- Used only in case of Adding New Job -->
+                    <input type="button" name="submit" id="submit" class="btn btn-primary" (click)="scheduleJob()"
+                        *ngIf="!isEditMode" value="Создать" [disabled]="schedulerForm.invalid" />
 
-                <!-- Used only in case of Edit Job -->
-                <input type="button"
-                    name="submit"
-                    id="submit"
-                    class="btn btn-primary"
-                    (click)="updateJob()"
-                    *ngIf="isEditMode"
-                    value="Обновить"/>
+                    <!-- Used only in case of Edit Job -->
+                    <input type="button" name="submit" id="submit" class="btn btn-primary" (click)="updateJob()"
+                        *ngIf="isEditMode" value="Обновить" />
 
-                <input type="button"
-                    name="submit"
-                    id="submit"
-                    class="btn btn-primary"
-                    (click)="cancelEdit()"
-                    *ngIf="isEditMode"
-                    value="Отмена"/>
-            </td>
-        </tr>
-    </table>
+                    <input type="button" name="submit" id="submit" class="btn btn-primary" (click)="cancelEdit()"
+                        *ngIf="isEditMode" value="Отмена" />
+                </td>
+            </tr>
+        </table>
 
-</form>
-<br/><br/>
-<div>
-    <label>Список задач:</label>
-    <br/><br/>
-    <label style="color: red">
-        Примечание:<br/>
-        1. Завершенные задачи не будут отображаться в этом списке.
-        <br/>
-        2. Если статус задачи "ВЫПОЛНЯЕТСЯ", то действия "Пауза, Продолжить, Удалить, Изменить" не будут доступны</label>
-    <br/><br/>
+    </form>
+    <br /><br />
+    <div>
+        <label>Список задач:</label>
+        <br /><br />
+        <label style="color: red">
+            Примечание:<br />
+            1. Завершенные задачи не будут отображаться в этом списке.
+            <br />
+            2. Если статус задачи "ВЫПОЛНЯЕТСЯ", то действия "Пауза, Продолжить, Удалить, Изменить" не будут
+            доступны</label>
+        <br /><br />
 
-    <table class="table">
-        <thead>
-            <th>Задача</th>
-            <th>Создано</th>
-            <th>Дата/время послед. запуска</th>
-            <th>Дата/время след. запуска</th>
-            <th>Действия</th>
-            <th>Статус задачи</th>
-        </thead>
-        <tbody>
-            <ng-container *ngFor="let jobRec of jobRecords;let i=index">
-                <tr>
-                    <td>{{jobRec.jobName}}</td>
-                    <td>{{jobRec.scheduleTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                    <td>{{jobRec.lastFiredTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                    <td>{{jobRec.nextFireTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                    <td>
-                        <button class="btn btn-primary"
-                            [disabled]="jobRec.jobStatus == 'RUNNING'"
-                            (click)='startJobNow(jobRec.jobName)'>Запустить сейчас</button> |
+        <table class="table">
+            <thead>
+                <th>Задача</th>
+                <th>Создано</th>
+                <th>Дата/время послед. запуска</th>
+                <th>Дата/время след. запуска</th>
+                <th>Действия</th>
+                <th>Статус задачи</th>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let jobRec of jobRecords;let i=index">
+                    <tr>
+                        <td>{{jobRec.jobName}}</td>
+                        <td>{{jobRec.scheduleTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{jobRec.lastFiredTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{jobRec.nextFireTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>
+                            <button class="btn btn-primary" [disabled]="jobRec.jobStatus == 'RUNNING'"
+                                (click)='startJobNow(jobRec.jobName)'>Запустить сейчас</button> |
 
-                        <button class="btn btn-primary"
-                            [disabled]="jobRec.jobStatus != 'SCHEDULED'"
-                            (click)='pauseJob(jobRec.jobName)'>Пауза</button> |
+                            <button class="btn btn-primary" [disabled]="jobRec.jobStatus != 'SCHEDULED'"
+                                (click)='pauseJob(jobRec.jobName)'>Пауза</button> |
 
-                        <button class="btn btn-primary"
-                            [disabled]="jobRec.jobStatus != 'PAUSED'"
-                            (click)='resumeJob(jobRec.jobName)'>Продолжить</button> |
+                            <button class="btn btn-primary" [disabled]="jobRec.jobStatus != 'PAUSED'"
+                                (click)='resumeJob(jobRec.jobName)'>Продолжить</button> |
 
-                        <button class="btn btn-primary"
-                            [disabled]="jobRec.jobStatus == 'RUNNING'"
-                            (click)='deleteJob(jobRec.jobName)'>Удалить</button> |
+                            <button class="btn btn-primary" [disabled]="jobRec.jobStatus == 'RUNNING'"
+                                (click)='deleteJob(jobRec.jobName)'>Удалить</button> |
 
-                        <button class="btn btn-primary"
-                            [disabled]="jobRec.jobStatus != 'RUNNING'"
-                            (click)='stopJob(jobRec.jobName)'>Остановить</button> |
+                            <button class="btn btn-primary" [disabled]="jobRec.jobStatus != 'RUNNING'"
+                                (click)='stopJob(jobRec.jobName)'>Остановить</button> |
 
-                        <button class="btn btn-primary"
-                            [disabled]="jobRec.jobStatus == 'RUNNING'"
-                            (click)='editJob(jobRec)'>Изменить</button>
-                    </td>
-                    <td>{{getJobCaption(jobRec.jobStatus)}}</td>
-                </tr>
-            </ng-container>
-        </tbody>
-    </table>
+                            <button class="btn btn-primary" [disabled]="jobRec.jobStatus == 'RUNNING'"
+                                (click)='editJob(jobRec)'>Изменить</button>
+                        </td>
+                        <td>{{getJobCaption(jobRec.jobStatus)}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
 </div>

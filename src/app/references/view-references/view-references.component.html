@@ -1,2 +1,32 @@
-<h4>Управление справочниками</h4>
-<app-view-constructor [entity-name]="'LicenseType'"></app-view-constructor>
+<div class="view-references">
+    <mat-toolbar>Управление справочниками
+        <span class="fill-remaining-space"></span>
+        <button mat-button (click)="goBack()">НАЗАД</button>
+    </mat-toolbar>
+    <button color="primary" style="float: right;" *ngIf="entity != null" mat-stroked-button
+        (click)="addEntry()">Добавить значение</button>
+    <mat-form-field>
+        <mat-label>Выберите справочник</mat-label>
+        <mat-select (selectionChange)="selected($event.value)">
+            <mat-option *ngFor="let a of referenceTypes" [value]="a">{{a.label}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <table class="table" *ngIf="entity != null">
+        <tr>
+            <th>Значение</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let a of entries">
+            <td>{{a.name}}</td>
+            <td>
+                <button color="primary" mat-icon-button (click)="editEntry(a)" matTooltip="Изменить запись?">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button color="warn" mat-icon-button (click)="remove(a.id)" matTooltip="Удалить запись?">
+                    <mat-icon>remove_circle_outline</mat-icon>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>

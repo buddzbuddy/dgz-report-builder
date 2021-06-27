@@ -101,7 +101,6 @@ import { ViewSupplierIpsComponent } from './view-analitics/view-supplier/view-su
 import { ViewSodUpdaterComponent } from './view-analitics/view-sod-updater/view-sod-updater.component';
 import { ViewAuditSectionComponent } from './view-analitics/view-audit-section/view-audit-section.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import { ViewReportItemFillerComponent } from './references/view-references/view-report-item-filler/view-report-item-filler.component';
 import { ViewReportUploaderComponent } from './references/view-references/view-report-uploader/view-report-uploader.component';
 import { ViewSupplierDebtsComponent } from './view-analitics/view-supplier/view-supplier-debts/view-supplier-debts.component';
 import { ViewSupplierCrimesComponent } from './view-analitics/view-supplier/view-supplier-crimes/view-supplier-crimes.component';
@@ -124,7 +123,7 @@ import { ViewSupplierDealsComponent } from './view-analitics/view-supplier/view-
 import { ViewSupplierUploadsComponent } from './view-analitics/view-supplier/view-supplier-uploads/view-supplier-uploads.component';
 import { ViewSupplierCertificatesComponent } from './view-analitics/view-supplier/view-supplier-certificates/view-supplier-certificates.component';
 import { BuyerInitialFormComponent } from './user-cabinets/buyer-account/buyer-initial-form/buyer-initial-form.component';
-import { ViewReferencesComponent } from './references/view-references/view-references.component';
+import { AddReferenceDialog, ViewReferencesComponent } from './references/view-references/view-references.component';
 
 export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   return () => appConfig.load().then((k_obj) => keycloak.init({
@@ -230,7 +229,6 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     ViewSupplierIpsComponent,
     ViewSodUpdaterComponent,
     ViewAuditSectionComponent,
-    ViewReportItemFillerComponent,
     ViewReportUploaderComponent,
     ViewSupplierDebtsComponent,
     ViewSupplierCrimesComponent,
@@ -258,7 +256,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddCertificateDialog,
     BuyerInitialFormComponent,
     AddComplaintDialog,
-    ViewReferencesComponent
+    ViewReferencesComponent,
+    AddReferenceDialog
   ],
   imports: [
     KeycloakAngularModule,
@@ -331,7 +330,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     AddLicenseDialog,
     AddDealDialog,
     AddCertificateDialog,
-    AddComplaintDialog
+    AddComplaintDialog,
+    AddReferenceDialog
   ]
 })
 export class AppModule {
