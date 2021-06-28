@@ -38,11 +38,10 @@ export class SupplierInitialFormComponent implements OnInit {
       this.formGroup.patchValue(this.edit);
     }
     else {
-      const control = this._formBuilder.control(null);
-      this.formGroup.addControl('managerPin', control);
-      this.formGroup.addControl('managerLastname', control);
-      this.formGroup.addControl('managerFirstname', control);
-      this.formGroup.addControl('managerMiddlename', control);
+      this.formGroup.addControl('managerPin', this._formBuilder.control(null));
+      this.formGroup.addControl('managerLastname', this._formBuilder.control(null));
+      this.formGroup.addControl('managerFirstname', this._formBuilder.control(null));
+      this.formGroup.addControl('managerMiddlename', this._formBuilder.control(null));
     }
 
     this.getOwnershipTypes();
