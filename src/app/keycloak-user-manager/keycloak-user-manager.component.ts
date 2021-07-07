@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AppConfig } from '../app.config';
 
@@ -10,30 +13,47 @@ import { AppConfig } from '../app.config';
   templateUrl: './keycloak-user-manager.component.html',
   styleUrls: ['./keycloak-user-manager.component.scss']
 })
-export class KeycloakUserManagerComponent implements OnInit {
+export class KeycloakUserManagerComponent implements /*OnInit, */AfterViewInit {
 
-  constructor(private _httpClient: HttpClient, public dialog: MatDialog, private router: Router) { }
+  constructor(private _httpClient: HttpClient, public dialog: MatDialog, private router: Router) {
+  }
 
   pin = ''
   ngOnInit(): void {
-    this.loadUsers();
+    //this.loadUsers();
   }
 
   loadUsers() {
     this._httpClient.get<any[]>(AppConfig.settings.host_keycloak + 'auth/admin/realms/dgz/users/?20000').subscribe(_ => {
       _.map(u => {
         if (u.attributes.userRole != null) {
-          this.dgzUsers.push(u);
+          this.dgzUsers.push({
+            ...u,
+            userPin: u.attributes.userPin != null ? u.attributes.userPin[0] : '-',
+            userRole: u.attributes.userRole != null ? u.attributes.userRole[0] : '-'
+          });
         }
         else if (u.attributes.orgType != null) {
+          let nu = {
+            ...u,
+            orgPin: u.attributes.orgPin != null ? u.attributes.orgPin[0] : '-',
+            orgName: u.attributes.orgName != null ? u.attributes.orgName[0] : '-',
+            position: u.attributes.position != null ? u.attributes.position[0] : '-',
+            telephone: u.attributes.telephone != null ? u.attributes.telephone[0] : '-',
+          }
           if (u.attributes.orgType[0] == 'buyer') {
-            this.buyerUsers.push(u);
+            this.buyerUsers.push(nu);
           }
           else if (u.attributes.orgType[0] == 'supplier') {
-            this.supplierUsers.push(u);
+            this.supplierUsers.push(nu);
           }
         }
-      })
+      });
+      this.dgzUsersSrc = new MatTableDataSource(this.dgzUsers);
+      this.dgzUsersSrc.paginator = this.dgzPaginator;
+      this.dgzUsersSrc.sort = this.dgzSort;
+      this.buyerUsersSrc = new MatTableDataSource(this.buyerUsers);
+      this.supplierUsersSrc = new MatTableDataSource(this.supplierUsers);
     });
   }
   dgzUsers = []
@@ -54,9 +74,52 @@ export class KeycloakUserManagerComponent implements OnInit {
       if (_ != null) {
         console.log(_);
         this.loadUsers();
-        //this.availableSources.push(_);
       }
     });
+  }
+  dgzDisplayedColumns: string[] = ['createdTimestamp', 'username', 'firstName', 'lastName', 'email', 'userPin', 'userRole'];
+  dgzUsersSrc: MatTableDataSource<any>;
+  @ViewChild("dgzPaginator", { static: true }) dgzPaginator: MatPaginator;
+  @ViewChild("dgzSort", { static: true }) dgzSort: MatSort;
+
+  buyerDisplayedColumns: string[] = ['createdTimestamp', 'orgPin', 'orgName', 'username', 'firstName', 'lastName', 'position', 'telephone', 'email'];
+  buyerUsersSrc: MatTableDataSource<any>;
+  @ViewChild("buyerPaginator", { static: true }) buyerPaginator: MatPaginator;
+  @ViewChild("buyerSort", { static: true }) buyerSort: MatSort;
+
+  supplierDisplayedColumns: string[] = ['createdTimestamp', 'orgPin', 'orgName', 'username', 'firstName', 'lastName', 'position', 'telephone', 'email'];
+  supplierUsersSrc: MatTableDataSource<any>;
+  @ViewChild("supplierPaginator", { static: true }) supplierPaginator: MatPaginator;
+  @ViewChild("supplierSort", { static: true }) supplierSort: MatSort;
+
+
+  ngAfterViewInit() {
+    this.loadUsers();
+
+  }
+  applyFilterDgz(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dgzUsersSrc.filter = filterValue.trim().toLowerCase();
+
+    if (this.dgzUsersSrc.paginator) {
+      this.dgzUsersSrc.paginator.firstPage();
+    }
+  }
+  applyFilterBuyer(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.buyerUsersSrc.filter = filterValue.trim().toLowerCase();
+
+    if (this.buyerUsersSrc.paginator) {
+      this.buyerUsersSrc.paginator.firstPage();
+    }
+  }
+  applyFilterSupplier(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.supplierUsersSrc.filter = filterValue.trim().toLowerCase();
+
+    if (this.supplierUsersSrc.paginator) {
+      this.supplierUsersSrc.paginator.firstPage();
+    }
   }
 }
 
