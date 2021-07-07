@@ -1,4 +1,10 @@
-<div class="row" style="margin-bottom:15px;">
+<ng-container *ngIf="isCabinet">
+  <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+  <button color="accent" mat-icon-button (click)="file.click()" matTooltip="Загрузить скан-файл">
+    <mat-icon>upload</mat-icon>
+  </button>
+</ng-container>
+<!--<div class="row" style="margin-bottom:15px;">
   <div class="col-md-3" *ngIf="isCabinet">
     <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
     <button style="background-color: #004080;
@@ -13,12 +19,14 @@
       {{message}}
     </span>
   </div>
-</div>
-<div class="row" style="margin-bottom:15px;">
+</div>-->
+<div class="row">
   <div class="col-md-offset f-item" *ngFor="let f of files">
-    <span> {{getFileName(f.name)}} </span>
-    <a href="{{f.url}}">скачать</a>
-    <button *ngIf="isCabinet" color="warn" mat-icon-button (click)="remove(f)" matTooltip="Удалить файл?">
+    <a matTooltip="Скачать {{getFileName(f.name)}}" color="primary" mat-icon-button href="{{f.url}}">
+      <mat-icon>download</mat-icon>
+    </a>
+    <button *ngIf="isCabinet" color="warn" mat-icon-button (click)="remove(f)"
+      matTooltip="Удалить файл {{getFileName(f.name)}}?">
       <mat-icon>remove_circle_outline</mat-icon>
     </button>
   </div>

@@ -25,8 +25,8 @@
                     </th>
                     <th>Вид деятельности</th>
                     <th>Срок действия</th>
-                    <!--<th>Статус</th>
-                    <th>Примечания</th>-->
+                    <th>Скан документа</th>
+                    <!--<th>Примечания</th>-->
                     <th></th>
                 </tr>
                 <tr *ngFor="let a of licenses">
@@ -41,8 +41,11 @@
                     </td>
                     <td>{{a.licenseType.name}}</td>
                     <td>{{a.expiryDate | date:'dd.MM.yyyy'}}</td>
-                    <!--<td>{{a.status}}</td>
-                    <td>{{a.additionalInfo}}</td>-->
+                    <td>
+                        <app-view-supplier-uploads *ngIf="supplierId > 0" [supplierid]="supplierId"
+                            [packageTypeName]="'licenses'" [packageItemId]="a.id"></app-view-supplier-uploads>
+                    </td>
+                    <!--<td>{{a.additionalInfo}}</td>-->
                     <td>
                         <button *ngIf="isCabinet" color="warn" mat-icon-button (click)="remove(a.id)"
                             matTooltip="Удалить запись?">

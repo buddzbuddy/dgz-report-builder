@@ -63,8 +63,8 @@
         <td>
           <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button
             (click)="addLicense()">Добавить</button>
-          <app-view-supplier-licenses *ngIf="licenseChecked" [licenses]="supplier.licenses"
-            (removeEvent)="remove('License', $event)">
+          <app-view-supplier-licenses *ngIf="licenseChecked && supplier.id" [licenses]="supplier.licenses"
+            [supplierId]="supplier.id" (removeEvent)="remove('License', $event)">
           </app-view-supplier-licenses>
           <span style="font-style: italic; color: darkred;" *ngIf="!isCabinet && !licenseChecked">Данная информация
             скрыта</span>
@@ -174,14 +174,14 @@
         </td>
         <td>данные отсутствуют</td>
       </tr>
-      <tr>
+      <!--<tr>
         <td>
           Список файлов
         </td>
         <td>
           <app-view-supplier-uploads *ngIf="supplier.id" [supplierid]="supplier.id"></app-view-supplier-uploads>
         </td>
-      </tr>
+      </tr>-->
     </table>
   </mat-card-content>
   <!--<mat-card-actions>

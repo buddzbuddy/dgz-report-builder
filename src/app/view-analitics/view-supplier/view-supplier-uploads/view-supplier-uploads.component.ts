@@ -12,6 +12,8 @@ import { NotificationService } from 'src/app/notification.service';
 export class ViewSupplierUploadsComponent implements OnInit {
 
   @Input() supplierid: number = 0;
+  @Input() packageTypeName: string;
+  @Input() packageItemId: number = 0;
   public progress: number;
   public message: string;
   constructor(private _httpClient: HttpClient, private notificationSvc: NotificationService, private route: ActivatedRoute) { }
@@ -34,12 +36,13 @@ export class ViewSupplierUploadsComponent implements OnInit {
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
-    this._httpClient.post(AppConfig.settings.host + 'data-api/files/' + this.supplierid + '/upload', formData, { reportProgress: true, observe: 'events' })
+    this._httpClient.post(AppConfig.settings.host + `data-api/files/${this.supplierid}/${this.packageTypeName}/${this.packageItemId}/upload`, formData, { reportProgress: true, observe: 'events' })
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
-          this.message = 'Успешно загружен.';
+          //this.message = 'Успешно загружен.';
+          this.notificationSvc.success('Файл успешно загружен!');
           //this.onUploadFinished.emit(event.body);
           files = []
           this.getList();
@@ -48,7 +51,7 @@ export class ViewSupplierUploadsComponent implements OnInit {
   }
   files = []
   getList() {
-    const href = `data-api/files/${this.supplierid}/list`;
+    const href = `data-api/files/${this.supplierid}/${this.packageTypeName}/${this.packageItemId}/list`;
     const requestUrl = `${href}`;
     this._httpClient.get<any[]>(AppConfig.settings.host + requestUrl).subscribe(_ => {
       this.files = _;
@@ -62,12 +65,12 @@ export class ViewSupplierUploadsComponent implements OnInit {
       s.shift();
       n2 = s.join();
     }
-    return n2;
+    return n2.substr(0, 10);
   }
 
   remove(f) {
     if (confirm('Вы уверены что хотите удалить файл?')) {
-      const href = `data-api/files/${this.supplierid}/delete/${f.name}`;
+      const href = `data-api/files/${this.supplierid}/${this.packageTypeName}/${this.packageItemId}/delete/${f.name}`;
       const requestUrl = `${href}`;
       this._httpClient.delete<boolean>(AppConfig.settings.host + requestUrl).subscribe(_ => {
         if (_) {
