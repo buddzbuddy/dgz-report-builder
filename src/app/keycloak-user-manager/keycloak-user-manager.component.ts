@@ -87,7 +87,7 @@ export class KeycloakUserManagerComponent implements /*OnInit, */AfterViewInit {
   @ViewChild("buyerPaginator", { static: true }) buyerPaginator: MatPaginator;
   @ViewChild("buyerSort", { static: true }) buyerSort: MatSort;
 
-  supplierDisplayedColumns: string[] = ['createdTimestamp', 'orgPin', 'orgName', 'username', 'firstName', 'lastName', 'position', 'telephone', 'email'];
+  supplierDisplayedColumns: string[] = ['createdTimestamp', 'orgPin', 'orgName', 'username', 'firstName', 'lastName', 'position', 'telephone', 'email', 'action'];
   supplierUsersSrc: MatTableDataSource<any>;
   @ViewChild("supplierPaginator", { static: true }) supplierPaginator: MatPaginator;
   @ViewChild("supplierSort", { static: true }) supplierSort: MatSort;
@@ -120,6 +120,15 @@ export class KeycloakUserManagerComponent implements /*OnInit, */AfterViewInit {
     if (this.supplierUsersSrc.paginator) {
       this.supplierUsersSrc.paginator.firstPage();
     }
+  }
+
+  viewSupplier(userId) {
+    this._httpClient.get<any>(AppConfig.settings.host + `data-api/supplier-requests/getSupplierByUserId/${userId}`).subscribe(_ => {
+      console.log(_);
+      if (_.id > 0) {
+        this.router.navigate(['/analitics/view-supplier/' + _.id]);
+      }
+    });
   }
 }
 
