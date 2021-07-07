@@ -10,6 +10,7 @@ export class ViewSupplierCertificatesComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) { }
   @Input() certificates: any[] = []
+  @Input() supplierId: number = 0
   ngOnInit() {
     if (this.route.params != null) {
       this.route.params.subscribe(params => {

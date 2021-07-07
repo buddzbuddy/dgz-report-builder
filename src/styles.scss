@@ -88,3 +88,8 @@ mat-form-field + mat-form-field, mat-form-field + button, button + mat-form-fiel
 .blackList {
   background-color: rgba(255, 0, 0, 0.363);
 }
+
+.attention-text-italic {
+  color: #ff00007d;
+  font-style: italic;
+}

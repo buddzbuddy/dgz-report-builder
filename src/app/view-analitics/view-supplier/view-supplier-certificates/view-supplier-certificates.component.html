@@ -1,4 +1,4 @@
-<p>-</p>
+<p class="attention-text-italic">*все загруженные файлы становятся публичными</p>
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -23,6 +23,7 @@
             Дата выдачи
           </th>
           <th>Выдан кем</th>
+          <th>Скан документа</th>
           <th></th>
         </tr>
         <tr *ngFor="let a of certificates">
@@ -35,6 +36,10 @@
           <td>{{a.issueDate | date:'dd.MM.yyyy'}}</td>
           <td>
             {{a.issuer }}
+          </td>
+          <td>
+            <app-view-supplier-uploads *ngIf="supplierId > 0" [supplierid]="supplierId"
+              [packageTypeName]="'certificates'" [packageItemId]="a.id"></app-view-supplier-uploads>
           </td>
           <td>
             <button *ngIf="isCabinet" color="warn" mat-icon-button (click)="remove(a.id)" matTooltip="Удалить запись?">

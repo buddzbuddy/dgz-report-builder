@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/notification.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-buyer-account',
@@ -89,10 +90,11 @@ export class BuyerAccountComponent implements OnInit {
     const dialogRef = this.dialog.open(AddComplaintDialog, {
       data: {
         buyerId: this.buyerId
-      }
+      },
+      width: '50%'
     });
     dialogRef.afterClosed().subscribe(_ => {
-      if (_) {
+      if (_ > 0) {
         this.getComplaintsByBuyerId();
       }
     });
@@ -102,6 +104,11 @@ export class BuyerAccountComponent implements OnInit {
 @Component({
   selector: 'add-complaint-dialog',
   templateUrl: 'add-complaint-dialog.html',
+  styles: [`
+  mat-form-field {
+    width: 100%;
+  }
+  `]
 })
 export class AddComplaintDialog implements OnInit {
   formGroup: FormGroup;
@@ -110,6 +117,11 @@ export class AddComplaintDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data, private _httpClient: HttpClient,
     private _formBuilder: FormBuilder, private notificationSvc: NotificationService) { }
 
+
+  eventsSubject: Subject<number> = new Subject<number>();
+  emitEventToUpload(packageItemId: number) {
+    this.eventsSubject.next(packageItemId);
+  }
   ngOnInit() {
     this.formGroup = this._formBuilder.group({
       complaintTypeId: ['', Validators.required],
@@ -161,32 +173,31 @@ export class AddComplaintDialog implements OnInit {
       this.complaintTypes = _['data'];
     });
   }
+  fileSelected = false;
+  onFileSelected(e) {
+    this.fileSelected = true;
+  }
+  closeDialog() {
+    this.notificationSvc.success('Запись успешно добавлена!');
+    this.dialogRef.close(1);
+  }
   save() {
-    const href = `data-api/query/insert`;
+    const href = `data-api/query/insert-complaint`;
     const requestUrl = `${href}`;
-    let fObj = []
-    for (let fName of Object.keys(this.formGroup.value)) {
-      fObj.push({
-        name: fName,
-        val: this.formGroup.value[fName]
-      });
-    }
-    fObj.push({
-      name: 'buyerId',
-      val: this.data.buyerId
-    });
-    fObj.push({
-      name: 'supplierId',
-      val: this.selected.id
-    });
     let obj = {
-      entityName: 'Complaint',
-      fields: fObj
+      ...this.formGroup.value,
+      supplierId: this.selected.id,
+      buyerId: this.data.buyerId
     };
-    this._httpClient.post<any>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
-      if (_) {
-        this.notificationSvc.success('Запись успешно добавлена!');
-        this.dialogRef.close(_);
+    this._httpClient.post<number>(AppConfig.settings.host + requestUrl, obj).subscribe(_ => {
+      if (_ > 0) {
+        if (this.fileSelected) {
+          //TODO: Fire to post file with fresh packageItemId
+          this.emitEventToUpload(_);
+        }
+        else {
+          this.closeDialog();
+        }
       }
       else {
         this.notificationSvc.warn('Что-то пошло не так!');

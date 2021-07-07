@@ -24,10 +24,10 @@
           <td>{{buyer.factAddress}}</td>
         </tr>
         <tr>
-          <td>Мои жалобы</td>
+          <td>Мои отзывы</td>
           <td>
             <button color="primary" style="float: right;" mat-stroked-button (click)="addComplaint()">Добавить</button>
-            <p>-</p>
+            <p class="attention-text-italic">*все загруженные файлы становятся публичными</p>
             <mat-accordion>
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -35,8 +35,8 @@
                     Всего {{complaints.length}} шт.
                   </mat-panel-title>
                   <mat-panel-description>
-
                     <span class="fill-remaining-space"></span>
+                    <mat-icon>thumb_up_alt</mat-icon>
                     <mat-icon>thumb_down_alt</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -44,7 +44,7 @@
                   <table class="table">
                     <tr>
                       <th>
-                        Дата жалобы
+                        Дата
                       </th>
                       <th>
                         ИНН поставщика
@@ -53,11 +53,12 @@
                         Наименование
                       </th>
                       <th>
-                        Тип жалобы
+                        Тип отзыва
                       </th>
-                      <th>
-                        Описание жалобы
+                      <th class="long-field">
+                        Текст
                       </th>
+                      <th>Скан-файл</th>
                     </tr>
                     <tr *ngFor="let a of complaints">
                       <td>
@@ -72,8 +73,12 @@
                       <td>
                         {{a.complaintType?.name}}
                       </td>
-                      <td>
+                      <td class="long-field">
                         {{a.description}}
+                      </td>
+                      <td>
+                        <app-view-supplier-uploads *ngIf="a.supplier != null" [supplierid]="a.supplier?.id"
+                          [packageTypeName]="'complaints'" [packageItemId]="a.id"></app-view-supplier-uploads>
                       </td>
                     </tr>
                   </table>

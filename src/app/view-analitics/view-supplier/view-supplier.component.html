@@ -75,8 +75,8 @@
         <td>
           <button color="primary" style="float: right;" *ngIf="isCabinet" mat-stroked-button
             (click)="addCertificate()">Добавить</button>
-          <app-view-supplier-certificates [certificates]="supplier.certificates"
-            (removeEvent)="remove('Certificate', $event)">
+          <app-view-supplier-certificates *ngIf="supplier.id" [certificates]="supplier.certificates"
+            [supplierId]="supplier.id" (removeEvent)="remove('Certificate', $event)">
           </app-view-supplier-certificates>
         </td>
       </tr>
@@ -99,7 +99,7 @@
         </td>
       </tr>
       <tr>
-        <td>Жалобы</td>
+        <td>Отзывы о поставщике</td>
         <td>
           <span style="font-style: italic; color: darkred;" *ngIf="!complaintChecked">Данная информация скрыта</span>
           <mat-accordion *ngIf="complaintChecked">
@@ -118,16 +118,16 @@
                 <table class="table">
                   <tr>
                     <th>
-                      Дата жалобы
+                      Дата отзыва
                     </th>
                     <th>
                       Закупающая организация
                     </th>
                     <th>
-                      Тип жалобы
+                      Тип отзыва
                     </th>
                     <th>
-                      Описание жалобы
+                      Описание
                     </th>
                   </tr>
                   <tr *ngFor="let a of complaints">
