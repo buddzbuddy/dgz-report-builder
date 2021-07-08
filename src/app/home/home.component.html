@@ -5,7 +5,11 @@
     <mat-card-title>Департамент государственных закупок</mat-card-title>
     <mat-card-subtitle>База данных поставщиков - БДП</mat-card-subtitle>
     <span class="fill-remaining-space"></span>
-    <button style="float: right;" *ngIf="isLoggedIn" mat-button type="button" (click)="logout()">Выход</button>
+    <a style="margin: 10px;" mat-icon-button href="assets/files/user-manual.pdf"
+      matTooltip="Инструкция для пользователей">
+      <mat-icon>quiz</mat-icon>
+    </a>
+    <button *ngIf="isLoggedIn" mat-button type="button" (click)="logout()">Выход</button>
   </mat-card-header>
   <mat-card-content>
     <ng-container *ngIf="!isLoggedIn">
