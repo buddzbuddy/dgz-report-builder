@@ -2,6 +2,7 @@
     "appConfig": {
         "dbPrefix": "dgz",
         "host": "http://localhost:46142/",
+        "host_origin": "https://cs.zakupki.gov.kg/bdp/",
         "host_keycloak": "http://158.181.176.170:8099/",
         "realm": "dgz",
         "clientId": "dgz",

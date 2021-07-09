@@ -134,7 +134,7 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     },
     initOptions: {
       onLoad: 'check-sso',
-      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+      silentCheckSsoRedirectUri: k_obj.host_origin + 'assets/silent-check-sso.html',
     },
   }));
 }
