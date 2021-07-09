@@ -124,6 +124,7 @@ import { ViewSupplierUploadsComponent } from './view-analitics/view-supplier/vie
 import { ViewSupplierCertificatesComponent } from './view-analitics/view-supplier/view-supplier-certificates/view-supplier-certificates.component';
 import { BuyerInitialFormComponent } from './user-cabinets/buyer-account/buyer-initial-form/buyer-initial-form.component';
 import { AddReferenceDialog, ViewReferencesComponent } from './references/view-references/view-references.component';
+import { ViewStiRequestsComponent } from './view-analitics/view-supplier/view-sti-requests/view-sti-requests.component';
 
 export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
   return () => appConfig.load().then((k_obj) => keycloak.init({
@@ -257,7 +258,8 @@ export function initializeApp(appConfig: AppConfig, keycloak: KeycloakService) {
     BuyerInitialFormComponent,
     AddComplaintDialog,
     ViewReferencesComponent,
-    AddReferenceDialog
+    AddReferenceDialog,
+    ViewStiRequestsComponent
   ],
   imports: [
     KeycloakAngularModule,

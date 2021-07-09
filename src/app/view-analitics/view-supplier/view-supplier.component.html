@@ -58,6 +58,14 @@
           </view-supplier-members>
         </td>
       </tr>
+
+      <tr>
+        <td>Задолженность ГНС (из портала)</td>
+        <td>
+          <button color="primary" style="float: right;" mat-stroked-button>Обновить из портала</button>
+          <app-view-sti-requests *ngIf="supplier != null" [inn]="supplier?.inn"></app-view-sti-requests>
+        </td>
+      </tr>
       <tr>
         <td>Лицензии</td>
         <td>

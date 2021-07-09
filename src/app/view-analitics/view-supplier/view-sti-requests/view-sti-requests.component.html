@@ -1,0 +1,46 @@
+<p>-</p>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Всего {{stiRequests?.length}} шт.
+      </mat-panel-title>
+      <mat-panel-description>
+        <span class="fill-remaining-space"></span>
+        <mat-icon>grading</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div style="max-height:300px;overflow:auto;">
+      <table class="table">
+        <tr>
+          <th>#</th>
+          <th>
+            Дата подачи
+          </th>
+          <th>
+            ИНН организации
+          </th>
+          <th>
+            Наименование организации
+          </th>
+          <th>Орган выдавший</th>
+          <th>Дата</th>
+          <th>Задолженность</th>
+        </tr>
+        <tr *ngFor="let a of stiRequests;let i=index">
+          <td>
+            {{i+1}}
+          </td>
+          <td>
+            {{a.appDate | date:'dd.MM.yyyy HH:mm:ss'}}
+          </td>
+          <td>{{a.inn}}</td>
+          <td>{{a.orgName}}</td>
+          <td>{{a.issuer}}</td>
+          <td>{{a.createdAt | date:'dd.MM.yyyy HH:mm:ss'}}</td>
+          <td>{{a.has ? 'Имеется' : 'Не имеется'}}</td>
+        </tr>
+      </table>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
